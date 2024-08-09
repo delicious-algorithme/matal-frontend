@@ -36,11 +36,17 @@ const MainPageLayout = styled.div`
 
 const ContentsBox = styled.div`
     display: flex;
+    width: 100%;
+    height: 500px;
     flex-direction: row;
+    justify-content: space-between;
+    gap: 40px;
 `;
 const CategoryBox = styled.div`
     width: 50%;
+    align-items: center;
     height: auto;
+    justify-content: center;
 `;
 const CategoryHeader = styled.div`
     display: flex;
@@ -73,8 +79,8 @@ const DetailBox = styled.button`
     cursor: pointer;
 `;
 const MapBox = styled.div`
-    width: 850px;
-    height: auto;
+    width: 50%;
+    height: 100%;
     margin: 0;
 `;
 

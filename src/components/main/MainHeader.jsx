@@ -48,6 +48,7 @@ const SearchBarAndNav = styled.div`
 
 const SearchBarBox = styled.div`
     width: 100%;
+    max-width: 900px;
     display: flex;
     text-align: left;
     & > input {
