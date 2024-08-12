@@ -19,7 +19,7 @@ const Main = () => {
                             <Arrow />
                         </DetailBox>
                     </CategoryHeader>
-                    <Category />
+                    <Category position={'relative'} />
                 </CategoryBox>
                 <MapBox>
                     <MyMap />
@@ -41,6 +41,9 @@ const ContentsBox = styled.div`
     flex-direction: row;
     justify-content: space-between;
     gap: 40px;
+    :last-child {
+        margin-left: 20px;
+    }
 `;
 const CategoryBox = styled.div`
     width: 50%;
