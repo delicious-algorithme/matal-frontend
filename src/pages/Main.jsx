@@ -19,7 +19,7 @@ const Main = () => {
                             <Arrow />
                         </DetailBox>
                     </CategoryHeader>
-                    <Category position={'relative'} />
+                    <Category position="relative" />
                 </CategoryBox>
                 <MapBox>
                     <MyMap />

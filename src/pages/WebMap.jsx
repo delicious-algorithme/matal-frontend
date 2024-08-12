@@ -37,7 +37,7 @@ const WebMap = () => {
             <StoreDetail />
             <CategoryContainer>
                 <p>카테고리</p>
-                <Category position={'absolute'} />
+                <Category position="absolute" />
             </CategoryContainer>
         </WebMapLayout>
     );

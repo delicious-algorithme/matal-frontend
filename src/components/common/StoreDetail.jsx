@@ -1,37 +1,45 @@
 import styled from 'styled-components';
 import { DartkGrey, Grey, Orange, White } from '../../color';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 import { ReactComponent as Close } from '../../assets/Icon/Close.svg';
-const StoreDetail = () => {
-    const [data, setData] = useState('');
-    const [openingHours, setHours] = useState([]);
-    useEffect(() => {
-        fetch('http://localhost:3000/data/mockData.json', {
-            headers: {
-                Accept: 'application/json',
-            },
-            method: 'GET',
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setData(data);
-                const hoursArray = data.businessHours;
-                setHours(hoursArray);
-            })
-            .catch((error) => {
-                console.error('Error', error);
-            });
-    }, []);
-    console.log(openingHours);
 
+const data = {
+    id: 1,
+    image: '',
+    keyword: '서울시 냉면',
+    name: '맛있는 알고리즘',
+    address: '서울 종로구 광화문로 1길 234 5층',
+    rating: 4.5,
+    category: '냉면',
+    reviewCount: '999',
+    nearbyStation: '2,5호선 을지로9가역 1번 출구에서 239m',
+    phone: '02-1234-5678',
+    businessHours: [
+        '토: 11:30 - 21:00 20:40 라스트오더',
+        '일: 11:30 - 21:00 20:40 라스트오더',
+        '월: 정기휴무 (매주 월요일)',
+        '화: 11:30 - 21:00 20:40 라스트오더',
+        '수: 11:30 - 21:00 20:40 라스트오더',
+        '목: 11:30 - 21:00 20:40 라스트오더',
+        '금: 11:30 - 21:00 20:40 라스트오더',
+    ],
+    latitude: '33.56821',
+    longitude: '136.9971945',
+    positiveKeywords: '진한 육수, 고소한 맛, 푸짐한 고명',
+    reviewSummary: '진한 육수와 고소한 맛, 고명이 푸짐합니다. 가격이 비싸고 면이 평범하다는 의견도 있습니다.',
+    positiveRatio: '68',
+    nagativeRatio: '32',
+};
+
+const StoreDetail = () => {
     return (
         <StoreContainer>
             <Close />
             <StoreMainBox>
                 <Image>
-                    <img src="/images/default-food.jpg" />
+                    <img src="/images/default-food.jpg" alt="맛집 대표 사진" />
                 </Image>
                 <NameAndOters>
                     <NameAndPath>
@@ -72,8 +80,8 @@ const StoreDetail = () => {
                     <div>
                         <Title>영업시간:</Title>
                         <Hours>
-                            {openingHours &&
-                                openingHours.map((item, index) => {
+                            {data.businessHours &&
+                                data.businessHours.map((item) => {
                                     return <div>{item}</div>;
                                 })}
                         </Hours>

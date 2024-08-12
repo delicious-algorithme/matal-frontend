@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { LightGrey, Orange, White } from '../../color';
+import { Orange } from '../../color';
 import { ReactComponent as SearchIcon } from './../../assets/Icon/Feather Icon.svg';
 import StoreCard from './StoreCard';
 
-const item = [1, 2, 3, 4, 5];
+const item = [1, 2, 3, 4, 5]; //임시 데이터
 const StoreList = () => {
     return (
         <StoreListLayout>

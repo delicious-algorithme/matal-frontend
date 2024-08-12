@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { Grey, Orange, White } from '../../color';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 const StoreCard = () => {
     return (
         <StoreCardLayout>
             <ImgBox>
-                <img src="/images/default-food.jpg" />
+                <img src="/images/default-food.jpg" alt="맛집 대표 사진" />
             </ImgBox>
             <ContentsBox>
                 <NameAndPath>
