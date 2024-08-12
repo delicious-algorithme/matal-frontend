@@ -18,9 +18,9 @@ const items = [
     '덮밥',
 ];
 
-const Category = () => {
+const Category = (position) => {
     return (
-        <CategoryLayout>
+        <CategoryLayout position={position}>
             {items.map((item) => {
                 return <div>{item}</div>;
             })}
@@ -32,16 +32,20 @@ export default Category;
 
 const CategoryLayout = styled.div`
     display: flex;
+    position: ${(props) => props.position};
     flex-wrap: wrap;
     gap: 20px;
-    margin-left: 30px;
+    align-items: center;
+    justify-content: center;
+    //margin-left: 30px;*/
     & > div {
         display: flex;
         justify-content: center;
         text-align: center;
         align-items: center;
-        min-width: 90px;
+        //min-width: 86px;
         height: 50px;
+        padding: 20px;
         border-radius: 100px;
         color: ${Orange};
         border: 1px solid ${Orange};
