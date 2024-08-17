@@ -87,5 +87,8 @@ const Nav = styled.div`
             color: ${Orange};
         }
     }
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
 `;
 const User = styled.div``;
