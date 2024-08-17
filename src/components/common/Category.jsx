@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Orange } from '../../color';
 import { White } from '../../color';
+import { useNavigate } from 'react-router-dom';
 const items = [
     '냉면',
     '파스타',
@@ -19,10 +20,14 @@ const items = [
 ];
 
 const Category = (position) => {
+    const navigate = useNavigate();
+    const onClickHandler = () => {
+        navigate('/webmap/storeList/:${id}');
+    };
     return (
         <CategoryLayout position={position}>
             {items.map((item) => {
-                return <div>{item}</div>;
+                return <div onClick={onClickHandler}>{item}</div>;
             })}
         </CategoryLayout>
     );
@@ -53,6 +58,12 @@ const CategoryLayout = styled.div`
         &:hover {
             background-color: ${Orange};
             color: ${White};
+        }
+        @media screen and (max-width: 800px) {
+            & > div {
+                display: flex;
+                flex-direction: row;
+            }
         }
     }
 `;

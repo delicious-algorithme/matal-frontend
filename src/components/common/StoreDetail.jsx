@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { DartkGrey, Grey, Orange, White } from '../../color';
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 import { ReactComponent as Close } from '../../assets/Icon/Close.svg';
@@ -36,7 +36,9 @@ const data = {
 const StoreDetail = () => {
     return (
         <StoreContainer>
-            <Close />
+            <CloseBox>
+                <Close />
+            </CloseBox>
             <StoreMainBox>
                 <Image>
                     <img src="/images/default-food.jpg" alt="맛집 대표 사진" />
@@ -111,7 +113,7 @@ const StoreContainer = styled.div`
     position: absolute;
     max-width: 750px;
     top: 30%;
-    right: 10%;
+    right: 20%;
     margin: 0;
     border-radius: 20px;
     box-shadow: 1px 1px solid ${Grey};
@@ -122,6 +124,22 @@ const StoreContainer = styled.div`
         top: 10px;
         left: 250px;
     }
+    @media screen and (max-width: 1024px) {
+        font-size: 14px;
+        top: 30%;
+        left: 20%;
+        max-width: 400px;
+        & > svg {
+        }
+    }
+    @media screen and (max-width: 672px) {
+        left: 5%;
+    }
+`;
+const CloseBox = styled.div`
+    position: absolute;
+    right: 5px;
+    top: 5px;
 `;
 const StoreMainBox = styled.div`
     display: flex;
@@ -139,6 +157,14 @@ const Image = styled.div`
         width: 300px;
         height: 200px;
         border-radius: 20px;
+    }
+    @media screen and (max-width: 1024px) {
+        width: 150px;
+        height: 160px;
+        & > img {
+            width: 151px;
+            height: 160px;
+        }
     }
 `;
 
@@ -174,6 +200,15 @@ const NameAndPath = styled.div`
             width: 15px;
         }
         cursor: pointer;
+    }
+    @media screen and (max-width: 1024px) {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        & > div {
+            padding-top: 10px;
+            font-size: 16px;
+        }
     }
 `;
 const CategoryAndReviewCount = styled.div`
@@ -238,6 +273,9 @@ const StoreDetailBox = styled.div`
 const Hours = styled.div`
     display: flex;
     flex-direction: column;
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
 `;
 const StoreReviewBox = styled.div`
     width: 50%;

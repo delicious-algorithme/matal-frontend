@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { Grey, Orange, White } from '../../color';
 import React from 'react';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
+import { ReactComponent as Path_Mobile } from '../../assets/Icon/Path_Mobile.svg';
+
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 const StoreCard = () => {
     return (
@@ -16,8 +18,9 @@ const StoreCard = () => {
                         <Path />
                         경로
                     </button>
+                    <Path_Mobile />
                 </NameAndPath>
-                <p>위치 : 경기도 안양시 안양동 12</p>
+                <Location>위치 : 경기도 안양시 안양동 12</Location>
                 <Rating>
                     <p>별점</p>
                     <Star />
@@ -37,6 +40,9 @@ const StoreCardLayout = styled.div`
     flex-direction: row;
     gap: 20px;
     border-bottom: 1px solid ${Grey};
+    @media screen and (max-width: 1024px) {
+        max-width: 300px;
+    }
 `;
 const ImgBox = styled.div`
     width: 200px;
@@ -49,6 +55,21 @@ const ImgBox = styled.div`
         height: 200px;
         border-radius: 20px;
     }
+    @media screen and (max-width: 1024px) {
+        margin: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & > img {
+            width: 100px;
+            height: 120px;
+        }
+    }
+`;
+const Location = styled.p`
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
 `;
 const ContentsBox = styled.div`
     margin-top: 20px;
@@ -57,6 +78,8 @@ const ContentsBox = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     gap: 10px;
+    @media screen and (max-width: 1024px) {
+    }
 `;
 const NameAndPath = styled.div`
     & > h1 {
@@ -82,6 +105,14 @@ const NameAndPath = styled.div`
             width: 15px;
         }
         cursor: pointer;
+    }
+    @media screen and (max-width: 1024px) {
+        & > button {
+            display: none;
+            & > svg {
+                display: none;
+            }
+        }
     }
 `;
 const Rating = styled.div`
