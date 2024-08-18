@@ -13,7 +13,7 @@ const StoreCard = () => {
             </ImgBox>
             <ContentsBox>
                 <NameAndPath>
-                    <p>맛좋은 알고리즘</p>
+                    <p>맛있는 알고리즘</p>
                     <button>
                         <Path />
                         경로
@@ -27,7 +27,7 @@ const StoreCard = () => {
                     <p>5.0</p>
                 </Rating>
                 <p>AI 분석결과 </p>
-                <p>조용한, 양식, 외식, 감성, 와인, 스테이크</p>
+                <span>조용한, 양식, 외식, 감성, 와인, 스테이크</span>
             </ContentsBox>
         </StoreCardLayout>
     );
@@ -42,13 +42,14 @@ const StoreCardLayout = styled.div`
     border-bottom: 1px solid ${Grey};
     @media screen and (max-width: 1024px) {
         max-width: 300px;
+        height: auto;
     }
 `;
 const ImgBox = styled.div`
     width: 200px;
     height: 200px;
     margin-left: 10px;
-    margin-bottom: 20px;
+    margin-top: 20px;
     border-radius: 20px;
     & > img {
         width: 200px;
@@ -56,7 +57,7 @@ const ImgBox = styled.div`
         border-radius: 20px;
     }
     @media screen and (max-width: 1024px) {
-        margin: none;
+        margin: 0px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -78,7 +79,8 @@ const ContentsBox = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     gap: 10px;
-    @media screen and (max-width: 1024px) {
+    & > span {
+        font-weight: 700;
     }
 `;
 const NameAndPath = styled.div`
@@ -106,7 +108,18 @@ const NameAndPath = styled.div`
         }
         cursor: pointer;
     }
+    & > svg {
+        display: none;
+    }
+    & > p {
+        color: ${Orange};
+        font-weight: 600;
+    }
     @media screen and (max-width: 1024px) {
+        gap: 10px;
+        & > svg {
+            display: flex;
+        }
         & > button {
             display: none;
             & > svg {
