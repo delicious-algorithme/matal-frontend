@@ -4,7 +4,8 @@ import React from 'react';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 import { ReactComponent as Close } from '../../assets/Icon/Close.svg';
-
+import { ReactComponent as PathMobile } from '../../assets/Icon/Path_Mobile.svg';
+import { ReactComponent as SeeMore } from '../../assets/Icon/SeeMore.svg';
 const data = {
     id: 1,
     image: '',
@@ -50,6 +51,7 @@ const StoreDetail = () => {
                             <Path />
                             경로
                         </button>
+                        <PathMobile />
                     </NameAndPath>
                     <CategoryAndReviewCount>
                         <Content>{data.category}</Content>
@@ -63,6 +65,10 @@ const StoreDetail = () => {
                         <Star />
                         <Content>{data.rating}</Content>
                     </Rating>
+                    <KeywordMobile>
+                        <p>AI 분석 긍정 키워드</p>
+                        <p>{data.positiveKeywords}</p>
+                    </KeywordMobile>
                 </NameAndOters>
             </StoreMainBox>
             <StoreDetailAndReviewNav>
@@ -80,7 +86,10 @@ const StoreDetail = () => {
                         <Content>{data.phone}</Content>
                     </div>
                     <div>
-                        <Title>영업시간:</Title>
+                        <Title>
+                            영업시간:
+                            <SeeMore />
+                        </Title>
                         <Hours>
                             {data.businessHours &&
                                 data.businessHours.map((item, idx) => {
@@ -91,6 +100,10 @@ const StoreDetail = () => {
                 </StoreDetailBox>
                 <StoreReviewBox>
                     <ReviewDetail>
+                        <Keyword>
+                            <Title>AI 분석 긍정 키워드</Title>
+                            <span>{data.positiveKeywords}</span>
+                        </Keyword>
                         <Title>AI분석 결과</Title>
                         <Content>{data.reviewSummary}</Content>
                     </ReviewDetail>
@@ -111,7 +124,7 @@ export default StoreDetail;
 const StoreContainer = styled.div`
     background-color: ${White};
     position: absolute;
-    max-width: 750px;
+    max-width: 650px;
     top: 30%;
     right: 20%;
     margin: 0;
@@ -128,12 +141,13 @@ const StoreContainer = styled.div`
         font-size: 14px;
         top: 30%;
         left: 20%;
-        max-width: 400px;
+        width: 60%;
         & > svg {
         }
     }
     @media screen and (max-width: 672px) {
-        left: 5%;
+        left: 10%;
+        width: 80%;
     }
 `;
 const CloseBox = styled.div`
@@ -146,6 +160,11 @@ const StoreMainBox = styled.div`
     flex-direction: row;
     margin-top: 20px;
     gap: 20px;
+    @media screen and (max-width: 672px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 const Image = styled.div`
     width: 300px;
@@ -159,10 +178,18 @@ const Image = styled.div`
         border-radius: 20px;
     }
     @media screen and (max-width: 1024px) {
-        width: 150px;
+        width: 40%;
         height: 160px;
         & > img {
-            width: 151px;
+            width: 100%;
+            height: 160px;
+        }
+    }
+    @media screen and (max-width: 672px) {
+        width: 60%;
+        margin-left: 0px;
+        & > img {
+            width: 100%;
             height: 160px;
         }
     }
@@ -173,6 +200,9 @@ const NameAndOters = styled.div`
     flex-direction: column;
     gap: 20px;
     justify-content: center;
+    @media screen and (max-width: 1024px) {
+        gap: 5px;
+    }
 `;
 const NameAndPath = styled.div`
     display: flex;
@@ -180,9 +210,9 @@ const NameAndPath = styled.div`
     align-items: center;
     gap: 30px;
     & > div {
-        font-weight: 600;
+        font-weight: 700;
         font-size: 20px;
-        color: ${Orange};
+        cursor: pointer;
     }
     & > button {
         display: flex;
@@ -201,13 +231,24 @@ const NameAndPath = styled.div`
         }
         cursor: pointer;
     }
+    & > svg {
+        display: none;
+    }
     @media screen and (max-width: 1024px) {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        align-items: flex-start;
         gap: 5px;
-        & > div {
-            padding-top: 10px;
-            font-size: 16px;
+        & > button {
+            display: none;
+        }
+        display: flex;
+        //justify-content: center;
+        align-items: center;
+        & > svg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 `;
@@ -246,6 +287,9 @@ const StoreDetailAndReviewNav = styled.div`
         cursor: pointer;
     }
     gap: 50px;
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
 `;
 const StoreDetailContainer = styled.div`
     margin: 10px;
@@ -262,11 +306,25 @@ const StoreDetailBox = styled.div`
     & > div {
         display: flex;
         //flex-direction: row;
+        & > svg {
+            display: none;
+        }
     }
-
     :nth-child(2) {
         & > span {
             color: ${Orange};
+        }
+    }
+    @media screen and (max-width: 1024px) {
+        :first-child {
+            & > p {
+                display: none;
+            }
+        }
+        & > div {
+            & > svg {
+                display: block;
+            }
         }
     }
 `;
@@ -288,6 +346,19 @@ const ReviewDetail = styled.div`
     gap: 10px;
     flex-direction: column;
     align-items: flex-start;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid ${Orange};
+    & > p {
+        color: ${Orange};
+    }
+    & > div > p {
+        color: ${Orange};
+    }
+    @media screen and (max-width: 1024px) {
+        border: none;
+        padding: 0px;
+    }
 `;
 const ReviewRating = styled.div`
     display: flex;
@@ -314,5 +385,42 @@ const RatingBar = styled.div`
 `;
 const Title = styled.p`
     color: ${DartkGrey};
+    & > svg {
+        display: none;
+    }
+    @media screen and (max-width: 1024px) {
+        display: flex;
+        align-items: center;
+        & > svg {
+            display: flex;
+        }
+    }
 `;
 const Content = styled.span``;
+
+const Keyword = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    :last-child {
+        font-weight: 700;
+    }
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
+`;
+
+const KeywordMobile = styled.div`
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    :first-child {
+        color: ${Orange};
+    }
+    :last-child {
+        font-weight: 700;
+    }
+    @media screen and (max-width: 1024px) {
+        display: flex;
+    }
+`;

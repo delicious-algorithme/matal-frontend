@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Category, StoreList } from '../components/common';
+import { Category, StoreList, MobileNav } from '../components/common';
 import { LightGrey, Orange, White } from '../color';
 import { ReactComponent as SearchIcon } from '../assets/Icon/Feather Icon.svg';
 import { ReactComponent as DashBoard } from '../assets/Icon/DashBoard.svg';
@@ -99,27 +99,34 @@ const WebMap = () => {
             </NavBox>
             {isStoreList && <StoreList data={data} />}
             <ContentsContainer>
-                <SearchBarBox>
-                    <Icon>
-                        <SearchIcon />
-                    </Icon>
-                    <input type="text" placeholder="Search..." />
-                    <CategoryButton>
-                        <p>카테고리 설정</p>
-                        <Arrow />
-                    </CategoryButton>
-                </SearchBarBox>
+                {!isStoreList && (
+                    <SearchBarBox>
+                        <Icon>
+                            <SearchIcon />
+                        </Icon>
+                        <input type="text" placeholder="Search..." />
+                        <CategoryButton>
+                            <p>카테고리 설정</p>
+                            <Arrow />
+                        </CategoryButton>
+                    </SearchBarBox>
+                )}
                 <MapContainer>
                     <MyMap />
                 </MapContainer>
             </ContentsContainer>
-            <CategoryContainer $visible={categoryState}>
-                <p>카테고리</p>
-                <Category position="absolute" />
-            </CategoryContainer>
-            <CloseCategory>
-                <button>1</button>
-            </CloseCategory>
+            {categoryState && (
+                <CategoryContainer $visible={categoryState}>
+                    <p>카테고리</p>
+                    <Category position="absolute" />
+                </CategoryContainer>
+            )}
+            {!categoryState && (
+                <CloseCategory>
+                    <button>1</button>
+                </CloseCategory>
+            )}
+            <MobileNav />
         </WebMapLayout>
     );
 };
@@ -134,7 +141,6 @@ const WebMapLayout = styled.div`
     display: flex;
     flex-direction: row;
     @media screen and (max-width: 1024px) {
-        flex-direction: column;
         width: 100%;
     }
 `;
@@ -173,10 +179,8 @@ const ContentsContainer = styled.div`
 `;
 
 const SearchBarBox = styled.div`
-    //width: 100%;
     margin-top: 20px;
     margin-bottom: 20px;
-    margin-right: 200px;
     display: flex;
     gap: 30px;
     text-align: left;
@@ -193,15 +197,22 @@ const SearchBarBox = styled.div`
         padding-left: 50px;
         font-size: 16px;
         color: ${Orange};
+        padding-right: 20px;
     }
     input::placeholder {
         color: ${Orange};
     }
     @media screen and (max-width: 1024px) {
-        width: 80%;
         position: absolute;
+        margin: 0;
+        top: 10%;
+        left: 10%;
+        width: 80%;
         //align-items: center;
-        margin-left: 20px;
+        margin-left: 0px;
+        & > input {
+            position: relative;
+        }
     }
 `;
 
@@ -234,14 +245,16 @@ const CategoryButton = styled.div`
 `;
 
 const MapContainer = styled.div`
-    width: 100%;
+    max-width: 100%;
     flex: 1 1 auto;
     margin: 0;
+    display: flex;
+    flex-direction: row;
     background: ${LightGrey};
 `;
 
 const CategoryContainer = styled.div`
-    width: 200px;
+    max-width: 210px;
     height: 100%;
     display: flex;
     //position: absolute;
