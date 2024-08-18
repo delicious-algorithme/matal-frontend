@@ -1,7 +1,7 @@
 // .eslintrc
 
 {
-    "extends": ["react-app", "plugin:prettier/recommended"],
+    "extends": ["react-app", "prettier"],
     "rules": {
         "no-var": "warn",
         "no-multiple-empty-lines": "warn",
