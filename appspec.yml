@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/frontend
+    destination: /home
 hooks:
   AfterInstall:
     - location: scripts/restart_nginx.sh
