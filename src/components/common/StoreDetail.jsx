@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { DartkGrey, Grey, Orange, White } from '../../color';
-import React, { useState } from 'react';
+import React from 'react';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 import { ReactComponent as Close } from '../../assets/Icon/Close.svg';
@@ -83,8 +83,8 @@ const StoreDetail = () => {
                         <Title>영업시간:</Title>
                         <Hours>
                             {data.businessHours &&
-                                data.businessHours.map((item) => {
-                                    return <div>{item}</div>;
+                                data.businessHours.map((item, idx) => {
+                                    return <div key={idx}>{item}</div>;
                                 })}
                         </Hours>
                     </div>
@@ -97,7 +97,7 @@ const StoreDetail = () => {
                     <ReviewRating>
                         <Title>긍정/부정 리뷰 비율</Title>
                         <RatingBar ratio={data.positiveRatio}>
-                            <div></div>
+                            <div />
                         </RatingBar>
                         <Content>이 식당의 긍정 리뷰 비율은 {data.positiveRatio}%입니다.</Content>
                     </ReviewRating>
