@@ -6,8 +6,7 @@ import { ReactComponent as DashBoard } from '../assets/Icon/DashBoard.svg';
 import { ReactComponent as Game } from '../assets/Icon/Game.svg';
 import { ReactComponent as Arrow } from '../assets/Icon/Arrow.svg';
 import { MyMap } from '../components/common';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+
 const data = [
     {
         id: 1,
@@ -83,9 +82,8 @@ const data = [
     },
 ];
 const WebMap = () => {
-    const [categoryState, setCategoryState] = useState(true);
-    const [search, setSearch] = useState(null);
-    const [isStoreList, setIsStoreList] = useState(true);
+    const isStoreList = true;
+    const categoryState = true; //임시로 현재 state
 
     //const {id } = useParams();
     //const {item} = data;

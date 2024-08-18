@@ -4,7 +4,7 @@ import { StoreDetail } from '../components/common';
 const MapWithDetail = () => {
     return (
         <div>
-            <WebMap></WebMap>
+            <WebMap />
             <StoreDetail />
         </div>
     );
