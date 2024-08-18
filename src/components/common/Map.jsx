@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 //신대방 삼거리역 임시 데이터 설정 -> 지하철역
@@ -79,22 +79,25 @@ const data = [
 ];
 
 const MyMap = () => {
-    const createMarkerList = [];
-    const [newMap, setNewMap] = useState();
+    //const [newMap, setNewMap] = useState();
     const navigate = useNavigate();
     const mapElement = useRef(null);
+    const mapRef = useRef(null);
     const currentLocation = {
         lat: data[0].latitude,
         lng: data[0].longitude,
     };
-    const { naver } = window;
-    const markerClickHandler = (id) => {
-        navigate(`/webmap/storeDetail/${id}`);
-    };
-    let map;
+    const markerClickHandler = useCallback(
+        (id) => {
+            navigate(`/webmap/storeDetail/${id}`);
+        },
+        [navigate]
+    );
     useEffect(() => {
+        const { naver } = window;
+        let mapOptions = {};
         if (currentLocation.lat !== 0 && currentLocation.lng !== 0) {
-            var mapOptions = {
+            mapOptions = {
                 center: new naver.maps.LatLng(currentLocation.lat, currentLocation.lng),
                 zoomControl: true,
                 zoomControlOptions: {
@@ -107,37 +110,39 @@ const MyMap = () => {
                 zoom: 18,
             };
         }
-        map = new naver.maps.Map(mapElement.current, mapOptions);
-        setNewMap(map);
+        mapRef.current = new naver.maps.Map(mapElement.current, mapOptions);
+        //setNewMap(map);
+        const addMarker = (id, name, lat, lng) => {
+            const { naver } = window;
+            const createMarkerList = [];
+            try {
+                let newMarker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(lat, lng),
+                    map: mapRef.current,
+                    title: name,
+                    clickable: true,
+                    icon: {
+                        content: `<img src="/images/location.svg" />`,
+                    },
+                });
+                // console.log('process...');
+                newMarker.setTitle(name);
+                createMarkerList.push(newMarker);
+                naver.maps.Event.addListener(newMarker, 'click', () => markerClickHandler(id));
+            } catch (e) {}
+        };
+        const addMarkers = () => {
+            for (let i = 0; i < data.length; i++) {
+                let markerObj = data[i];
+                const dom_id = markerObj.id;
+                const title = markerObj.name;
+                const lat = markerObj.latitude;
+                const lng = markerObj.longitude;
+                addMarker(dom_id, title, lat, lng);
+            }
+        };
         addMarkers();
-    }, []);
-    const addMarker = (id, name, lat, lng) => {
-        try {
-            let newMarker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(lat, lng),
-                map: map,
-                title: name,
-                clickable: true,
-                icon: {
-                    content: `<img src="/images/location.svg" />`,
-                },
-            });
-            console.log('process...');
-            newMarker.setTitle(name);
-            createMarkerList.push(newMarker);
-            naver.maps.Event.addListener(newMarker, 'click', () => markerClickHandler(id));
-        } catch (e) {}
-    };
-    const addMarkers = () => {
-        for (let i = 0; i < data.length; i++) {
-            let markerObj = data[i];
-            const dom_id = markerObj.id;
-            const title = markerObj.name;
-            const lat = markerObj.latitude;
-            const lng = markerObj.longitude;
-            addMarker(dom_id, title, lat, lng);
-        }
-    };
+    }, [currentLocation.lat, currentLocation.lng, markerClickHandler]);
 
     return <MapContatiner id="map" ref={mapElement} style={{ width: '100%', height: '100%' }} />;
 };

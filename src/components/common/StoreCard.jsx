@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Grey, Orange, White } from '../../color';
 import React from 'react';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
-import { ReactComponent as Path_Mobile } from '../../assets/Icon/Path_Mobile.svg';
+import { ReactComponent as PathMobile } from '../../assets/Icon/Path_Mobile.svg';
 
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 const StoreCard = () => {
@@ -18,7 +18,7 @@ const StoreCard = () => {
                         <Path />
                         경로
                     </button>
-                    <Path_Mobile />
+                    <PathMobile />
                 </NameAndPath>
                 <Location>위치 : 경기도 안양시 안양동 12</Location>
                 <Rating>

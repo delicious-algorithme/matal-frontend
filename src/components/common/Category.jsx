@@ -22,12 +22,16 @@ const items = [
 const Category = (position) => {
     const navigate = useNavigate();
     const onClickHandler = () => {
-        navigate('/webmap/storeList/:${id}');
+        navigate('/webmap/storeList/1'); //임시 경로
     };
     return (
         <CategoryLayout position={position}>
-            {items.map((item) => {
-                return <div onClick={onClickHandler}>{item}</div>;
+            {items.map((item, idx) => {
+                return (
+                    <div key={idx} onClick={onClickHandler}>
+                        {item}
+                    </div>
+                );
             })}
         </CategoryLayout>
     );
