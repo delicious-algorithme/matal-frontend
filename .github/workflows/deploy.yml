@@ -3,9 +3,6 @@ name: Deploy React to EC2 using S3 and CodeDeploy
 on:
   push:
     branches:
-      - feature/ci-cd
-  pull_request:
-    branches: 
       - main
 
 jobs:
