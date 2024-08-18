@@ -9,7 +9,15 @@ import { ReactComponent as Pasta } from '../assets/image/Pasta.svg';
 import { ReactComponent as OriginalImage } from '../assets/image/MainImage.svg';
 import { DartkGrey, Grey, Orange, White } from '../color';
 import { Category } from '../components/common';
+import { useNavigate } from 'react-router-dom';
 const Main = () => {
+    const navigate = useNavigate();
+    const categoryClickHandler = () => {
+        navigate('/webmap');
+    };
+    const listClickHandler = () => {
+        navigate('/webmap/storeList/1');
+    };
     return (
         <MainPageLayout>
             <MainHeader />
@@ -18,7 +26,7 @@ const Main = () => {
                 <CategoryBox>
                     <CategoryHeader>
                         <p>카테고리</p>
-                        <DetailBox>
+                        <DetailBox onClick={categoryClickHandler}>
                             <p>View All</p>
                             <Arrow />
                         </DetailBox>
@@ -35,13 +43,13 @@ const Main = () => {
                     <Cake />
                     <Sandwich />
                     <Pasta />
-                    <div>
+                    <div onClick={listClickHandler}>
                         <Arrow />
                         <p>view all</p>
                     </div>
                 </StoreListPreview>
                 <StoreTopList>
-                    <div>
+                    <div onClick={listClickHandler}>
                         <p>인기 순위 Top</p>
                         <Arrow />
                     </div>

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { DartkGrey, Grey, Orange, White } from '../../color';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 import { ReactComponent as Close } from '../../assets/Icon/Close.svg';
@@ -35,88 +36,101 @@ const data = {
 };
 
 const StoreDetail = () => {
+    const location = useLocation();
+    const [visible, setVisible] = useState(true);
+    useEffect(() => {
+        if (location.state?.detailVisible) {
+            setVisible(true);
+        }
+    }, [location.state]);
+    const closeHandler = () => {
+        setVisible(false);
+        //console.log(visible);
+    };
     return (
-        <StoreContainer>
-            <CloseBox>
-                <Close />
-            </CloseBox>
-            <StoreMainBox>
-                <Image>
-                    <img src="/images/default-food.jpg" alt="맛집 대표 사진" />
-                </Image>
-                <NameAndOters>
-                    <NameAndPath>
-                        <div>{data.name}</div>
-                        <button>
-                            <Path />
-                            경로
-                        </button>
-                        <PathMobile />
-                    </NameAndPath>
-                    <CategoryAndReviewCount>
-                        <Content>{data.category}</Content>
+        visible && (
+            <StoreContainer>
+                <CloseBox onClick={closeHandler}>
+                    <Close />
+                </CloseBox>
+                <StoreMainBox>
+                    <Image>
+                        <img src="/images/default-food.jpg" alt="맛집 대표 사진" />
+                    </Image>
+                    <NameAndOters>
+                        <NameAndPath>
+                            <div>{data.name}</div>
+                            <button>
+                                <Path />
+                                경로
+                            </button>
+                            <PathMobile />
+                        </NameAndPath>
+                        <CategoryAndReviewCount>
+                            <Content>{data.category}</Content>
+                            <div>
+                                <Title>리뷰:</Title>
+                                <Content>{data.reviewCount}</Content>
+                            </div>
+                        </CategoryAndReviewCount>
+                        <Rating>
+                            <Title>별점:</Title>
+                            <Star />
+                            <Content>{data.rating}</Content>
+                        </Rating>
+                        <KeywordMobile>
+                            <p>AI 분석 긍정 키워드</p>
+                            <p>{data.positiveKeywords}</p>
+                        </KeywordMobile>
+                    </NameAndOters>
+                </StoreMainBox>
+                <StoreDetailAndReviewNav>
+                    <div>개요</div>
+                    <div>리뷰</div>
+                </StoreDetailAndReviewNav>
+                <StoreDetailContainer>
+                    <StoreDetailBox>
                         <div>
-                            <Title>리뷰:</Title>
-                            <Content>{data.reviewCount}</Content>
+                            <Title>주소: </Title>
+                            <Content>{data.address}</Content>
                         </div>
-                    </CategoryAndReviewCount>
-                    <Rating>
-                        <Title>별점:</Title>
-                        <Star />
-                        <Content>{data.rating}</Content>
-                    </Rating>
-                    <KeywordMobile>
-                        <p>AI 분석 긍정 키워드</p>
-                        <p>{data.positiveKeywords}</p>
-                    </KeywordMobile>
-                </NameAndOters>
-            </StoreMainBox>
-            <StoreDetailAndReviewNav>
-                <div>개요</div>
-                <div>리뷰</div>
-            </StoreDetailAndReviewNav>
-            <StoreDetailContainer>
-                <StoreDetailBox>
-                    <div>
-                        <Title>주소: </Title>
-                        <Content>{data.address}</Content>
-                    </div>
-                    <div>
-                        <Title>전화번호: </Title>
-                        <Content>{data.phone}</Content>
-                    </div>
-                    <div>
-                        <Title>
-                            영업시간:
-                            <SeeMore />
-                        </Title>
-                        <Hours>
-                            {data.businessHours &&
-                                data.businessHours.map((item, idx) => {
-                                    return <div key={idx}>{item}</div>;
-                                })}
-                        </Hours>
-                    </div>
-                </StoreDetailBox>
-                <StoreReviewBox>
-                    <ReviewDetail>
-                        <Keyword>
-                            <Title>AI 분석 긍정 키워드</Title>
-                            <span>{data.positiveKeywords}</span>
-                        </Keyword>
-                        <Title>AI분석 결과</Title>
-                        <Content>{data.reviewSummary}</Content>
-                    </ReviewDetail>
-                    <ReviewRating>
-                        <Title>긍정/부정 리뷰 비율</Title>
-                        <RatingBar ratio={data.positiveRatio}>
-                            <div />
-                        </RatingBar>
-                        <Content>이 식당의 긍정 리뷰 비율은 {data.positiveRatio}%입니다.</Content>
-                    </ReviewRating>
-                </StoreReviewBox>
-            </StoreDetailContainer>
-        </StoreContainer>
+                        <div>
+                            <Title>전화번호: </Title>
+                            <Content>{data.phone}</Content>
+                        </div>
+                        <div>
+                            <Title>
+                                영업시간:
+                                <SeeMore />
+                            </Title>
+                            <Hours>
+                                {data.businessHours &&
+                                    data.businessHours.map((item, idx) => {
+                                        return <div key={idx}>{item}</div>;
+                                    })}
+                            </Hours>
+                        </div>
+                    </StoreDetailBox>
+                    <StoreReviewBox>
+                        <ReviewDetail>
+                            <Keyword>
+                                <Title>AI 분석 긍정 키워드</Title>
+                                <span>{data.positiveKeywords}</span>
+                            </Keyword>
+                            <Title>AI분석 결과</Title>
+                            <Content>{data.reviewSummary}</Content>
+                        </ReviewDetail>
+                        <ReviewRating>
+                            <Title>긍정/부정 리뷰 비율</Title>
+                            <RatingBar ratio={data.positiveRatio}>
+                                <div />
+                            </RatingBar>
+                            <Content>이 식당의 긍정 리뷰 비율은 {data.positiveRatio}%입니다.</Content>
+                        </ReviewRating>
+                    </StoreReviewBox>
+                </StoreDetailContainer>
+            </StoreContainer>
+        )
     );
 };
 export default StoreDetail;
@@ -154,6 +168,7 @@ const CloseBox = styled.div`
     position: absolute;
     right: 5px;
     top: 5px;
+    cursor: pointer;
 `;
 const StoreMainBox = styled.div`
     display: flex;
