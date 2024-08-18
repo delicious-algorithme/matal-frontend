@@ -23,7 +23,7 @@ const MainHeader = () => {
                     <p>top 100</p>
                 </Nav>
             </SearchBarAndNav>
-            <User></User>
+            <User />
         </MainHeaderLayout>
     );
 };
