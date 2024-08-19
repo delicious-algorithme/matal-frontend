@@ -5,7 +5,12 @@ import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
 import { ReactComponent as PathMobile } from '../../assets/Icon/Path_Mobile.svg';
 
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
+import { useNavigate } from 'react-router-dom';
 const StoreCard = () => {
+    const navigate = useNavigate();
+    const cardClickHandler = () => {
+        navigate('/webmap/storeDetail/1', { state: { detailVisible: true } });
+    };
     return (
         <StoreCardLayout>
             <ImgBox>
@@ -13,7 +18,7 @@ const StoreCard = () => {
             </ImgBox>
             <ContentsBox>
                 <NameAndPath>
-                    <p>맛있는 알고리즘</p>
+                    <Name onClick={cardClickHandler}>맛있는 알고리즘</Name>
                     <button>
                         <Path />
                         경로
@@ -134,4 +139,8 @@ const Rating = styled.div`
     gap: 10px;
     justify-content: flex-start;
     align-items: center;
+`;
+
+const Name = styled.p`
+    cursor: pointer;
 `;

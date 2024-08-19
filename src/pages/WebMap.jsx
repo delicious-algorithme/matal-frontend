@@ -3,10 +3,11 @@ import { Category, StoreList, MobileNav } from '../components/common';
 import { LightGrey, Orange, White } from '../color';
 import { ReactComponent as SearchIcon } from '../assets/Icon/Feather Icon.svg';
 import { ReactComponent as DashBoard } from '../assets/Icon/DashBoard.svg';
-import { ReactComponent as Game } from '../assets/Icon/Game.svg';
+import { ReactComponent as Home } from '../assets/Icon/Home.svg';
 import { ReactComponent as Arrow } from '../assets/Icon/Arrow.svg';
 import { MyMap } from '../components/common';
-
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 const data = [
     {
         id: 1,
@@ -82,19 +83,45 @@ const data = [
     },
 ];
 const WebMap = () => {
-    const isStoreList = true;
-    const categoryState = true; //임시로 현재 state
-
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [isStoreList, setIsStoreList] = useState(true);
+    const [categoryState, setIsCategoryState] = useState(location.state?.visible || false);
+    useEffect(() => {
+        if (location.state?.listVisible) {
+            setIsStoreList(true);
+        }
+        if (!location.state?.listVisible) {
+            setIsStoreList(false);
+        }
+        if (location.state?.visible) {
+            setIsCategoryState(true);
+        } else if (!location.state?.visible) {
+            setIsCategoryState(false);
+        }
+        if (location.state?.listVisible) {
+            setIsStoreList(true);
+        }
+    }, [location.state]);
     //const {id } = useParams();
     //const {item} = data;
+    const dashboardClickHandler = () => {
+        setIsStoreList(!isStoreList);
+    };
+    const categoryClickHandler = () => {
+        setIsCategoryState(!categoryState);
+    };
+    const homeClickHandler = () => {
+        navigate('/');
+    };
     return (
         <WebMapLayout>
             <NavBox>
-                <button>
+                <button onClick={dashboardClickHandler}>
                     <DashBoard />
                 </button>
-                <button>
-                    <Game />
+                <button onClick={homeClickHandler}>
+                    <Home />
                 </button>
             </NavBox>
             {isStoreList && <StoreList data={data} />}
@@ -105,7 +132,7 @@ const WebMap = () => {
                             <SearchIcon />
                         </Icon>
                         <input type="text" placeholder="Search..." />
-                        <CategoryButton>
+                        <CategoryButton onClick={categoryClickHandler}>
                             <p>카테고리 설정</p>
                             <Arrow />
                         </CategoryButton>
@@ -258,7 +285,7 @@ const CategoryContainer = styled.div`
     height: 100%;
     display: flex;
     //position: absolute;
-    z-index: 200;
+    z-index: 100;
     top: 0;
     right: 0;
     align-items: center;
@@ -276,7 +303,6 @@ const CategoryContainer = styled.div`
     box-shadow: 0px 5px 5px 0px ${LightGrey};
     @media screen and (max-width: 1024px) {
         //width: 100px;
-        display: none;
     }
 `;
 

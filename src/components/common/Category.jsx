@@ -21,14 +21,19 @@ const items = [
 
 const Category = (position) => {
     const navigate = useNavigate();
-    const onClickHandler = () => {
-        navigate('/webmap/storeList/1'); //임시 경로
+    const onClickHandler = (idx) => {
+        navigate(`/webmap/storeList/${idx}`, { state: { listVisible: true } }); //임시 경로
     };
     return (
         <CategoryLayout position={position}>
             {items.map((item, idx) => {
                 return (
-                    <div key={idx} onClick={onClickHandler}>
+                    <div
+                        key={idx}
+                        onClick={(idx) => {
+                            onClickHandler(idx);
+                        }}
+                    >
                         {item}
                     </div>
                 );

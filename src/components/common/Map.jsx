@@ -89,7 +89,7 @@ const MyMap = () => {
     };
     const markerClickHandler = useCallback(
         (id) => {
-            navigate(`/webmap/storeDetail/${id}`);
+            navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
         },
         [navigate]
     );
