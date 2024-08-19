@@ -5,7 +5,12 @@ import { ReactComponent as Game } from '../../assets/Icon/Game.svg';
 import { ReactComponent as ArrowRight } from '../../assets/Icon/ArrowNav.svg';
 
 import { Orange } from '../../color';
+import { useNavigate } from 'react-router-dom';
 const MainHeader = () => {
+    const navigate = useNavigate();
+    const dashboardClickHandler = () => {
+        navigate('/webmap/storeList/1');
+    };
     return (
         <MainHeaderLayout>
             <SearchBarAndNav>
@@ -17,10 +22,10 @@ const MainHeader = () => {
                 </SearchBarBox>
                 <Nav>
                     <DashBoard />
-                    <p>대시보드</p>
+                    <p onClick={dashboardClickHandler}>대시보드</p>
                     <ArrowRight />
                     <Game />
-                    <p>top 100</p>
+                    <p onClick={dashboardClickHandler}>top 100</p>
                 </Nav>
             </SearchBarAndNav>
             <User />
