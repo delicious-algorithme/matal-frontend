@@ -3,7 +3,7 @@
 {
     "extends": ["react-app", "prettier"],
     "rules": {
-        "no-var": "warn",
+        //"no-var": "warn",
         "no-multiple-empty-lines": "warn",
         "no-console": ["warn", { "allow": ["warn", "error"] }],
         "eqeqeq": "warn",
