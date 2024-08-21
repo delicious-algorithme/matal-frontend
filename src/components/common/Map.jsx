@@ -93,8 +93,11 @@ const MyMap = () => {
         },
         [navigate]
     );
+    //clustering
     useEffect(() => {
         const { naver } = window;
+        const createMarkerList = [];
+        //const MarkerClustering = makeMarkerClustering(naver);
         let mapOptions = {};
         if (currentLocation.lat !== 0 && currentLocation.lng !== 0) {
             mapOptions = {
@@ -114,7 +117,6 @@ const MyMap = () => {
         //setNewMap(map);
         const addMarker = (id, name, lat, lng) => {
             const { naver } = window;
-            const createMarkerList = [];
             try {
                 let newMarker = new naver.maps.Marker({
                     position: new naver.maps.LatLng(lat, lng),
@@ -142,6 +144,42 @@ const MyMap = () => {
             }
         };
         addMarkers();
+        const htmlMarker1 = {
+            content:
+                '<div style="cursor:pointer;width:40px;height:40px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
+            size: new naver.maps.Size(40, 40),
+            anchor: new naver.maps.Point(20, 20),
+        };
+        const htmlMarker2 = {
+            content:
+                '<div style="cursor:pointer;width:75px;height:75px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
+            size: new naver.maps.Size(75, 75),
+            anchor: new naver.maps.Point(37, 37),
+        };
+        const htmlMarker3 = {
+            content:
+                '<div style="cursor:pointer;width:160px;height:160px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
+            size: new naver.maps.Size(160, 160),
+            anchor: new naver.maps.Point(80, 80),
+        };
+        const htmlMarker4 = {
+            content:
+                '<div style="cursor:pointer;width:200px;height:200px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
+            size: new naver.maps.Size(200, 200),
+            anchor: new naver.maps.Point(100, 100),
+        };
+        import('./cluster').then(({ MarkerClustering }) => {
+            new MarkerClustering({
+                minClusterSize: 2,
+                maxZoom: 20,
+                map: mapRef.current,
+                markers: createMarkerList,
+                disableClickZoom: false,
+                gridSize: 120,
+                icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4],
+                indexGenerator: [10, 100],
+            });
+        });
     }, [currentLocation.lat, currentLocation.lng, markerClickHandler]);
 
     return <MapContatiner id="map" ref={mapElement} style={{ width: '100%', height: '100%' }} />;
