@@ -270,7 +270,7 @@ naver.maps.Util.ClassExtend(MarkerClustering, naver.maps.OverlayView, {
     // KVO 이벤트 핸들러
     changed: function (key, value) {
         if (!this.getMap()) return;
-
+        // eslint-disable-next-line
         switch (key) {
             case 'marker':
             case 'minClusterSize':
