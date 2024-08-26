@@ -4,7 +4,7 @@ import { defaultInstance } from '../utils/instance';
 export const getStoreList = async (params) => {
     console.log(params);
     try {
-        const { data, status } = await defaultInstance.get(`api/stores/search`, { params: params });
+        const { data, status } = await defaultInstance.get(`/api/stores/search`, { params: params });
         return {
             data,
             status,
@@ -53,7 +53,7 @@ export const getNameStoreList = async (params) => {
 export const getStoreDetail = async (id) => {
     console.log('Store ID:', id);
     try {
-        const { data, status } = await defaultInstance.get(`api/stores/${id.storeId}`);
+        const { data, status } = await defaultInstance.get(`/api/stores/${id.storeId}`);
         return {
             data,
             status,
