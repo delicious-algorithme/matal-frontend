@@ -6,7 +6,7 @@ import { ReactComponent as PathMobile } from '../../assets/Icon/Path_Mobile.svg'
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 import { useNavigate } from 'react-router-dom';
 //storeList에서 필요한 값 props로 받는다.
-const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLink }) => {
+const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLink, positiveRatio }) => {
     const navigate = useNavigate();
     const cardClickHandler = () => {
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
@@ -29,13 +29,19 @@ const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLi
                     <PathMobile onClick={storeLinkHandler} />
                 </NameAndPath>
                 <Location>위치 : {address}</Location>
-                <Rating>
-                    <p>별점 </p>
-                    <Star />
-                    <p>{rating}</p>
-                </Rating>
+                <ReviewBox>
+                    <div>
+                        <p>별점 </p>
+                        <Star />
+                        <h4>{rating}</h4>
+                    </div>
+                    <div>
+                        <p>AI 리뷰 긍정비율 </p>
+                        <h4>{positiveRatio}%</h4>
+                    </div>
+                </ReviewBox>
                 <p>AI 분석결과 </p>
-                <span>{positiveKeywords}</span>
+                <h4>{positiveKeywords}</h4>
             </ContentsBox>
         </StoreCardLayout>
     );
@@ -137,12 +143,21 @@ const NameAndPath = styled.div`
         }
     }
 `;
-const Rating = styled.div`
+const ReviewBox = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
     justify-content: flex-start;
-    align-items: center;
+    & > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
+    @media screen and (max-width: 1024px) {
+        flex-direction: column;
+    }
 `;
 
 const Name = styled.p`

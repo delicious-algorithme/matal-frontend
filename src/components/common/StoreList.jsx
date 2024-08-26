@@ -23,8 +23,6 @@ const StoreList = ({ station }) => {
     const { setStoreList } = useStoreList();
     const fetchStoreData = async (storeCategory, storeName, station, sortBy, page) => {
         setIsLoading(true);
-
-        console.log(process.env.BackEndUrl);
         setIsNothing(true);
         const params = {};
         if (storeCategory) params.category = storeCategory;
@@ -57,6 +55,7 @@ const StoreList = ({ station }) => {
         }
         setIsLoading(false);
     };
+    useEffect(() => {});
     useEffect(() => {
         setPage(0);
         setStores([]);
@@ -194,6 +193,7 @@ const StoreList = ({ station }) => {
                             rating={store.rating}
                             positiveKeywords={store.positive_keywords}
                             storeLink={store.store_link}
+                            positiveRatio={store.positive_ratio}
                         />
                     );
                 })}
