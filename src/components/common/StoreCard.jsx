@@ -3,36 +3,45 @@ import { Grey, Orange, White } from '../../color';
 import React from 'react';
 import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
 import { ReactComponent as PathMobile } from '../../assets/Icon/Path_Mobile.svg';
-
 import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 import { useNavigate } from 'react-router-dom';
-const StoreCard = () => {
+//storeList에서 필요한 값 props로 받는다.
+const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLink, positiveRatio }) => {
     const navigate = useNavigate();
     const cardClickHandler = () => {
-        navigate('/webmap/storeDetail/1', { state: { detailVisible: true } });
+        navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
+    };
+    const storeLinkHandler = () => {
+        window.location.href = storeLink;
     };
     return (
         <StoreCardLayout>
             <ImgBox>
-                <img src="/images/default-food.jpg" alt="맛집 대표 사진" />
+                <img src={image} alt="맛집 대표 사진" />
             </ImgBox>
             <ContentsBox>
                 <NameAndPath>
-                    <Name onClick={cardClickHandler}>맛있는 알고리즘</Name>
-                    <button>
+                    <Name onClick={cardClickHandler}>{name}</Name>
+                    <button onClick={storeLinkHandler}>
                         <Path />
                         경로
                     </button>
-                    <PathMobile />
+                    <PathMobile onClick={storeLinkHandler} />
                 </NameAndPath>
-                <Location>위치 : 경기도 안양시 안양동 12</Location>
-                <Rating>
-                    <p>별점</p>
-                    <Star />
-                    <p>5.0</p>
-                </Rating>
+                <Location>위치 : {address}</Location>
+                <ReviewBox>
+                    <div>
+                        <p>별점 </p>
+                        <Star />
+                        <h4>{rating}</h4>
+                    </div>
+                    <div>
+                        <p>AI 리뷰 긍정비율 </p>
+                        <h4>{positiveRatio}%</h4>
+                    </div>
+                </ReviewBox>
                 <p>AI 분석결과 </p>
-                <span>조용한, 양식, 외식, 감성, 와인, 스테이크</span>
+                <h4>{positiveKeywords}</h4>
             </ContentsBox>
         </StoreCardLayout>
     );
@@ -46,7 +55,7 @@ const StoreCardLayout = styled.div`
     gap: 20px;
     border-bottom: 1px solid ${Grey};
     @media screen and (max-width: 1024px) {
-        max-width: 300px;
+        width: 300px;
         height: auto;
     }
 `;
@@ -62,12 +71,13 @@ const ImgBox = styled.div`
         border-radius: 20px;
     }
     @media screen and (max-width: 1024px) {
-        margin: 0px;
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 150px;
+        margin-left: 10px;
         & > img {
-            width: 100px;
+            width: 150px;
             height: 120px;
         }
     }
@@ -133,12 +143,21 @@ const NameAndPath = styled.div`
         }
     }
 `;
-const Rating = styled.div`
+const ReviewBox = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
     justify-content: flex-start;
-    align-items: center;
+    & > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
+    @media screen and (max-width: 1024px) {
+        flex-direction: column;
+    }
 `;
 
 const Name = styled.p`

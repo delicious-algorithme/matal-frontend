@@ -7,37 +7,28 @@ import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
 import { ReactComponent as Close } from '../../assets/Icon/Close.svg';
 import { ReactComponent as PathMobile } from '../../assets/Icon/Path_Mobile.svg';
 import { ReactComponent as SeeMore } from '../../assets/Icon/SeeMore.svg';
-const data = {
-    id: 1,
-    image: '',
-    keyword: '서울시 냉면',
-    name: '맛있는 알고리즘',
-    address: '서울 종로구 광화문로 1길 234 5층',
-    rating: 4.5,
-    category: '냉면',
-    reviewCount: '999',
-    nearbyStation: '2,5호선 을지로9가역 1번 출구에서 239m',
-    phone: '02-1234-5678',
-    businessHours: [
-        '토: 11:30 - 21:00 20:40 라스트오더',
-        '일: 11:30 - 21:00 20:40 라스트오더',
-        '월: 정기휴무 (매주 월요일)',
-        '화: 11:30 - 21:00 20:40 라스트오더',
-        '수: 11:30 - 21:00 20:40 라스트오더',
-        '목: 11:30 - 21:00 20:40 라스트오더',
-        '금: 11:30 - 21:00 20:40 라스트오더',
-    ],
-    latitude: '33.56821',
-    longitude: '136.9971945',
-    positiveKeywords: '진한 육수, 고소한 맛, 푸짐한 고명',
-    reviewSummary: '진한 육수와 고소한 맛, 고명이 푸짐합니다. 가격이 비싸고 면이 평범하다는 의견도 있습니다.',
-    positiveRatio: '68',
-    nagativeRatio: '32',
-};
+import { useParams } from 'react-router-dom';
+import { getStoreDetail } from '../../apis/api/storeList';
+import { useStoreList } from '../../store';
 
 const StoreDetail = () => {
+    const { id } = useParams();
+    const storeId = id;
     const location = useLocation();
     const [visible, setVisible] = useState(true);
+    const [isLoading, setIsLoading] = useState();
+    const [store, setStore] = useState();
+    const [hourVisible, setHourVisible] = useState(false);
+    const { setStoreList } = useStoreList();
+    const storeLinkHandler = () => {
+        window.location.href = store.store_link;
+    };
+    useEffect(() => {
+        if (storeId) {
+            fetchStoreDetail(storeId);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [storeId]);
     useEffect(() => {
         if (location.state?.detailVisible) {
             setVisible(true);
@@ -47,40 +38,65 @@ const StoreDetail = () => {
         setVisible(false);
         //console.log(visible);
     };
+    const toggleHours = () => {
+        setHourVisible(!hourVisible);
+    };
+    const fetchStoreDetail = async (storeId) => {
+        setIsLoading(true);
+        try {
+            const response = await getStoreDetail({ storeId });
+            const newData = response.data;
+            if (typeof newData.business_hours === 'string') {
+                try {
+                    const jsonString = newData.business_hours.replace(/'/g, '"');
+                    newData.business_hours = JSON.parse(jsonString);
+                } catch (e) {
+                    console.error('Failed to parse business_hours:', e);
+                }
+            }
+            setStore(newData);
+            setStoreList(newData);
+        } catch (error) {
+            console.log(error);
+        }
+        setIsLoading(false);
+    };
     return (
-        visible && (
+        visible &&
+        !isLoading &&
+        store && (
             <StoreContainer>
                 <CloseBox onClick={closeHandler}>
                     <Close />
                 </CloseBox>
                 <StoreMainBox>
                     <Image>
-                        <img src="/images/default-food.jpg" alt="맛집 대표 사진" />
+                        <img src={store.image_urls} alt="맛집 대표 사진" />
                     </Image>
                     <NameAndOters>
                         <NameAndPath>
-                            <div>{data.name}</div>
-                            <button>
+                            <div>{store.keyword}</div>
+                            <button onClick={storeLinkHandler}>
                                 <Path />
                                 경로
                             </button>
-                            <PathMobile />
+                            <PathMobile onClick={storeLinkHandler} />
                         </NameAndPath>
                         <CategoryAndReviewCount>
-                            <Content>{data.category}</Content>
+                            <Content>{store.category}</Content>
                             <div>
                                 <Title>리뷰:</Title>
-                                <Content>{data.reviewCount}</Content>
+                                <Content>{store.reviews_count}</Content>
                             </div>
                         </CategoryAndReviewCount>
                         <Rating>
                             <Title>별점:</Title>
                             <Star />
-                            <Content>{data.rating}</Content>
+                            <Content>{store.rating}</Content>
                         </Rating>
                         <KeywordMobile>
                             <p>AI 분석 긍정 키워드</p>
-                            <p>{data.positiveKeywords}</p>
+                            <p>{store.positive_keywords}</p>
                         </KeywordMobile>
                     </NameAndOters>
                 </StoreMainBox>
@@ -92,22 +108,20 @@ const StoreDetail = () => {
                     <StoreDetailBox>
                         <div>
                             <Title>주소: </Title>
-                            <Content>{data.address}</Content>
+                            <Content>{store.address}</Content>
                         </div>
                         <div>
                             <Title>전화번호: </Title>
-                            <Content>{data.phone}</Content>
+                            <Content>{store.phone}</Content>
                         </div>
                         <div>
                             <Title>
                                 영업시간:
-                                <SeeMore />
+                                <SeeMore onClick={toggleHours} />
                             </Title>
-                            <Hours>
-                                {data.businessHours &&
-                                    data.businessHours.map((item, idx) => {
-                                        return <div key={idx}>{item}</div>;
-                                    })}
+                            <Hours $visible={hourVisible}>
+                                {Array.isArray(store.business_hours) &&
+                                    store.business_hours.map((item, idx) => <div key={idx}>{item}</div>)}
                             </Hours>
                         </div>
                     </StoreDetailBox>
@@ -115,17 +129,17 @@ const StoreDetail = () => {
                         <ReviewDetail>
                             <Keyword>
                                 <Title>AI 분석 긍정 키워드</Title>
-                                <span>{data.positiveKeywords}</span>
+                                <span>{store.positive_keywords}</span>
                             </Keyword>
                             <Title>AI분석 결과</Title>
-                            <Content>{data.reviewSummary}</Content>
+                            <Content>{store.review_summary}</Content>
                         </ReviewDetail>
                         <ReviewRating>
                             <Title>긍정/부정 리뷰 비율</Title>
-                            <RatingBar ratio={data.positiveRatio}>
+                            <RatingBar ratio={store.positive_ratio}>
                                 <div />
                             </RatingBar>
-                            <Content>이 식당의 긍정 리뷰 비율은 {data.positiveRatio}%입니다.</Content>
+                            <Content>이 식당의 긍정 리뷰 비율은 {store.positive_ratio}%입니다.</Content>
                         </ReviewRating>
                     </StoreReviewBox>
                 </StoreDetailContainer>
@@ -345,9 +359,11 @@ const StoreDetailBox = styled.div`
 `;
 const Hours = styled.div`
     display: flex;
+    display: flex;
     flex-direction: column;
     @media screen and (max-width: 1024px) {
-        display: none;
+        max-width: 140px;
+        display: ${(props) => (props.$visible ? 'flex' : 'none')};
     }
 `;
 const StoreReviewBox = styled.div`
@@ -389,13 +405,13 @@ const RatingBar = styled.div`
     width: 80%;
     height: 30px;
     border-radius: 30px;
-    border: 2px solid ${Grey};
+    border: 2px solid ${Orange};
     background: ${White};
     & > div {
         width: ${(props) => props.ratio}%;
         height: 100%;
         border-radius: 30px;
-        background-color: ${Grey};
+        background-color: ${Orange};
     }
 `;
 const Title = styled.p`
