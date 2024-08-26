@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MyMap, StoreCard } from '../components/common';
+import { MyMap } from '../components/common';
 import { MainHeader } from '../components/main';
 import { ReactComponent as Arrow } from '../assets/Icon/Arrow.svg';
 import { ReactComponent as Pizza } from '../assets/image/Pizza.svg';
@@ -48,13 +48,6 @@ const Main = () => {
                         <p>view all</p>
                     </div>
                 </StoreListPreview>
-                <StoreTopList>
-                    <div onClick={listClickHandler}>
-                        <p>인기 순위 Top</p>
-                        <Arrow />
-                    </div>
-                    <StoreCard />
-                </StoreTopList>
             </MobileContents>
         </MainPageLayout>
     );
@@ -117,11 +110,13 @@ const CategoryHeader = styled.div`
     border-bottom: solid 2px ${Grey};
     margin: 20px;
     & > p {
+        width: 100px;
         font-weight: 600;
-        font-size: 23px;
+        font-size: 20px;
     }
     @media screen and (max-width: 1024px) {
         & > p {
+            width: 60px;
             font-weight: 400;
             font-size: 16px;
         }
@@ -207,23 +202,5 @@ const StoreListPreview = styled.div`
             justify-content: center;
         }
         border-bottom: 1px solid ${Orange};
-    }
-`;
-
-const StoreTopList = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    & > div {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-        & > p {
-            color: ${Orange};
-        }
     }
 `;

@@ -1,98 +1,29 @@
 import styled from 'styled-components';
-import { Category, StoreList, MobileNav } from '../components/common';
+import { Category, StoreList, MobileNav, MyMap } from '../components/common';
 import { LightGrey, Orange, White } from '../color';
 import { ReactComponent as SearchIcon } from '../assets/Icon/Feather Icon.svg';
 import { ReactComponent as DashBoard } from '../assets/Icon/DashBoard.svg';
 import { ReactComponent as Home } from '../assets/Icon/Home.svg';
 import { ReactComponent as Arrow } from '../assets/Icon/Arrow.svg';
-import { MyMap } from '../components/common';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-const data = [
-    {
-        id: 1,
-        image: '',
-        keyword: '서울시 냉면',
-        name: '맛있는 알고리즘',
-        address: '서울 종로구 광화문로 1길 234 5층',
-        rating: 4.5,
-        category: '냉면',
-        reviewCount: '999',
-        nearbyStation: '2,5호선 을지로9가역 1번 출구에서 239m',
-        phone: '02-1234-5678',
-        businessHours: [
-            '토: 11:30 - 21:00 20:40 라스트오더',
-            '일: 11:30 - 21:00 20:40 라스트오더',
-            '월: 정기휴무 (매주 월요일)',
-            '화: 11:30 - 21:00 20:40 라스트오더',
-            '수: 11:30 - 21:00 20:40 라스트오더',
-            '목: 11:30 - 21:00 20:40 라스트오더',
-            '금: 11:30 - 21:00 20:40 라스트오더',
-        ],
-        latitude: '37.4996',
-        longitude: '126.9286',
-        positiveKeywords: '진한 육수, 고소한 맛, 푸짐한 고명',
-        reviewSummary: '진한 육수와 고소한 맛, 고명이 푸짐합니다. 가격이 비싸고 면이 평범하다는 의견도 있습니다.',
-        positiveRatio: '68',
-        nagativeRatio: '32',
-    },
-    {
-        id: 2,
-        image: '',
-        keyword: '서울시 냉면',
-        name: '맛있는 알고리즘',
-        address: '서울 종로구 광화문로 1길 234 5층',
-        rating: 4.5,
-        category: '냉면',
-        reviewCount: '999',
-        nearbyStation: '2,5호선 을지로9가역 1번 출구에서 239m',
-        phone: '02-1234-5678',
-        businessHours: [
-            '토: 11:30 - 21:00 20:40 라스트오더',
-            '일: 11:30 - 21:00 20:40 라스트오더',
-            '월: 정기휴무 (매주 월요일)',
-            '화: 11:30 - 21:00 20:40 라스트오더',
-            '수: 11:30 - 21:00 20:40 라스트오더',
-            '목: 11:30 - 21:00 20:40 라스트오더',
-            '금: 11:30 - 21:00 20:40 라스트오더',
-        ],
-        latitude: '37.4998',
-        longitude: '126.9280',
-        positiveKeywords: '진한 육수, 고소한 맛, 푸짐한 고명',
-        reviewSummary: '진한 육수와 고소한 맛, 고명이 푸짐합니다. 가격이 비싸고 면이 평범하다는 의견도 있습니다.',
-        positiveRatio: '68',
-        nagativeRatio: '32',
-    },
-    {
-        id: 3,
-        name: '해물포차꼴통2호점',
-        latitude: '37.4991',
-        longitude: '126.9289',
-    },
-    {
-        id: 4,
-        name: '일진아구찜',
-        latitude: '37.4938',
-        longitude: '126.9246',
-    },
-    {
-        id: 5,
-        name: '즉석 바지락손칼국수',
-        latitude: '37.5000',
-        longitude: '126.9295',
-    },
-];
+import { useStoreList } from '../store';
 const WebMap = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isStoreList, setIsStoreList] = useState(true);
     const [categoryState, setIsCategoryState] = useState(location.state?.visible || false);
+    const [station, setStation] = useState();
+    const [count, setCount] = useState();
+    const { setStoreList } = useStoreList();
     useEffect(() => {
         if (location.state?.listVisible) {
             setIsStoreList(true);
+            setCount(1);
         }
         if (!location.state?.listVisible) {
             setIsStoreList(false);
+            setCount(0);
         }
         if (location.state?.visible) {
             setIsCategoryState(true);
@@ -114,6 +45,17 @@ const WebMap = () => {
     const homeClickHandler = () => {
         navigate('/');
     };
+    const onChangeHandler = (e) => {
+        setStation(e.target.value);
+    };
+    const onKeyDownHandler = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            setIsStoreList(true);
+            setIsCategoryState(false);
+            setStation(station);
+        }
+    };
     return (
         <WebMapLayout>
             <NavBox>
@@ -124,14 +66,20 @@ const WebMap = () => {
                     <Home />
                 </button>
             </NavBox>
-            {isStoreList && <StoreList data={data} />}
+            {isStoreList && <StoreList station={station} />}
             <ContentsContainer>
                 {!isStoreList && (
                     <SearchBarBox>
                         <Icon>
                             <SearchIcon />
                         </Icon>
-                        <input type="text" placeholder="Search..." />
+                        <input
+                            type="text"
+                            placeholder="지하철역으로 검색..."
+                            onChange={onChangeHandler}
+                            onKeyDown={onKeyDownHandler}
+                            value={station}
+                        />
                         <CategoryButton onClick={categoryClickHandler}>
                             <p>카테고리 설정</p>
                             <Arrow />
@@ -150,7 +98,14 @@ const WebMap = () => {
             )}
             {!categoryState && (
                 <CloseCategory>
-                    <button>1</button>
+                    <button
+                        onClick={() => {
+                            setIsCategoryState(true);
+                            setStoreList([]);
+                        }}
+                    >
+                        {count}
+                    </button>
                 </CloseCategory>
             )}
             <MobileNav />
@@ -273,7 +228,7 @@ const CategoryButton = styled.div`
 
 const MapContainer = styled.div`
     max-width: 100%;
-    flex: 1 1 auto;
+    flex: 1 1;
     margin: 0;
     display: flex;
     flex-direction: row;

@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { ReactComponent as SearchIcon } from '../../assets/Icon/Feather Icon.svg';
 import { ReactComponent as DashBoard } from '../../assets/Icon/DashBoard.svg';
-import { ReactComponent as Game } from '../../assets/Icon/Game.svg';
 import { ReactComponent as ArrowRight } from '../../assets/Icon/ArrowNav.svg';
-
 import { Orange } from '../../color';
 import { useNavigate } from 'react-router-dom';
 const MainHeader = () => {
@@ -18,14 +16,12 @@ const MainHeader = () => {
                     <Icon>
                         <SearchIcon />
                     </Icon>
-                    <input type="text" placeholder="Search..." />
+                    <input type="text" placeholder="이름으로 검색..." />
                 </SearchBarBox>
                 <Nav>
                     <DashBoard />
                     <p onClick={dashboardClickHandler}>대시보드</p>
                     <ArrowRight />
-                    <Game />
-                    <p onClick={dashboardClickHandler}>top 100</p>
                 </Nav>
             </SearchBarAndNav>
             <User />
