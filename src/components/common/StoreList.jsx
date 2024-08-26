@@ -24,6 +24,7 @@ const StoreList = ({ station }) => {
     const fetchStoreData = async (storeCategory, storeName, station, sortBy, page) => {
         setIsLoading(true);
         setIsNothing(true);
+        setHasMore(true);
         const params = {};
         if (storeCategory) params.category = storeCategory;
         if (storeName) params.name = storeName;
