@@ -4,10 +4,23 @@ import { ReactComponent as DashBoard } from '../../assets/Icon/DashBoard.svg';
 import { ReactComponent as ArrowRight } from '../../assets/Icon/ArrowNav.svg';
 import { Orange } from '../../color';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 const MainHeader = () => {
     const navigate = useNavigate();
+    const [name, setName] = useState();
     const dashboardClickHandler = () => {
-        navigate('/webmap/storeList/1');
+        navigate(`/webmap`);
+    };
+    const onChangeHandler = (e) => {
+        setName(e.target.value);
+    };
+    const onKeyDownHandler = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (e.target.value) {
+                navigate(`/webmap/storeList/${name}`);
+            }
+        }
     };
     return (
         <MainHeaderLayout>
@@ -16,7 +29,13 @@ const MainHeader = () => {
                     <Icon>
                         <SearchIcon />
                     </Icon>
-                    <input type="text" placeholder="이름으로 검색..." />
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        onChange={onChangeHandler}
+                        onKeyDown={onKeyDownHandler}
+                        value={name}
+                    />
                 </SearchBarBox>
                 <Nav>
                     <DashBoard />
