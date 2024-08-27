@@ -8,6 +8,50 @@ import { ReactComponent as SortPositive } from '../../assets/Icon/SortPositive.s
 import { getStoreList } from '../../apis/api/storeList';
 import { useParams } from 'react-router-dom';
 import { useStoreList } from '../../store';
+const items = [
+    '한정식',
+    '일식당',
+    '양식',
+    '중식당',
+    '카페,디저트',
+    '베이커리',
+    '칼국수,만두',
+    '냉면',
+    '기사식당',
+    '한식',
+    '백반,가정식',
+    '생선구이',
+    '육류,고기요리',
+    '두부요리',
+    '국밥',
+    '주꾸미요리',
+    '정육식당',
+    '보리밥',
+    '요리주점',
+    '찌개,전골',
+    '닭갈비',
+    '맥주,호프',
+    '인도음식',
+    '카레',
+    '초밥,롤',
+    '돈가스',
+    '떡볶이',
+    '종합분식',
+    '조개요리',
+    '일본식라면',
+    '덮밥',
+    '베트남음식',
+    '양꼬치',
+    '생선회',
+    '순대,순댓국',
+    '샤브샤브',
+    '이탈리아음식',
+    '스파게티,파스타전문',
+    '이자카야',
+    '돼지고기구이',
+    '태국음식',
+    '아시아음식',
+];
 
 const StoreList = ({ station }) => {
     const [stores, setStores] = useState([]);
@@ -35,6 +79,10 @@ const StoreList = ({ station }) => {
         try {
             const response = await getStoreList(params);
             const newData = response.data;
+            const status = response.status;
+            if (status === 500) {
+                setHasMore(false);
+            }
             if (newData.length < 10) {
                 setHasMore(false);
                 setIsLoading(false);
@@ -56,7 +104,6 @@ const StoreList = ({ station }) => {
         }
         setIsLoading(false);
     };
-    useEffect(() => {});
     useEffect(() => {
         setPage(0);
         setStores([]);
@@ -65,18 +112,25 @@ const StoreList = ({ station }) => {
     }, [station]);
     useEffect(() => {
         if (keyword && typeof keyword === 'string') {
-            setStoreCategory(keyword);
-            setPage(0);
-            setStores([]);
-            fetchStoreData(keyword, storeName, station, sortBy, 0);
+            if (items.includes(keyword)) {
+                console.log('include');
+                setStoreCategory(keyword);
+                setPage(0);
+                setStores([]);
+                fetchStoreData(keyword, storeName, station, sortBy, 0);
+            } else {
+                setStoreName(keyword);
+                setPage(0);
+                setStores([]);
+                fetchStoreData(storeCategory, keyword, station, sortBy, 0);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [keyword, storeCategory]);
     useEffect(() => {
         const updatedStores = stores;
-        setStoreList(updatedStores); // stores가 바뀔 때마다 storeList를 업데이트
+        setStoreList(updatedStores);
     }, [stores, setStoreList]);
-    // input 값 변경시 실행
     const nameChangeHandler = (e) => {
         setStoreName(e.target.value);
     };
@@ -131,7 +185,6 @@ const StoreList = ({ station }) => {
             threshold: 0,
         });
         const observerTarget = document.getElementById('observer');
-        // 관찰 시작
         if (observerTarget) {
             observer.observe(observerTarget);
         }
