@@ -11,19 +11,22 @@ import { useStoreList } from '../store';
 const WebMap = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [isStoreList, setIsStoreList] = useState(true);
+    const [isStoreList, setIsStoreList] = useState();
     const [categoryState, setIsCategoryState] = useState(location.state?.visible || false);
     const [station, setStation] = useState();
     const [count, setCount] = useState();
     const { setStoreList } = useStoreList();
     useEffect(() => {
-        if (location.state?.listVisible) {
+        if (!location.state?.listVisible) {
             setIsStoreList(true);
+            setCount(0);
+        }
+        if (location.state?.listVisible) {
+            setIsStoreList(false);
             setCount(1);
         }
-        if (!location.state?.listVisible) {
+        if (location.state?.detailVisible) {
             setIsStoreList(false);
-            setCount(0);
         }
         if (location.state?.visible) {
             setIsCategoryState(true);

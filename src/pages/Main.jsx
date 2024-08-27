@@ -16,7 +16,7 @@ const Main = () => {
         navigate('/webmap');
     };
     const listClickHandler = () => {
-        navigate('/webmap/storeList/1');
+        navigate('/webmap');
     };
     return (
         <MainPageLayout>
