@@ -64,6 +64,10 @@ const MainHeaderLayout = styled.div`
     height: auto;
     justify-content: center;
     //align-items: center;
+    @media screen and (max-width: 1024px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 const LogoBox = styled.div`
