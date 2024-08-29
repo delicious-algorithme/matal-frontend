@@ -75,7 +75,7 @@ const StoreDetail = () => {
                     </Image>
                     <NameAndOters>
                         <NameAndPath>
-                            <div>{store.keyword}</div>
+                            <div>{store.name}</div>
                             <button onClick={storeLinkHandler}>
                                 <Path />
                                 경로
@@ -109,6 +109,10 @@ const StoreDetail = () => {
                         <div>
                             <Title>주소: </Title>
                             <Content>{store.address}</Content>
+                        </div>
+                        <div>
+                            <Title>인근 지하철 역: </Title>
+                            <Content>{store.nearby_station}</Content>
                         </div>
                         <div>
                             <Title>전화번호: </Title>
@@ -151,10 +155,11 @@ export default StoreDetail;
 
 const StoreContainer = styled.div`
     background-color: ${White};
+    border: 1px solid ${Orange};
     position: absolute;
-    max-width: 650px;
-    top: 30%;
-    right: 20%;
+    max-width: 750px;
+    top: 20%;
+    right: 16%;
     margin: 0;
     border-radius: 20px;
     box-shadow: 1px 1px solid ${Grey};
@@ -167,8 +172,8 @@ const StoreContainer = styled.div`
     }
     @media screen and (max-width: 1024px) {
         font-size: 14px;
-        top: 30%;
-        left: 20%;
+        top: 15%;
+        left: 15%;
         width: 60%;
         & > svg {
         }
@@ -361,6 +366,7 @@ const Hours = styled.div`
     display: flex;
     display: flex;
     flex-direction: column;
+    font-size: 14px;
     @media screen and (max-width: 1024px) {
         max-width: 140px;
         display: ${(props) => (props.$visible ? 'flex' : 'none')};
