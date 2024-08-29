@@ -142,7 +142,6 @@ const StoreList = ({ station }) => {
         isFirst && fetchStoreAll(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     useEffect(() => {
         setPage(0);
         setStores([]);

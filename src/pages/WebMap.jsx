@@ -8,6 +8,7 @@ import { ReactComponent as Arrow } from '../assets/Icon/Arrow.svg';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreList } from '../store';
+import { useIsFirst } from '../store';
 const WebMap = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ const WebMap = () => {
     const [station, setStation] = useState();
     const [count, setCount] = useState();
     const { setStoreList } = useStoreList();
+    const { setNotIsFirst } = useIsFirst();
     useEffect(() => {
         if (!location.state?.listVisible) {
             setIsStoreList(true);
@@ -54,6 +56,7 @@ const WebMap = () => {
     const onKeyDownHandler = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+            setNotIsFirst();
             setIsStoreList(true);
             setIsCategoryState(false);
             setStation(station);
@@ -211,6 +214,9 @@ const SearchBarBox = styled.div`
         width: 80%;
         //align-items: center;
         margin-left: 0px;
+        & > div > svg {
+            display: none;
+        }
         & > input {
             display: none;
             //position: relative;
