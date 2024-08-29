@@ -48,7 +48,7 @@ const MyMap = () => {
                 mapDataControl: true,
                 scaleControl: true,
                 maxZoom: 20,
-                zoom: 13,
+                zoom: 10,
             };
         }
         mapRef.current = new naver.maps.Map(mapElement.current, mapOptions);
