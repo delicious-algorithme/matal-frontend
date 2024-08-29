@@ -12,7 +12,7 @@ const WebMap = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isStoreList, setIsStoreList] = useState();
-    const [categoryState, setIsCategoryState] = useState(location.state?.visible || false);
+    const [categoryState, setIsCategoryState] = useState(true);
     const [station, setStation] = useState();
     const [count, setCount] = useState();
     const { setStoreList } = useStoreList();
@@ -62,33 +62,35 @@ const WebMap = () => {
     return (
         <WebMapLayout>
             <NavBox>
-                <button onClick={dashboardClickHandler}>
+                <DashBoardButton onClick={dashboardClickHandler} isStoreList={isStoreList}>
                     <DashBoard />
-                </button>
-                <button onClick={homeClickHandler}>
+                </DashBoardButton>
+                <HomeButton onClick={homeClickHandler}>
                     <Home />
-                </button>
+                </HomeButton>
             </NavBox>
             {isStoreList && <StoreList station={station} />}
             <ContentsContainer>
-                {!isStoreList && (
-                    <SearchBarBox>
-                        <Icon>
-                            <SearchIcon />
-                        </Icon>
-                        <input
-                            type="text"
-                            placeholder="지하철역으로 검색..."
-                            onChange={onChangeHandler}
-                            onKeyDown={onKeyDownHandler}
-                            value={station}
-                        />
-                        <CategoryButton onClick={categoryClickHandler}>
-                            <p>카테고리 설정</p>
-                            <Arrow />
-                        </CategoryButton>
-                    </SearchBarBox>
-                )}
+                <SearchBarBox>
+                    {!isStoreList && (
+                        <>
+                            <Icon>
+                                <SearchIcon />
+                            </Icon>
+                            <input
+                                type="text"
+                                placeholder="지하철역으로 검색..."
+                                onChange={onChangeHandler}
+                                onKeyDown={onKeyDownHandler}
+                                value={station}
+                            />
+                        </>
+                    )}
+                    <CategoryButton onClick={categoryClickHandler}>
+                        <p>카테고리 설정</p>
+                        <Arrow />
+                    </CategoryButton>
+                </SearchBarBox>
                 <MapContainer>
                     <MyMap />
                 </MapContainer>
@@ -138,22 +140,36 @@ const NavBox = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    & > button {
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        border-radius: 100px;
-        background-color: ${LightGrey};
-        &:hover {
-            width: 50px;
-            height: 50px;
-        }
-    }
     @media screen and (max-width: 1024px) {
-        display: none;
+        //  display: none;
     }
 `;
 
+const DashBoardButton = styled.button`
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 100px;
+    &:hover {
+        width: 50px;
+        height: 50px;
+    }
+    background-color: ${(props) => (props.isStoreList ? '#EA6A12' : '#F5F5F5')};
+    & > svg > path {
+        fill: ${(props) => (props.isStoreList ? '#FFFFFF' : '#EA6A12')};
+    }
+`;
+const HomeButton = styled.button`
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 100px;
+    background-color: ${LightGrey};
+    &:hover {
+        width: 50px;
+        height: 50px;
+    }
+`;
 const ContentsContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -196,7 +212,8 @@ const SearchBarBox = styled.div`
         //align-items: center;
         margin-left: 0px;
         & > input {
-            position: relative;
+            display: none;
+            //position: relative;
         }
     }
 `;
