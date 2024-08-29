@@ -10,7 +10,6 @@ const MyMap = () => {
     const mapRef = useRef(null);
     const markersRef = useRef([]);
     const { storeList } = useStoreList();
-    //const { id } = useParams();
     const [currentLocation, setCurrentLocation] = useState({
         lat: '37.5665',
         lng: '126.9780',
@@ -21,8 +20,6 @@ const MyMap = () => {
                 lat: storeList[0].latitude,
                 lng: storeList[0].longitude,
             });
-        } else {
-            console.log('Store not found');
         }
     }, [storeList]);
     const markerClickHandler = useCallback(
