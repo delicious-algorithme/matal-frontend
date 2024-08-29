@@ -10,12 +10,16 @@ import { ReactComponent as OriginalImage } from '../assets/image/MainImage.svg';
 import { DartkGrey, Grey, Orange, White } from '../color';
 import { Category } from '../components/common';
 import { useNavigate } from 'react-router-dom';
+import { useIsFirst } from '../store';
 const Main = () => {
+    const { setIsFirst } = useIsFirst();
     const navigate = useNavigate();
     const categoryClickHandler = () => {
+        setIsFirst();
         navigate('/webmap');
     };
     const listClickHandler = () => {
+        setIsFirst();
         navigate('/webmap');
     };
     return (

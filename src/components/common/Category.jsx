@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Orange } from '../../color';
 import { White } from '../../color';
 import { useNavigate } from 'react-router-dom';
+import { useIsFirst } from '../../store';
 const items = [
     '한정식',
     '일식당',
@@ -49,7 +50,9 @@ const items = [
 
 const Category = (position) => {
     const navigate = useNavigate();
+    const { setNotIsFirst } = useIsFirst();
     const onClickHandler = (item) => {
+        setNotIsFirst();
         navigate(`/webmap/storeList/${item}`, { state: { listVisible: true } }); //임시 경로
     };
     return (

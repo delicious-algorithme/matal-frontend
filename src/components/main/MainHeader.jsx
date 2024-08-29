@@ -2,13 +2,17 @@ import styled from 'styled-components';
 import { ReactComponent as SearchIcon } from '../../assets/Icon/Feather Icon.svg';
 import { ReactComponent as DashBoard } from '../../assets/Icon/DashBoard.svg';
 import { ReactComponent as ArrowRight } from '../../assets/Icon/ArrowNav.svg';
+import { ReactComponent as Logo } from '../../assets/Icon/Logo.svg';
 import { Orange } from '../../color';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useIsFirst } from '../../store';
 const MainHeader = () => {
     const navigate = useNavigate();
     const [name, setName] = useState();
+    const { setIsFirst, setNotIsFirst } = useIsFirst();
     const dashboardClickHandler = () => {
+        setIsFirst();
         navigate(`/webmap`);
     };
     const onChangeHandler = (e) => {
@@ -17,6 +21,7 @@ const MainHeader = () => {
     const onKeyDownHandler = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
+            setNotIsFirst();
             if (e.target.value) {
                 navigate(`/webmap/storeList/${name}`);
             }
@@ -24,6 +29,9 @@ const MainHeader = () => {
     };
     return (
         <MainHeaderLayout>
+            <LogoBox>
+                <Logo />
+            </LogoBox>
             <SearchBarAndNav>
                 <SearchBarBox>
                     <Icon>
@@ -55,13 +63,24 @@ const MainHeaderLayout = styled.div`
     width: 100%;
     height: auto;
     justify-content: center;
-    align-items: center;
+    //align-items: center;
 `;
+
+const LogoBox = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    @media screen and (min-width: 1024px) {
+        margin-bottom: 73px;
+        margin-left: 50px;
+    }
+`;
+
 const SearchBarAndNav = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 100%;
     flex-direction: column;
     margin-bottom: 30px;
 `;
