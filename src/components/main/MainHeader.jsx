@@ -39,7 +39,7 @@ const MainHeader = () => {
                     </Icon>
                     <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="이름으로 검색..."
                         onChange={onChangeHandler}
                         onKeyDown={onKeyDownHandler}
                         value={name}
