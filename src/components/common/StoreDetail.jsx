@@ -36,7 +36,6 @@ const StoreDetail = () => {
     }, [location.state]);
     const closeHandler = () => {
         setVisible(false);
-        //console.log(visible);
     };
     const toggleHours = () => {
         setHourVisible(!hourVisible);

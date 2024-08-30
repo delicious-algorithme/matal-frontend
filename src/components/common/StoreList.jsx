@@ -105,7 +105,6 @@ const StoreList = ({ station }) => {
             }
         } catch (error) {
             console.log(error);
-            //setHasMore(false);
         } finally {
             setIsLoading(false);
         }
@@ -208,7 +207,6 @@ const StoreList = ({ station }) => {
     }, [sortBy]);
     useEffect(() => {
         if (!isFirst && hasMore) {
-            console.log('not nothing');
             fetchStoreData(storeCategory, storeName, stationInput, keywords, sortBy, page);
         } else if (isFirst) {
             fetchStoreAll(page);

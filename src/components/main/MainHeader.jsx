@@ -39,7 +39,7 @@ const MainHeader = () => {
                     </Icon>
                     <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="이름으로 검색..."
                         onChange={onChangeHandler}
                         onKeyDown={onKeyDownHandler}
                         value={name}
@@ -64,6 +64,10 @@ const MainHeaderLayout = styled.div`
     height: auto;
     justify-content: center;
     //align-items: center;
+    @media screen and (max-width: 1024px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 const LogoBox = styled.div`
