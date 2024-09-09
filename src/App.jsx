@@ -1,7 +1,7 @@
 import React from 'react';
 import { GlobalStyle } from './styles';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import { Main, MapWithDetail, WebMap, StoreDetailPage } from './pages';
+import { Main, WebMap, StoreDetailPage } from './pages';
 import './App.css';
 
 function App() {
