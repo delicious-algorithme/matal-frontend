@@ -1,4 +1,4 @@
 import Main from './Main';
 import WebMap from './WebMap';
-import MapWithDetail from './MapWithDetail';
-export { Main, WebMap, MapWithDetail };
+import StoreDetailPage from './StoreDetailPage';
+export { Main, WebMap, StoreDetailPage };

@@ -8,7 +8,7 @@ import { ReactComponent as Close } from '../../assets/Icon/Close.svg';
 import { ReactComponent as PathMobile } from '../../assets/Icon/Path_Mobile.svg';
 import { ReactComponent as SeeMore } from '../../assets/Icon/SeeMore.svg';
 import { useParams } from 'react-router-dom';
-import { getStoreDetail } from '../../apis/api/storeList';
+import { getStoreDetail } from '../../apis/api/getStoreDetail';
 import { useStoreList } from '../../store';
 
 const StoreDetail = () => {

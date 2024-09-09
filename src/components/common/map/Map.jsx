@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useStoreList } from '../../store';
-//import { useParams } from 'react-router-dom';
+import { useStoreList } from '../../../store';
 
 const MyMap = () => {
     const navigate = useNavigate();
@@ -15,7 +14,7 @@ const MyMap = () => {
         lng: '126.9780',
     });
     useEffect(() => {
-        if (storeList.length > 0) {
+        if (storeList.length > 1) {
             setCurrentLocation({
                 lat: storeList[0].latitude,
                 lng: storeList[0].longitude,
@@ -45,7 +44,7 @@ const MyMap = () => {
                 mapDataControl: true,
                 scaleControl: true,
                 maxZoom: 20,
-                zoom: 10,
+                zoom: 11,
             };
         }
         mapRef.current = new naver.maps.Map(mapElement.current, mapOptions);
@@ -67,7 +66,7 @@ const MyMap = () => {
                 createMarkerList.push(newMarker);
                 naver.maps.Event.addListener(newMarker, 'click', () => markerClickHandler(id));
             } catch (e) {
-                console.log('이거 때문이에요');
+                console.log(e);
             }
         };
         const addMarkers = () => {
