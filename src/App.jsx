@@ -1,7 +1,7 @@
 import React from 'react';
 import { GlobalStyle } from './styles';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import { Main, MapWithDetail, WebMap } from './pages';
+import { Main, MapWithDetail, WebMap, StoreDetailPage } from './pages';
 import './App.css';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
                     <Route path="/" element={<Main />} />
                     <Route path="/webmap" element={<WebMap />} />
                     <Route path="/webmap/storeList/:keyword" element={<WebMap />} />
-                    <Route path="/webmap/storeDetail/:id" element={<MapWithDetail />} />
+                    <Route path="/webmap/storeDetail/:id" element={<StoreDetailPage />} />
                 </Routes>
             </BrowserRouter>
         </div>
