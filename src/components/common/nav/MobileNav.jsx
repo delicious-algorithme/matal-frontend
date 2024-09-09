@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Orange, White } from '../../color';
-import { ReactComponent as HomeIcon } from '../../assets/Icon/Home.svg';
-import { ReactComponent as CategoryIcon } from '../../assets/Icon/Category.svg';
+import { Orange, White } from '../../../color';
+import { ReactComponent as HomeIcon } from '../../../assets/Icon/Home.svg';
+import { ReactComponent as CategoryIcon } from '../../../assets/Icon/Category.svg';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 const MobileNav = () => {

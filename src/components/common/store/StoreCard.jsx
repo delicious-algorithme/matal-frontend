@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { Grey, Orange, White } from '../../color';
+import { Grey, Orange, White } from '../../../color';
 import React from 'react';
-import { ReactComponent as Path } from '../../assets/Icon/Path.svg';
-import { ReactComponent as PathMobile } from '../../assets/Icon/Path_Mobile.svg';
-import { ReactComponent as Star } from '../../assets/Icon/Star.svg';
+import { ReactComponent as Path } from '../../../assets/Icon/Path.svg';
+import { ReactComponent as PathMobile } from '../../../assets/Icon/Path_Mobile.svg';
+import { ReactComponent as Star } from '../../../assets/Icon/Star.svg';
 import { useNavigate } from 'react-router-dom';
-//storeList에서 필요한 값 props로 받는다.
+
 const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLink, positiveRatio }) => {
     const navigate = useNavigate();
     const cardClickHandler = () => {
