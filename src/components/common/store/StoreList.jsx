@@ -22,7 +22,12 @@ const StoreList = ({ station }) => {
     const [storeName, setStoreName] = useState(null);
     const [stationInput, setStatioinInput] = useState(station ? station : null);
     const [storeKeywords, setStoreKeywords] = useState(null);
-    const [input, setInput] = useState();
+
+    const [input, setInput] = useState({
+        name: '',
+        station: '',
+        keywords: '',
+    });
     const categoryParams = {
         name: storeName,
         category: storeCategory,
@@ -76,29 +81,35 @@ const StoreList = ({ station }) => {
     const fetchStoreAll = async (page) => {
         setIsLoading(true);
         setHasMore(true);
-        const response = await getStoreAll({
-            page: page,
-        });
-        if (response.status === 200) {
-            const newData = response.data.content;
-            const isLast = response.data.last;
-            if (newData) {
-                setIsLoading(false);
-                setStores((prevData) => {
-                    const newDataFiltered = newData.filter(
-                        (newItem) => !prevData.some((prevItem) => prevItem.storeId === newItem.storeId)
-                    );
-                    return [...prevData, ...newDataFiltered];
-                });
-            }
-            if (isLast) {
+        try {
+            const response = await getStoreAll({
+                page: page,
+            });
+            if (response.status === 200) {
+                const newData = response.data.content;
+                const isLast = response.data.last;
+                if (newData) {
+                    setIsLoading(false);
+                    setStores((prevData) => {
+                        const newDataFiltered = newData.filter(
+                            (newItem) => !prevData.some((prevItem) => prevItem.storeId === newItem.storeId)
+                        );
+                        return [...prevData, ...newDataFiltered];
+                    });
+                }
+                if (isLast) {
+                    setHasMore(false);
+                    setIsLoading(false);
+                }
+            } else if (response.status === 500) {
                 setHasMore(false);
                 setIsLoading(false);
+                setIsNothing(true);
             }
-        } else if (response.status === 500) {
-            setHasMore(false);
+        } catch (error) {
+            console.log(error);
+        } finally {
             setIsLoading(false);
-            setIsNothing(true);
         }
     };
 
@@ -107,7 +118,10 @@ const StoreList = ({ station }) => {
         isFirst && fetchStoreAll(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+    useEffect(() => {
+        const updatedStores = stores;
+        setStoreList(updatedStores);
+    }, [stores, setStoreList]);
     useEffect(() => {
         if (keyword && typeof keyword === 'string') {
             if (items.includes(keyword)) {
@@ -124,6 +138,11 @@ const StoreList = ({ station }) => {
     }, [page]);
     const handleInputChange = (e) => {
         setInput(e.target.value);
+        const { name, value } = e.target;
+        setInput((prevInput) => ({
+            ...prevInput,
+            [name]: value,
+        }));
     };
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -131,13 +150,13 @@ const StoreList = ({ station }) => {
             const { name } = e.target;
             switch (name) {
                 case 'name':
-                    setStoreName(e.target.value);
+                    setStoreName(input[name]);
                     break;
                 case 'station':
-                    setStatioinInput(e.target.value);
+                    setStatioinInput(input[name]);
                     break;
                 case 'keywords':
-                    setStoreKeywords(e.target.value);
+                    setStoreKeywords(input[name]);
                     break;
                 default:
                     break;
@@ -161,10 +180,6 @@ const StoreList = ({ station }) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeName, storeCategory, storeKeywords, sortBy, stationInput]);
-    useEffect(() => {
-        const updatedStores = stores;
-        setStoreList(updatedStores);
-    }, [stores, setStoreList]);
     const handleObserver = (entries) => {
         const target = entries[0];
         if (target.isIntersecting && hasMore) {
@@ -207,7 +222,7 @@ const StoreList = ({ station }) => {
                         }
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
-                        value={input}
+                        value={input[field]}
                     />
                 </SearchBarBox>
             ))}
