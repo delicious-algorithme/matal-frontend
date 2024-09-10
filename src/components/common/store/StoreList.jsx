@@ -76,29 +76,35 @@ const StoreList = ({ station }) => {
     const fetchStoreAll = async (page) => {
         setIsLoading(true);
         setHasMore(true);
-        const response = await getStoreAll({
-            page: page,
-        });
-        if (response.status === 200) {
-            const newData = response.data.content;
-            const isLast = response.data.last;
-            if (newData) {
-                setIsLoading(false);
-                setStores((prevData) => {
-                    const newDataFiltered = newData.filter(
-                        (newItem) => !prevData.some((prevItem) => prevItem.storeId === newItem.storeId)
-                    );
-                    return [...prevData, ...newDataFiltered];
-                });
-            }
-            if (isLast) {
+        try {
+            const response = await getStoreAll({
+                page: page,
+            });
+            if (response.status === 200) {
+                const newData = response.data.content;
+                const isLast = response.data.last;
+                if (newData) {
+                    setIsLoading(false);
+                    setStores((prevData) => {
+                        const newDataFiltered = newData.filter(
+                            (newItem) => !prevData.some((prevItem) => prevItem.storeId === newItem.storeId)
+                        );
+                        return [...prevData, ...newDataFiltered];
+                    });
+                }
+                if (isLast) {
+                    setHasMore(false);
+                    setIsLoading(false);
+                }
+            } else if (response.status === 500) {
                 setHasMore(false);
                 setIsLoading(false);
+                setIsNothing(true);
             }
-        } else if (response.status === 500) {
-            setHasMore(false);
+        } catch (error) {
+            console.log(error);
+        } finally {
             setIsLoading(false);
-            setIsNothing(true);
         }
     };
 
@@ -107,7 +113,10 @@ const StoreList = ({ station }) => {
         isFirst && fetchStoreAll(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+    useEffect(() => {
+        const updatedStores = stores;
+        setStoreList(updatedStores);
+    }, [stores, setStoreList]);
     useEffect(() => {
         if (keyword && typeof keyword === 'string') {
             if (items.includes(keyword)) {
@@ -161,10 +170,6 @@ const StoreList = ({ station }) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeName, storeCategory, storeKeywords, sortBy, stationInput]);
-    useEffect(() => {
-        const updatedStores = stores;
-        setStoreList(updatedStores);
-    }, [stores, setStoreList]);
     const handleObserver = (entries) => {
         const target = entries[0];
         if (target.isIntersecting && hasMore) {
