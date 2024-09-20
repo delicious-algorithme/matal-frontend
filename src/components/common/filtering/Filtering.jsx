@@ -4,11 +4,22 @@ import { useState, useEffect } from 'react';
 import { DartkGrey, Grey, Orange, White } from '../../../color';
 import { ReactComponent as ArrowUp } from '../../../assets/Icon/ArrowUp.svg';
 import { ReactComponent as ArrowDown } from '../../../assets/Icon/FilterArrowDown.svg';
-import { ReactComponent as X } from '../../../assets/Icon/X.svg';
 import { ReactComponent as Reset } from '../../../assets/Icon/Reset.svg';
-const Filtering = () => {
-    const [select, setSelect] = useState(items);
-    const [location, setLocation] = useState([]);
+import { useFilterParams } from '../../../store';
+
+const Filtering = ({ category }) => {
+    const select = items;
+    const { setFilterParams } = useFilterParams();
+    const [locationValue, setLocationValue] = useState(() => {
+        try {
+            const savedLocation = localStorage.getItem('loaction');
+            return savedLocation ? JSON.parse(savedLocation) : '';
+        } catch (error) {
+            console.error(error);
+            return '';
+        }
+    });
+
     const [tagValue, setTagValue] = useState(() => {
         try {
             const savedTags = localStorage.getItem('tagValue');
@@ -19,15 +30,23 @@ const Filtering = () => {
         }
     });
     const [isSeoul, setIsSeoul] = useState(true);
-    const [params, setParams] = useState();
+    const [params, setParams] = useState(() => {
+        try {
+            const filterParams = localStorage.getItem('params');
+            return filterParams ? JSON.parse(filterParams) : {};
+        } catch (error) {
+            console.error(error);
+            return {};
+        }
+    });
     const [selectState, setSelectState] = useState(new Array(11).fill(false));
 
     const isTagSelected = (content) => tagValue.includes(content);
 
-    const valueClickHandler = (id, content) => {
-        const category = select.find((item) => item.id === id).category;
+    const valueClickHandler = (id, content, filter_type, value) => {
+        const category = select.find((item) => item.id === id).name;
         const newTagValue = tagValue.filter(
-            (tag) => !select.find((item) => item.category === category).contents.includes(tag)
+            (tag) => !select.find((item) => item.name === category).contents.includes(tag)
         );
         //tag
         if (!newTagValue.includes(content)) {
@@ -43,7 +62,7 @@ const Filtering = () => {
         setParams((prevParams) => {
             const newParams = { ...prevParams };
             if (id < 7) {
-                newParams[category] = content;
+                newParams[filter_type] = value;
             } else {
                 const contentId = select[id - 1].contents.indexOf(content);
                 let isPossible = null;
@@ -57,40 +76,65 @@ const Filtering = () => {
                     case 2:
                         isPossible = null;
                         break;
+                    default:
+                        break;
                 }
-                newParams[category] = isPossible;
+                newParams[filter_type] = isPossible;
             }
             return newParams;
         });
     };
-    useEffect(() => {
-        console.log(tagValue);
-    }, [tagValue]);
+    /*useEffect(() => {
+        if (category) {
+            setParams((prevParams) => {
+                const newParams = { ...prevParams };
+                newParams.category = category;
+                return newParams;
+            });
+        }
+    }, [category]);*/
+
     const locationClickHandler = (city) => {
         city === '경기' ? setIsSeoul(false) : setIsSeoul(true);
     };
+
     const locationDetailClickHandler = (location) => {
+        const updatedLocationValue = [...locationValue, location];
+        setLocationValue(updatedLocationValue);
+        localStorage.setItem('location', JSON.stringify(updatedLocationValue));
+
+        setParams((prevParams) => {
+            const newParams = { ...prevParams };
+            const addressesString = updatedLocationValue.join(',');
+            newParams.addresses = addressesString;
+            return newParams;
+        });
+        //tag
         const newTagValue = [...tagValue, location];
         setTagValue(newTagValue);
         localStorage.setItem('tagValue', JSON.stringify(newTagValue));
     };
+
     const CategoryClickHandler = (categoryId) => {
         let newSelectState = [...selectState];
         newSelectState[categoryId] = !selectState[categoryId];
         setSelectState(newSelectState);
     };
-    useEffect(() => {
-        console.log(params);
-    }, [params]);
+
     const removeTagValue = () => {
         setTagValue([]);
+        setParams('');
+        setLocationValue('');
         localStorage.removeItem('tagValue');
+        localStorage.removeItem('location');
+        localStorage.removeItem('params');
     };
-    const popTagValue = (popTag) => {
-        console.log(popTag);
-        setTagValue(tagValue.filter((tag) => tag !== popTag));
-        localStorage.setItem('tagValue', tagValue);
-    };
+
+    useEffect(() => {
+        localStorage.setItem('params', JSON.stringify(params));
+        setFilterParams(params);
+    }, [params, setFilterParams]);
+
     return (
         <SelectLayout>
             <div>
@@ -105,7 +149,7 @@ const Filtering = () => {
                                                 CategoryClickHandler(item.id);
                                             }}
                                         >
-                                            <p>{item.category}</p>
+                                            <p>{item.name}</p>
                                             {selectState[item.id] && <ArrowUp />}
                                             {!selectState[item.id] && <ArrowDown />}
                                         </CategoryBox>
@@ -115,7 +159,7 @@ const Filtering = () => {
                                                     <ul>
                                                         {item.contents.city.map((city) => {
                                                             return (
-                                                                <Content onClick={() => locationClickHandler(city)}>
+                                                                <Content key={item.id}>
                                                                     <input
                                                                         name={item.category}
                                                                         type="radio"
@@ -124,6 +168,7 @@ const Filtering = () => {
                                                                             (isSeoul && city === '서울') ||
                                                                             (!isSeoul && city === '경기')
                                                                         }
+                                                                        onChange={() => locationClickHandler(city)}
                                                                     />
                                                                     {city}
                                                                 </Content>
@@ -136,16 +181,15 @@ const Filtering = () => {
                                                         {isSeoul &&
                                                             item.contents.seoul.map((seoul) => {
                                                                 return (
-                                                                    <Content
-                                                                        onClick={() =>
-                                                                            locationDetailClickHandler(seoul)
-                                                                        }
-                                                                    >
+                                                                    <Content key={item.id}>
                                                                         <input
                                                                             name={item.category}
                                                                             type="checkbox"
                                                                             value={seoul}
                                                                             checked={isTagSelected(seoul)}
+                                                                            onClick={() =>
+                                                                                locationDetailClickHandler(seoul)
+                                                                            }
                                                                         />
                                                                         {seoul}
                                                                     </Content>
@@ -154,16 +198,15 @@ const Filtering = () => {
                                                         {!isSeoul &&
                                                             item.contents.gyeongi.map((gyeongi) => {
                                                                 return (
-                                                                    <Content
-                                                                        onClick={() =>
-                                                                            locationDetailClickHandler(gyeongi)
-                                                                        }
-                                                                    >
+                                                                    <Content key={item.id}>
                                                                         <input
                                                                             name={item.category}
                                                                             type="checkbox"
                                                                             value={gyeongi}
                                                                             checked={isTagSelected(gyeongi)}
+                                                                            onClick={() =>
+                                                                                locationDetailClickHandler(gyeongi)
+                                                                            }
                                                                         />
                                                                         {gyeongi}
                                                                     </Content>
@@ -175,7 +218,6 @@ const Filtering = () => {
                                         )}
                                     </SelectItem>
                                 )}
-
                                 {item.id !== 2 && (
                                     <SelectItem>
                                         <CategoryBox
@@ -183,24 +225,29 @@ const Filtering = () => {
                                                 CategoryClickHandler(item.id);
                                             }}
                                         >
-                                            <p>{item.category}</p>
+                                            <p>{item.name}</p>
                                             {selectState[item.id] && <ArrowUp />}
                                             {!selectState[item.id] && <ArrowDown />}
                                         </CategoryBox>
                                         {selectState[item.id] && item.id !== 2 && (
                                             <Contents zIndex={-item.id + 20}>
                                                 {item.contents &&
-                                                    item.contents.map((content) => {
+                                                    item.contents.map((content, index) => {
                                                         return (
-                                                            <Content
-                                                                key={item.key}
-                                                                onClick={() => valueClickHandler(item.id, content)}
-                                                            >
+                                                            <Content key={item.id}>
                                                                 <input
                                                                     name={item.category}
                                                                     type="radio"
                                                                     value={content}
                                                                     checked={isTagSelected(content)}
+                                                                    onClick={() =>
+                                                                        valueClickHandler(
+                                                                            item.id,
+                                                                            content,
+                                                                            item.filter_type,
+                                                                            item.value[index]
+                                                                        )
+                                                                    }
                                                                 />
                                                                 <label>{content}</label>
                                                             </Content>
@@ -215,15 +262,7 @@ const Filtering = () => {
                     })}
             </div>
             <TagBox>
-                {tagValue.length > 0 &&
-                    tagValue.map((tag) => (
-                        <Tag>
-                            {tag}
-                            <button onClick={() => popTagValue(tag)}>
-                                <X />
-                            </button>
-                        </Tag>
-                    ))}
+                {tagValue.length > 0 && tagValue.map((tag) => <Tag key={tag.id}>{tag}</Tag>)}
                 <button onClick={removeTagValue}>
                     초기화 <Reset />
                 </button>
