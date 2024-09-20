@@ -100,6 +100,7 @@ const Filtering = ({ category }) => {
             setTagValue(newTagValue);
             localStorage.setItem('tagValue', JSON.stringify(newTagValue));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [category]);
 
     const locationClickHandler = (city) => {
