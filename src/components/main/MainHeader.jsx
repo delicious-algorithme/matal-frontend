@@ -9,21 +9,24 @@ import { useState } from 'react';
 import { useIsFirst } from '../../store';
 const MainHeader = () => {
     const navigate = useNavigate();
-    const [name, setName] = useState();
-    const { setIsFirst, setNotIsFirst } = useIsFirst();
+    const [searchInput, setSearchInput] = useState();
+    const { setNotIsFirst } = useIsFirst();
     const dashboardClickHandler = () => {
-        setIsFirst();
         navigate(`/webmap`);
     };
     const onChangeHandler = (e) => {
-        setName(e.target.value);
+        setSearchInput(e.target.value);
     };
     const onKeyDownHandler = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             setNotIsFirst();
             if (e.target.value) {
-                navigate(`/webmap/storeList/${name}`);
+                navigate(`/webmap/storeList/${searchInput}`, {
+                    state: {
+                        searchInput: `${searchInput}`,
+                    },
+                });
             }
         }
     };
@@ -39,10 +42,10 @@ const MainHeader = () => {
                     </Icon>
                     <input
                         type="text"
-                        placeholder="이름으로 검색..."
+                        placeholder="검색어를 입력해주세요..."
                         onChange={onChangeHandler}
                         onKeyDown={onKeyDownHandler}
-                        value={name}
+                        value={searchInput}
                     />
                 </SearchBarBox>
                 <Nav>
@@ -51,7 +54,6 @@ const MainHeader = () => {
                     <ArrowRight />
                 </Nav>
             </SearchBarAndNav>
-            <User />
         </MainHeaderLayout>
     );
 };
@@ -63,7 +65,6 @@ const MainHeaderLayout = styled.div`
     width: 100%;
     height: auto;
     justify-content: center;
-    //align-items: center;
     @media screen and (max-width: 1024px) {
         flex-direction: column;
         align-items: center;
@@ -107,12 +108,21 @@ const SearchBarBox = styled.div`
     input::placeholder {
         color: ${Orange};
     }
+    @media screen and (max-width: 1024px) {
+        & > input {
+            width: 80%;
+            margin-left: 10%;
+        }
+    }
 `;
 
 const Icon = styled.div`
     position: absolute;
     z-index: 2;
     padding: 10px 30px;
+    @media screen and (max-width: 1024px) {
+        margin-left: 10%;
+    }
 `;
 
 const Nav = styled.div`
@@ -134,4 +144,3 @@ const Nav = styled.div`
         display: none;
     }
 `;
-const User = styled.div``;
