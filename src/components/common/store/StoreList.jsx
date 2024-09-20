@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Grey, Orange, White } from '../../../color';
+import { Grey, LightGrey, Orange, White } from '../../../color';
 import { ReactComponent as SearchIcon } from './../../../assets/Icon/Feather Icon.svg';
 import StoreCard from './StoreCard';
 import { useEffect, useState } from 'react';
@@ -7,52 +7,45 @@ import { ReactComponent as SortReview } from '../../../assets/Icon/ReviewSort.sv
 import { ReactComponent as SortPositive } from '../../../assets/Icon/SortPositive.svg';
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
-import { useParams } from 'react-router-dom';
-import { useStoreList, useIsFirst } from '../../../store';
+import { useLocation } from 'react-router-dom';
+import { useStoreList, useIsFirst, useFilterParams } from '../../../store';
 import Filtering from '../filtering/Filtering';
-import { items } from '../category/CategoryItems';
-const StoreList = ({ station }) => {
+const StoreList = ({ searchInput }) => {
     const [stores, setStores] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [isNothing, setIsNothing] = useState(false);
-    const [sortBy, setSortBy] = useState('');
-    const [storeCategory, setStoreCategory] = useState(null);
-    const [storeName, setStoreName] = useState(null);
-    const [stationInput, setStatioinInput] = useState(station ? station : null);
-    const [storeKeywords, setStoreKeywords] = useState(null);
 
-    const [input, setInput] = useState({
-        name: '',
-        station: '',
-        keywords: '',
-    });
-    const categoryParams = {
-        name: storeName,
-        category: storeCategory,
-        station: stationInput,
-        keywords: storeKeywords,
-        sortBy: sortBy,
-        sortOrder: 'DESC',
-    };
-    const { keyword } = useParams();
+    const [input, setInput] = useState(searchInput);
+    const [orderByRating, setOrderByRating] = useState(null);
+    const [orderByPositiveRatio, setorderByPositiveRatio] = useState(null);
+
     const { setStoreList } = useStoreList();
-    const { isFirst, setNotIsFirst } = useIsFirst();
+    const { isFirst, setNotIsFirst, setIsFirst } = useIsFirst();
+    const { filterParams } = useFilterParams();
+
+    const Params = {
+        ...filterParams,
+        searchKeywords: input ? input : null,
+        orderByRating: orderByRating,
+        orderByPositiveRatio: orderByPositiveRatio,
+    };
+
+    const location = useLocation();
+    let category = null;
+    if (location.state) {
+        category = location.state.category;
+    }
 
     const fetchStoreData = async (page) => {
         setIsLoading(true);
         setHasMore(true);
-        if (
-            isFirst ||
-            (!categoryParams.station && !categoryParams.category && !categoryParams.name && !categoryParams.keywords)
-        )
-            return;
+        if (isFirst) return;
         try {
-            const response = await getStoreList({ ...categoryParams, page });
+            const response = await getStoreList({ ...Params, page });
             if (response.status === 200) {
                 const newData = response.data.content;
-                const isLast = response.data.last;
                 if (newData) {
                     setIsLoading(false);
                     setStores((prevData) => {
@@ -62,18 +55,24 @@ const StoreList = ({ station }) => {
                         return [...prevData, ...newDataFiltered];
                     });
                 }
-                if (isLast) {
+                //비어있는 경우
+                if (response.data.empty) {
                     setHasMore(false);
                     setIsLoading(false);
+                    setIsNothing(true);
                 }
-            } else if (response.status === 500) {
+            } else if (
+                response.status === 500 ||
+                response.status === 400 ||
+                response.status.message === 'Network Error'
+            ) {
                 setHasMore(false);
                 setIsLoading(false);
                 setIsNothing(true);
-                console.log('500에러');
             }
         } catch (error) {
             console.log(error);
+            setIsLoading(false);
         } finally {
             setIsLoading(false);
         }
@@ -81,13 +80,13 @@ const StoreList = ({ station }) => {
     const fetchStoreAll = async (page) => {
         setIsLoading(true);
         setHasMore(true);
+        if (page > 100) return;
         try {
             const response = await getStoreAll({
                 page: page,
             });
             if (response.status === 200) {
                 const newData = response.data.content;
-                const isLast = response.data.last;
                 if (newData) {
                     setIsLoading(false);
                     setStores((prevData) => {
@@ -96,10 +95,6 @@ const StoreList = ({ station }) => {
                         );
                         return [...prevData, ...newDataFiltered];
                     });
-                }
-                if (isLast) {
-                    setHasMore(false);
-                    setIsLoading(false);
                 }
             } else if (response.status === 500) {
                 setHasMore(false);
@@ -113,73 +108,71 @@ const StoreList = ({ station }) => {
         }
     };
 
+    const allFetchButtonHandler = () => {
+        setStores([]);
+        setIsFirst();
+        fetchStoreAll(0);
+        localStorage.removeItem('tagValue');
+        localStorage.removeItem('location');
+        localStorage.removeItem('params');
+    };
+
+    const _ = require('lodash');
+    const isObjectEmpty = (objectName) => {
+        return _.isEmpty(objectName);
+    };
+
+    useEffect(() => {
+        if (!isObjectEmpty(filterParams)) {
+            setNotIsFirst();
+        }
+        setPage(0);
+        setStores([]);
+        !isFirst && fetchStoreData(0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filterParams, isFirst, orderByPositiveRatio, orderByRating]);
+
     useEffect(() => {
         setStores([]);
         isFirst && fetchStoreAll(0);
+        !isFirst && fetchStoreData(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     useEffect(() => {
-        const updatedStores = stores;
-        setStoreList(updatedStores);
+        const updateStores = stores;
+        setStoreList(updateStores);
     }, [stores, setStoreList]);
-    useEffect(() => {
-        if (keyword && typeof keyword === 'string') {
-            if (items.includes(keyword)) {
-                setStoreCategory(keyword);
-            } else {
-                setStoreName(keyword);
-            }
-        }
-    }, [keyword]);
+
     useEffect(() => {
         if (!isFirst && hasMore) fetchStoreData(page);
-        else if (isFirst) fetchStoreAll(page);
+        else if (hasMore) fetchStoreAll(page);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
+
     const handleInputChange = (e) => {
         setInput(e.target.value);
-        const { name, value } = e.target;
-        setInput((prevInput) => ({
-            ...prevInput,
-            [name]: value,
-        }));
     };
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            const { name } = e.target;
-            switch (name) {
-                case 'name':
-                    setStoreName(input[name]);
-                    break;
-                case 'station':
-                    setStatioinInput(input[name]);
-                    break;
-                case 'keywords':
-                    setStoreKeywords(input[name]);
-                    break;
-                default:
-                    break;
-            }
             setNotIsFirst();
-        }
-    };
-    const sortReviewClickHandler = () => {
-        setSortBy('rating');
-    };
-    const sortPositiveClickHandler = () => {
-        setSortBy('positive_ratio');
-    };
-    useEffect(() => {
-        setPage(0);
-        setStores([]);
-    }, [storeName, storeCategory, storeKeywords, sortBy, stationInput]);
-    useEffect(() => {
-        if (storeCategory || storeName || storeKeywords || stationInput) {
+            setPage(0);
+            setStores([]);
             fetchStoreData(0);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [storeName, storeCategory, storeKeywords, sortBy, stationInput]);
+    };
+
+    const sortReviewClickHandler = (sortBy) => {
+        setOrderByRating(sortBy);
+        setorderByPositiveRatio(null);
+    };
+
+    const sortPositiveClickHandler = (sortBy) => {
+        setorderByPositiveRatio(sortBy);
+        setOrderByRating(null);
+    };
+
     const handleObserver = (entries) => {
         const target = entries[0];
         if (target.isIntersecting && hasMore) {
@@ -201,41 +194,48 @@ const StoreList = ({ station }) => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
-
     return (
         <StoreListLayout>
-            <Filtering />
-            {['name', 'station', 'keywords'].map((field, idx) => (
-                <SearchBarBox key={idx}>
-                    <Icon>
-                        <SearchIcon />
-                    </Icon>
-                    <input
-                        type="text"
-                        name={field}
-                        placeholder={
-                            field === 'name'
-                                ? '가게 이름으로 검색...'
-                                : field === 'station'
-                                  ? '지하철역 이름으로 검색...'
-                                  : '키워드로 검색...'
-                        }
-                        onChange={handleInputChange}
-                        onKeyDown={handleKeyDown}
-                        value={input[field]}
-                    />
-                </SearchBarBox>
-            ))}
+            <h4>검색</h4>
+            <SearchBarBox>
+                <Icon>
+                    <SearchIcon />
+                </Icon>
+                <input
+                    type="text"
+                    placeholder="검색어를 입력해주세요..."
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                />
+            </SearchBarBox>
+            <h4>필터링</h4>
+            <button onClick={allFetchButtonHandler}>전체 식당 보기</button>
+            <Filtering category={category} />
             <SortBox>
                 <p>정렬</p>
-                <button onClick={sortReviewClickHandler}>
-                    <SortReview />
-                    리뷰순
-                </button>
-                <button onClick={sortPositiveClickHandler}>
-                    <SortPositive />
-                    긍정 비율 순
-                </button>
+                <div>
+                    <SortSelectBox>
+                        <button>
+                            <SortReview />
+                            평점순
+                        </button>
+                        <ul>
+                            <li onClick={() => sortReviewClickHandler('asc')}>평점 낮은 순</li>
+                            <li onClick={() => sortReviewClickHandler('desc')}>평점 높은 순</li>
+                        </ul>
+                    </SortSelectBox>
+                    <SortSelectBox>
+                        <button>
+                            <SortPositive />
+                            긍정 비율 순
+                        </button>
+
+                        <ul>
+                            <li onClick={() => sortPositiveClickHandler('asc')}>긍정 비율 낮은 순</li>
+                            <li onClick={() => sortPositiveClickHandler('desc')}>긍정 비율 높은 순</li>
+                        </ul>
+                    </SortSelectBox>
+                </div>
             </SortBox>
             {stores &&
                 stores.map((store) => {
@@ -243,7 +243,7 @@ const StoreList = ({ station }) => {
                         <StoreCard
                             key={store.id}
                             id={store.storeId}
-                            image={store.imageUrl}
+                            image={store.imageUrls}
                             name={store.name}
                             address={store.address}
                             rating={store.rating}
@@ -262,14 +262,22 @@ const StoreList = ({ station }) => {
 export default StoreList;
 const StoreListLayout = styled.div`
     position: relative;
-    left: 0;
-    top: 0;
-    z-index: 100;
+    margin-top: 10px;
     padding-bottom: 100px;
     width: 100%;
     background-color: ${White};
     overflow-y: scroll;
     overflow-x: visible;
+    & > button {
+        margin-left: 60px;
+        width: fit-content;
+        text-align: center;
+        padding: 10px;
+        background: black;
+        color: ${White};
+        border-radius: 10px;
+        cursor: pointer;
+    }
     @media screen and (max-width: 1024px) {
         width: 600px;
         height: auto;
@@ -311,27 +319,57 @@ const Icon = styled.div`
 
 const SortBox = styled.div`
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
     margin: 10px;
+    & > p {
+        font-weight: bold;
+    }
+    & > div {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+    & > div > div > ul {
+        width: 100%;
+        list-style: none;
+    }
+`;
+const SortSelectBox = styled.div`
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
     & > button {
         cursor: pointer;
         display: flex;
         gap: 10px;
+        height: 35px;
         background-color: ${White};
         justify-content: center;
         align-items: center;
         padding: 10px;
-        gap: 5px;
         border: 1px solid ${Grey};
-        border-radius: 20px;
+        border-radius: 10px;
         &:hover {
             color: ${Orange};
         }
     }
+    & > ul {
+        width: 100px;
+        border: 1px solid ${Grey};
+        border-radius: 10px;
+        font-size: 13px;
+        text-align: center;
+        & > li {
+            margin-top: 6px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            &:hover {
+                background: ${LightGrey};
+            }
+        }
+    }
 `;
-
 const Alert = styled.h3`
     padding: 14px;
     display: flex;

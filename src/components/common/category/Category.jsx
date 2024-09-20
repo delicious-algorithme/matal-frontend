@@ -10,7 +10,12 @@ const Category = (position) => {
     const { setNotIsFirst } = useIsFirst();
     const onClickHandler = (item) => {
         setNotIsFirst();
-        navigate(`/webmap/storeList/${item}`, { state: { listVisible: true } }); //임시 경로
+        navigate(`/webmap/storeList/${item}`, {
+            state: {
+                listVisible: true,
+                category: `${item}`,
+            },
+        }); //임시 경로
     };
     return (
         <CategoryLayout position={position}>
