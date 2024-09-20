@@ -6,10 +6,11 @@ import { ReactComponent as ArrowUp } from '../../../assets/Icon/ArrowUp.svg';
 import { ReactComponent as ArrowDown } from '../../../assets/Icon/FilterArrowDown.svg';
 import { ReactComponent as Reset } from '../../../assets/Icon/Reset.svg';
 import { useFilterParams } from '../../../store';
-
+import { useNavigate } from 'react-router-dom';
 const Filtering = ({ category }) => {
     const select = items;
     const { setFilterParams } = useFilterParams();
+    const navigate = useNavigate();
     const [locationValue, setLocationValue] = useState(() => {
         try {
             const savedLocation = localStorage.getItem('loaction');
@@ -84,15 +85,22 @@ const Filtering = ({ category }) => {
             return newParams;
         });
     };
-    /*useEffect(() => {
+    useEffect(() => {
         if (category) {
             setParams((prevParams) => {
                 const newParams = { ...prevParams };
                 newParams.category = category;
                 return newParams;
             });
+            navigate('/webmap');
+            const newTagValue = tagValue;
+            if (!newTagValue.includes(category)) {
+                newTagValue.push(category);
+            }
+            setTagValue(newTagValue);
+            localStorage.setItem('tagValue', JSON.stringify(newTagValue));
         }
-    }, [category]);*/
+    }, [category]);
 
     const locationClickHandler = (city) => {
         city === '경기' ? setIsSeoul(false) : setIsSeoul(true);
@@ -262,7 +270,7 @@ const Filtering = ({ category }) => {
                     })}
             </div>
             <TagBox>
-                {tagValue.length > 0 && tagValue.map((tag) => <Tag key={tag.id}>{tag}</Tag>)}
+                {tagValue.length > 0 && tagValue.map((tag, index) => <Tag key={index}>{tag}</Tag>)}
                 <button onClick={removeTagValue}>
                     초기화 <Reset />
                 </button>

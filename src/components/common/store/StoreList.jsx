@@ -7,7 +7,7 @@ import { ReactComponent as SortReview } from '../../../assets/Icon/ReviewSort.sv
 import { ReactComponent as SortPositive } from '../../../assets/Icon/SortPositive.svg';
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useStoreList, useIsFirst, useFilterParams } from '../../../store';
 import Filtering from '../filtering/Filtering';
 const StoreList = ({ searchInput }) => {
@@ -21,8 +21,6 @@ const StoreList = ({ searchInput }) => {
     const [orderByRating, setOrderByRating] = useState(null);
     const [orderByPositiveRatio, setorderByPositiveRatio] = useState(null);
 
-    const category = useParams();
-
     const { setStoreList } = useStoreList();
     const { isFirst, setNotIsFirst, setIsFirst } = useIsFirst();
     const { filterParams } = useFilterParams();
@@ -33,6 +31,12 @@ const StoreList = ({ searchInput }) => {
         orderByRating: orderByRating,
         orderByPositiveRatio: orderByPositiveRatio,
     };
+
+    const location = useLocation();
+    let category = null;
+    if (location.state) {
+        category = location.state.category;
+    }
 
     const fetchStoreData = async (page) => {
         setIsLoading(true);
