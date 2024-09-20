@@ -11,7 +11,7 @@ const WebMap = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isStoreList, setIsStoreList] = useState();
-    const [station, setStation] = useState();
+    const [searchInput, setSearchInput] = useState();
     const { setNotIsFirst } = useIsFirst();
     useEffect(() => {
         if (!location.state?.listVisible) {
@@ -34,14 +34,14 @@ const WebMap = () => {
         navigate('/');
     };
     const onChangeHandler = (e) => {
-        setStation(e.target.value);
+        setSearchInput(e.target.value);
     };
     const onKeyDownHandler = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             setNotIsFirst();
             setIsStoreList(true);
-            setStation(station);
+            navigate(`/${searchInput}`);
         }
     };
     return (
@@ -54,7 +54,7 @@ const WebMap = () => {
                     <Home />
                 </HomeButton>
             </NavBox>
-            {isStoreList && <StoreList station={station} />}
+            {isStoreList && <StoreList searchInput={searchInput} />}
             <ContentsContainer>
                 <SearchBarBox>
                     {!isStoreList && (
@@ -67,7 +67,7 @@ const WebMap = () => {
                                 placeholder="검색어를 입력해주세요..."
                                 onChange={onChangeHandler}
                                 onKeyDown={onKeyDownHandler}
-                                value={station}
+                                value={searchInput}
                             />
                         </>
                     )}
