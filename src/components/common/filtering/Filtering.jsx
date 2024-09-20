@@ -330,6 +330,15 @@ const Contents = styled.ul`
     & > p {
         width: 100%;
     }
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: auto;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: rgba(217, 217, 217, 1);
+        border-radius: 15px;
+        width: 5px;
+    }
 `;
 const Content = styled.li`
     position: relative;
@@ -376,6 +385,15 @@ const LoactionSelectBox = styled.div`
     font-weight: bold;
     background: ${White};
     color: ${DartkGrey};
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: auto;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: rgba(217, 217, 217, 1);
+        border-radius: 15px;
+        width: 5px;
+    }
 `;
 
 const SelectLocationItem = styled.div`
