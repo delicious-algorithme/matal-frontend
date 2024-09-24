@@ -10,8 +10,9 @@ import { useIsFirst } from '../../store';
 const MainHeader = () => {
     const navigate = useNavigate();
     const [searchInput, setSearchInput] = useState();
-    const { setNotIsFirst } = useIsFirst();
+    const { setNotIsFirst, setIsFirst } = useIsFirst();
     const dashboardClickHandler = () => {
+        setIsFirst();
         navigate(`/webmap`);
     };
     const onChangeHandler = (e) => {

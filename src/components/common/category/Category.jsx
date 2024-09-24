@@ -7,9 +7,9 @@ import { items } from './CategoryItems';
 
 const Category = (position) => {
     const navigate = useNavigate();
-    const { setNotIsFirst } = useIsFirst();
+    const { setIsFirst } = useIsFirst();
     const onClickHandler = (item) => {
-        setNotIsFirst();
+        setIsFirst();
         navigate(`/webmap/storeList/${item}`, {
             state: {
                 listVisible: true,
