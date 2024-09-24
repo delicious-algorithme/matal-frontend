@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-import { Grey, LightGrey, Orange, White } from '../../../color';
+import { DartkGrey, Grey, LightGrey, Orange, White } from '../../../color';
 import { ReactComponent as SearchIcon } from './../../../assets/Icon/Feather Icon.svg';
 import StoreCard from './StoreCard';
 import { useEffect, useState } from 'react';
-import { ReactComponent as SortReview } from '../../../assets/Icon/ReviewSort.svg';
-import { ReactComponent as SortPositive } from '../../../assets/Icon/SortPositive.svg';
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
 import { useLocation } from 'react-router-dom';
@@ -38,7 +36,6 @@ const StoreList = () => {
     const fetchStoreData = async (page) => {
         setIsLoading(true);
         setHasMore(true);
-        setNotIsFirst();
         if (isFirst) return;
         try {
             const response = await getStoreList({ ...Params, page });
@@ -135,14 +132,13 @@ const StoreList = () => {
         }
         setPage(0);
         setStores([]);
-        !isFirst && filterParams && fetchStoreData(0);
+        !isFirst && (filterParams || input) && fetchStoreData(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filterParams, orderByPositiveRatio, orderByRating, category, input]);
+    }, [filterParams, orderByPositiveRatio, orderByRating, category]);
 
     useEffect(() => {
         setStores([]);
         isFirst && fetchStoreAll(0);
-        !isFirst && fetchStoreData(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFirst]);
 
@@ -203,7 +199,7 @@ const StoreList = () => {
     }, [page]);
     return (
         <StoreListLayout>
-            <h4>검색</h4>
+            <button onClick={allFetchButtonHandler}>전체 식당 보기</button>
             <SearchBarBox>
                 <Icon>
                     <SearchIcon />
@@ -216,32 +212,15 @@ const StoreList = () => {
                     value={input}
                 />
             </SearchBarBox>
-            <h4>필터링</h4>
-            <button onClick={allFetchButtonHandler}>전체 식당 보기</button>
             <Filtering category={category} />
             <SortBox>
                 <p>정렬</p>
                 <div>
                     <SortSelectBox>
-                        <button>
-                            <SortReview />
-                            평점순
-                        </button>
-                        <ul>
-                            <li onClick={() => sortReviewClickHandler('asc')}>평점 낮은 순</li>
-                            <li onClick={() => sortReviewClickHandler('desc')}>평점 높은 순</li>
-                        </ul>
+                        <button onClick={() => sortReviewClickHandler('desc')}>평점 높은 순</button>
                     </SortSelectBox>
                     <SortSelectBox>
-                        <button>
-                            <SortPositive />
-                            긍정 비율 순
-                        </button>
-
-                        <ul>
-                            <li onClick={() => sortPositiveClickHandler('asc')}>긍정 비율 낮은 순</li>
-                            <li onClick={() => sortPositiveClickHandler('desc')}>긍정 비율 높은 순</li>
-                        </ul>
+                        <button onClick={() => sortPositiveClickHandler('desc')}>긍정 비율 높은 순</button>
                     </SortSelectBox>
                 </div>
             </SortBox>
@@ -277,14 +256,18 @@ const StoreListLayout = styled.div`
     overflow-y: scroll;
     overflow-x: visible;
     & > button {
-        margin-left: 60px;
         width: fit-content;
         text-align: center;
         padding: 10px;
-        background: black;
-        color: ${White};
+        color: ${Orange};
+        background: ${LightGrey};
+        font-weight: bold;
         border-radius: 10px;
         cursor: pointer;
+        &:hover {
+            background: ${Orange};
+            color: ${White};
+        }
     }
     @media screen and (max-width: 1024px) {
         width: 600px;
@@ -353,6 +336,8 @@ const SortSelectBox = styled.div`
         gap: 10px;
         height: 35px;
         background-color: ${White};
+        color: ${DartkGrey};
+        font-weight: bold;
         justify-content: center;
         align-items: center;
         padding: 10px;

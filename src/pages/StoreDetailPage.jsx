@@ -10,7 +10,7 @@ import { ReactComponent as Recommended } from '../assets/Icon/Recommended.svg';
 import { ReactComponent as ParkingTip } from '../assets/Icon/PakingTip.svg';
 import { ReactComponent as WaitingTip } from '../assets/Icon/WaitingTip.svg';
 import { ReactComponent as Path } from '../assets/Icon/Path.svg';
-import { DartkGrey, Grey, Orange, White } from '../color';
+import { DartkGrey, LightGrey, Grey, Orange, White } from '../color';
 import { MyMap } from '../components/common';
 import { useStoreList } from '../store';
 import { useEffect, useState } from 'react';
@@ -242,29 +242,31 @@ const StoreDetailLayout = styled.div`
 `;
 const Header = styled.div`
     display: flex;
+    padding-left: 200px;
+    padding-right: 200px;
     justify-content: space-between;
     width: 100%;
     height: 125px;
     align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
+
     background-color: ${White};
     border-bottom: 2px solid ${Grey};
     & > svg {
         cursor: pointer;
     }
     & > button {
-        cursor: pointer;
-        text-align: center;
         width: fit-content;
-        color: ${White};
-        border-radius: 10px;
-        background: ${Orange};
+        text-align: center;
+        padding: 15px;
+        color: ${Orange};
+        background: ${LightGrey};
         font-weight: bold;
-        padding: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
-        box-shadow: 2px 2px 2px ${Grey};
+        border-radius: 10px;
+        cursor: pointer;
+        &:hover {
+            background: ${Orange};
+            color: ${White};
+        }
     }
 `;
 
