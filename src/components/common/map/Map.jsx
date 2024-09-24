@@ -15,12 +15,12 @@ const MyMap = () => {
     });
 
     useEffect(() => {
-        if (storeList.length > 0) {
+        if (Array.isArray(storeList) && storeList.length > 0) {
             setCurrentLocation({
                 lat: storeList[0].latitude,
                 lng: storeList[0].longitude,
             });
-        } else if (storeList) {
+        } else if (!Array.isArray(storeList)) {
             setCurrentLocation({
                 lat: storeList.latitude,
                 lng: storeList.longitude,
