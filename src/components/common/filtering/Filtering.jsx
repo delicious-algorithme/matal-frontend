@@ -5,15 +5,18 @@ import { DartkGrey, Grey, Orange, White } from '../../../color';
 import { ReactComponent as ArrowUp } from '../../../assets/Icon/ArrowUp.svg';
 import { ReactComponent as ArrowDown } from '../../../assets/Icon/FilterArrowDown.svg';
 import { ReactComponent as Reset } from '../../../assets/Icon/Reset.svg';
-import { useFilterParams } from '../../../store';
+import { useFilterParams, useIsFirst } from '../../../store';
 import { useNavigate } from 'react-router-dom';
 const Filtering = ({ category }) => {
     const select = items;
     const { setFilterParams } = useFilterParams();
+    const { setIsFirst } = useIsFirst();
     const navigate = useNavigate();
+    const savedTags = localStorage.getItem('tagValue');
+    const savedLocation = localStorage.getItem('loaction');
+    const filterParams = localStorage.getItem('params');
     const [locationValue, setLocationValue] = useState(() => {
         try {
-            const savedLocation = localStorage.getItem('loaction');
             return savedLocation ? JSON.parse(savedLocation) : '';
         } catch (error) {
             console.error(error);
@@ -23,7 +26,6 @@ const Filtering = ({ category }) => {
 
     const [tagValue, setTagValue] = useState(() => {
         try {
-            const savedTags = localStorage.getItem('tagValue');
             return savedTags ? JSON.parse(savedTags) : [];
         } catch (error) {
             console.error(error);
@@ -33,7 +35,6 @@ const Filtering = ({ category }) => {
     const [isSeoul, setIsSeoul] = useState(true);
     const [params, setParams] = useState(() => {
         try {
-            const filterParams = localStorage.getItem('params');
             return filterParams ? JSON.parse(filterParams) : {};
         } catch (error) {
             console.error(error);
@@ -43,7 +44,9 @@ const Filtering = ({ category }) => {
     const [selectState, setSelectState] = useState(new Array(11).fill(false));
 
     const isTagSelected = (content) => tagValue.includes(content);
-
+    useEffect(() => {
+        if (!filterParams) setTagValue([]);
+    }, [filterParams]);
     const valueClickHandler = (id, content, filter_type, value) => {
         const category = select.find((item) => item.id === id).name;
         const newTagValue = tagValue.filter(
@@ -132,11 +135,13 @@ const Filtering = ({ category }) => {
 
     const removeTagValue = () => {
         setTagValue([]);
+        setIsFirst();
         setParams('');
         setLocationValue('');
         localStorage.removeItem('tagValue');
         localStorage.removeItem('location');
         localStorage.removeItem('params');
+        setFilterParams();
     };
 
     useEffect(() => {
@@ -317,7 +322,7 @@ const CategoryBox = styled.div`
 const SelectItem = styled.div`
     margin: 10px;
     position: relative;
-    min-width: 148px;
+    min-width: 160px;
     flex-direction: column;
     gap: 10px;
 `;
@@ -326,7 +331,7 @@ const Contents = styled.ul`
     margin-top: 2px;
     z-index: ${(props) => props.zIndex};
     list-style: none;
-    width: 148px;
+    width: 160px;
     max-height: 200px;
     overflow: scroll;
     font-size: 13px;

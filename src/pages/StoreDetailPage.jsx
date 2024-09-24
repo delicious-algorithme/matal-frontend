@@ -10,25 +10,49 @@ import { ReactComponent as Recommended } from '../assets/Icon/Recommended.svg';
 import { ReactComponent as ParkingTip } from '../assets/Icon/PakingTip.svg';
 import { ReactComponent as WaitingTip } from '../assets/Icon/WaitingTip.svg';
 import { ReactComponent as Path } from '../assets/Icon/Path.svg';
-import { DartkGrey, Grey, Orange, White } from '../color';
+import { DartkGrey, LightGrey, Grey, Orange, White } from '../color';
 import { MyMap } from '../components/common';
 import { useStoreList } from '../store';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom/dist';
+import { useNavigate, useParams } from 'react-router-dom/dist';
+import { getStoreDetail } from '../apis/api/getStoreDetail';
 
 const StoreDetailPage = () => {
     const [item, setItem] = useState('');
+    const { id } = useParams();
+    const storeId = id;
+
     const { setStoreList } = useStoreList();
+    const [isLoading, setIsLoading] = useState();
+
+    const fetchStoreDetail = async (storeId) => {
+        setIsLoading(true);
+        try {
+            const response = await getStoreDetail({ storeId });
+            const newData = response.data;
+            if (typeof newData.businessHours === 'string') {
+                try {
+                    console.log(newData.businessHours);
+                    const jsonString = newData.businessHours.replace(/'/g, '"');
+                    newData.businessHours = JSON.parse(jsonString);
+                } catch (e) {
+                    console.error('Failed to parse business_hours:', e);
+                }
+            }
+            setItem(newData);
+            setStoreList(newData);
+        } catch (error) {
+            console.log(error);
+        }
+        setIsLoading(false);
+    };
     useEffect(() => {
-        fetch('http://localhost:3000/data/store.json', {
-            method: 'GET',
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                setStoreList(data);
-                setItem(data[0]);
-            });
-    }, [setStoreList]);
+        if (storeId) {
+            fetchStoreDetail(storeId);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [storeId]);
+
     const navigate = useNavigate();
     const logoClickHandler = () => {
         navigate('/');
@@ -42,161 +66,166 @@ const StoreDetailPage = () => {
     };
     const pieChart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
     return (
-        <StoreDetailLayout>
-            <Header>
-                <Logo onClick={logoClickHandler} />
-                <button onClick={buttonClickHandler}>식당 찾아보기</button>
-            </Header>
-            <ContentsContainer>
-                <ImageAndOverView>
-                    <div>
-                        <img src={item.imageUrl} alt={item.name} />
-                        <button onClick={pathClickHandler}>
-                            <Path />
-                            경로
-                        </button>
-                    </div>
-                    <div>
-                        <h1>{item.name}</h1>
+        !isLoading && (
+            <StoreDetailLayout>
+                <Header>
+                    <Logo onClick={logoClickHandler} />
+                    <button onClick={buttonClickHandler}>식당 찾아보기</button>
+                </Header>
+                <ContentsContainer>
+                    <ImageAndOverView>
                         <div>
-                            <p>별점</p>
-                            <Star />
-                            <span>{item.rating}</span>
+                            <img src={item.imageUrl} alt={item.name} />
+                            <button onClick={pathClickHandler}>
+                                <Path />
+                                경로
+                            </button>
                         </div>
-                        <p>리뷰 {item.reviewsCount}</p>
-                        <h4>{item.category}</h4>
-                    </div>
-                </ImageAndOverView>
-                <AIReviewInsightBox>
-                    <div>
+                        <div>
+                            <h1>{item.name}</h1>
+                            <div>
+                                <p>별점</p>
+                                <Star />
+                                <span>{item.rating}</span>
+                            </div>
+                            <p>리뷰 {item.reviewsCount}</p>
+                            <h4>{item.category}</h4>
+                        </div>
+                    </ImageAndOverView>
+                    <AIReviewInsightBox>
+                        <div>
+                            <TitleBox>
+                                <div>
+                                    <h2>AI리뷰 인사이트</h2>
+                                    <Insight />
+                                </div>
+                                <p>
+                                    {' '}
+                                    AI가 다수의 고객 리뷰를 정밀히 분석하여 숨겨진 인사이트를 찾아주는 서비스 입니다.
+                                </p>
+                            </TitleBox>
+                            <BasicInfoBox>
+                                <div>
+                                    <SoloDining />
+                                    <span>혼밥 불가능</span>
+                                </div>
+                                <div>
+                                    <Parking />
+                                    <span>주차 불가능</span>
+                                </div>
+                                <div>
+                                    <Dog />
+                                    <div>애완견 동반 불가능</div>
+                                </div>
+                                <div>
+                                    <Clock />
+                                    <div>웨이팅 있는 맛집</div>
+                                </div>
+                            </BasicInfoBox>
+                        </div>
+                        <ReviewSummaryBox>
+                            <TitleBox>
+                                <h2>AI리뷰 한 줄 요약</h2>
+                            </TitleBox>
+                            <Content>
+                                <p>{item.reviewSummary}</p>
+                            </Content>
+                        </ReviewSummaryBox>
                         <TitleBox>
-                            <div>
-                                <h2>AI리뷰 인사이트</h2>
-                                <Insight />
-                            </div>
-                            <p> AI가 다수의 고객 리뷰를 정밀히 분석하여 숨겨진 인사이트를 찾아주는 서비스 입니다.</p>
+                            <h2>AI 긍정/부정/중립 리뷰 비율</h2>
+                            <p>AI가 분석한 이 식당의 긍정적인 리뷰의 비율은 {item.positiveRatio}%입니다.</p>
                         </TitleBox>
-                        <BasicInfoBox>
+                        <PositiveRatioBox>
+                            <PieChartBox>
+                                <PieChart pieChart={pieChart} />
+                                <p>
+                                    긍정 {item.positiveRatio}% 부정 {item.negativeRatio}% 중립 {item.neutralRatio}%
+                                </p>
+                                <div>
+                                    <div />
+                                    <span>:긍정</span>
+                                    <div />
+                                    <span>:부정</span>
+                                    <div />
+                                    <span>:중립</span>
+                                </div>
+                            </PieChartBox>
                             <div>
-                                <SoloDining />
-                                <span>혼밥 불가능</span>
+                                <h3>
+                                    AI 리뷰 <span>긍정</span>키워드
+                                </h3>
+                                <p>AI가 분석한 이 식당 리뷰의 긍정 키워드</p>
+                                <h4>{item.positiveKeywords}</h4>
+                                <h3>
+                                    AI 리뷰 <span>부정</span>키워드
+                                </h3>
+                                <p>AI가 분석한 이 식당 리뷰의 부정 키워드</p>
+                                <h4>{item.negativeKeywords}</h4>
                             </div>
+                        </PositiveRatioBox>
+                        <RecommendBox>
+                            <h2>AI 추천 메뉴</h2>
+                            <p>리뷰를 분석해 AI가 메뉴를 추천해줍니다.</p>
                             <div>
-                                <Parking />
-                                <span>주차 불가능</span>
+                                <Recommended />
+                                <p>{item.recommendMenu}</p>
                             </div>
+                        </RecommendBox>
+                        <TipBox>
+                            <h2>AI TIP</h2>
                             <div>
-                                <Dog />
-                                <div>애완견 동반 불가능</div>
+                                <div>
+                                    <ParkingTip />
+                                    <h3>주차 팁</h3>
+                                    <p>{item.parkingTip}</p>
+                                </div>
+                                <div>
+                                    <WaitingTip />
+                                    <h3>웨이팅 꿀팁</h3>
+                                    <p>{item.waitingTip}</p>
+                                </div>
                             </div>
-                            <div>
-                                <Clock />
-                                <div>웨이팅 있는 맛집</div>
-                            </div>
-                        </BasicInfoBox>
-                    </div>
-                    <ReviewSummaryBox>
-                        <TitleBox>
-                            <h2>AI리뷰 한 줄 요약</h2>
-                        </TitleBox>
-                        <Content>
-                            <p>{item.reviewSummary}</p>
-                        </Content>
-                    </ReviewSummaryBox>
-                    <TitleBox>
-                        <h2>AI 긍정/부정/중립 리뷰 비율</h2>
-                        <p>AI가 분석한 이 식당의 긍정적인 리뷰의 비율은 {item.positiveRatio}%입니다.</p>
-                    </TitleBox>
-                    <PositiveRatioBox>
-                        <PieChartBox>
-                            <PieChart pieChart={pieChart} />
-                            <p>
-                                긍정 {item.positiveRatio}% 부정 {item.negativeRatio}% 중립 {item.neutralRatio}%
-                            </p>
-                            <div>
-                                <div />
-                                <span>:긍정</span>
-                                <div />
-                                <span>:부정</span>
-                                <div />
-                                <span>:중립</span>
-                            </div>
-                        </PieChartBox>
+                        </TipBox>
+                    </AIReviewInsightBox>
+                    <OverViewContainer>
                         <div>
-                            <h3>
-                                AI 리뷰 <span>긍정</span>키워드
-                            </h3>
-                            <p>AI가 분석한 이 식당 리뷰의 긍정 키워드</p>
-                            <h4>{item.positiveKeywords}</h4>
-                            <h3>
-                                AI 리뷰 <span>부정</span>키워드
-                            </h3>
-                            <p>AI가 분석한 이 식당 리뷰의 부정 키워드</p>
-                            <h4>{item.negativeKeywords}</h4>
+                            <h2>식당 정보</h2>
                         </div>
-                    </PositiveRatioBox>
-                    <RecommendBox>
-                        <h2>AI 추천 메뉴</h2>
-                        <p>리뷰를 분석해 AI가 메뉴를 추천해줍니다.</p>
+                        <OverViewAndMenuBox>
+                            <div>
+                                <h3>개요</h3>
+                                <div>
+                                    <span>전화번호</span>
+                                    <p>{item.phone}</p>
+                                </div>
+                                <div>
+                                    <span>주소</span>
+                                    <p>{item.address}</p>
+                                </div>
+                                <div>
+                                    <span>영업시간</span>
+                                    {Array.isArray(item.businessHours) &&
+                                        item.businessHours.map((item, idx) => <div key={idx}>{item}</div>)}
+                                </div>
+                            </div>
+                            <div>
+                                <h3>메뉴</h3>
+                                <p>{item.menuAndPrice}</p>
+                            </div>
+                        </OverViewAndMenuBox>
+                    </OverViewContainer>
+                    <LocationContainer>
                         <div>
-                            <Recommended />
-                            <p>{item.recommendMenu}</p>
+                            <h2>위치</h2>
+                            <p>{item.address}</p>
                         </div>
-                    </RecommendBox>
-                    <TipBox>
-                        <h2>AI TIP</h2>
-                        <div>
-                            <div>
-                                <ParkingTip />
-                                <h3>주차 팁</h3>
-                                <p>{item.parkingTip}</p>
-                            </div>
-                            <div>
-                                <WaitingTip />
-                                <h3>웨이팅 꿀팁</h3>
-                                <p>{item.waitingTip}</p>
-                            </div>
-                        </div>
-                    </TipBox>
-                </AIReviewInsightBox>
-                <OverViewContainer>
-                    <div>
-                        <h2>식당 정보</h2>
-                    </div>
-                    <OverViewAndMenuBox>
-                        <div>
-                            <h3>개요</h3>
-                            <div>
-                                <span>전화번호</span>
-                                <p>{item.phone}</p>
-                            </div>
-                            <div>
-                                <span>주소</span>
-                                <p>{item.address}</p>
-                            </div>
-                            <div>
-                                <span>영업시간</span>
-                                {item.businessHours &&
-                                    item.businessHours.map((item, idx) => <div key={idx}>{item}</div>)}
-                            </div>
-                        </div>
-                        <div>
-                            <h3>메뉴</h3>
-                            <p>{item.mainMenu}</p>
-                        </div>
-                    </OverViewAndMenuBox>
-                </OverViewContainer>
-                <LocationContainer>
-                    <div>
-                        <h2>위치</h2>
-                        <p>{item.address}</p>
-                    </div>
-                    <MapBox>
-                        <MyMap />
-                    </MapBox>
-                </LocationContainer>
-            </ContentsContainer>
-        </StoreDetailLayout>
+                        <MapBox>
+                            <MyMap />
+                        </MapBox>
+                    </LocationContainer>
+                </ContentsContainer>
+            </StoreDetailLayout>
+        )
     );
 };
 
@@ -213,29 +242,31 @@ const StoreDetailLayout = styled.div`
 `;
 const Header = styled.div`
     display: flex;
+    padding-left: 200px;
+    padding-right: 200px;
     justify-content: space-between;
     width: 100%;
     height: 125px;
     align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
+
     background-color: ${White};
     border-bottom: 2px solid ${Grey};
     & > svg {
         cursor: pointer;
     }
     & > button {
-        cursor: pointer;
-        text-align: center;
         width: fit-content;
-        color: ${White};
-        border-radius: 10px;
-        background: ${Orange};
+        text-align: center;
+        padding: 15px;
+        color: ${Orange};
+        background: ${LightGrey};
         font-weight: bold;
-        padding: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
-        box-shadow: 2px 2px 2px ${Grey};
+        border-radius: 10px;
+        cursor: pointer;
+        &:hover {
+            background: ${Orange};
+            color: ${White};
+        }
     }
 `;
 
@@ -468,7 +499,7 @@ const TipBox = styled.div`
         flex-direction: row;
         gap: 30px;
         & > div {
-            max-width: 300px;
+            min-width: 200px;
             height: 200px;
             display: flex;
             gap: 10px;
