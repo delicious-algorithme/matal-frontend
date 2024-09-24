@@ -13,17 +13,27 @@ const MyMap = () => {
         lat: '37.5665',
         lng: '126.9780',
     });
+
     useEffect(() => {
-        if (storeList.length > 1) {
+        if (storeList.length > 0) {
             setCurrentLocation({
                 lat: storeList[0].latitude,
                 lng: storeList[0].longitude,
+            });
+        } else if (storeList) {
+            setCurrentLocation({
+                lat: storeList.latitude,
+                lng: storeList.longitude,
             });
         }
     }, [storeList]);
     const markerClickHandler = useCallback(
         (id) => {
-            navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
+            if (storeList.length > 1) {
+                navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
+            } else {
+                window.location.href = storeList.storeLink;
+            }
         },
         [navigate]
     );
@@ -72,6 +82,14 @@ const MyMap = () => {
         const addMarkers = () => {
             for (let i = 0; i < storeList.length; i++) {
                 let markerObj = storeList[i];
+                const dom_id = markerObj.id;
+                const title = markerObj.name;
+                const lat = markerObj.latitude;
+                const lng = markerObj.longitude;
+                addMarker(dom_id, title, lat, lng);
+            }
+            if (Array.isArray(storeList) === false) {
+                let markerObj = storeList;
                 const dom_id = markerObj.id;
                 const title = markerObj.name;
                 const lat = markerObj.latitude;
