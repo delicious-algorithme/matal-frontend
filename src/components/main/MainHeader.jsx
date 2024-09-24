@@ -6,13 +6,14 @@ import { ReactComponent as Logo } from '../../assets/Icon/Logo.svg';
 import { Orange } from '../../color';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useIsFirst } from '../../store';
+import { useIsFirst, useStoreList } from '../../store';
 const MainHeader = () => {
     const navigate = useNavigate();
     const [searchInput, setSearchInput] = useState();
     const { setNotIsFirst, setIsFirst } = useIsFirst();
+    const { storeList } = useStoreList();
     const dashboardClickHandler = () => {
-        setIsFirst();
+        if (storeList.length === 0) setIsFirst();
         navigate(`/webmap`);
     };
     const onChangeHandler = (e) => {
