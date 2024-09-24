@@ -109,6 +109,7 @@ const StoreList = () => {
         } else if (location.state?.category) {
             setCategory(location.state.category);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const allFetchButtonHandler = () => {

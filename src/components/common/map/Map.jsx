@@ -35,6 +35,7 @@ const MyMap = () => {
                 window.location.href = storeList.storeLink;
             }
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [navigate]
     );
     //clustering
