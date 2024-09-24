@@ -10,20 +10,21 @@ import { getStoreAll } from '../../../apis/api/getStoreAll';
 import { useLocation } from 'react-router-dom';
 import { useStoreList, useIsFirst, useFilterParams } from '../../../store';
 import Filtering from '../filtering/Filtering';
-const StoreList = ({ searchInput }) => {
+const StoreList = () => {
     const [stores, setStores] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [isNothing, setIsNothing] = useState(false);
 
-    const [input, setInput] = useState(searchInput);
+    const [category, setCategory] = useState(null);
+    const [input, setInput] = useState();
     const [orderByRating, setOrderByRating] = useState(null);
     const [orderByPositiveRatio, setorderByPositiveRatio] = useState(null);
 
     const { setStoreList } = useStoreList();
     const { isFirst, setNotIsFirst, setIsFirst } = useIsFirst();
-    const { filterParams } = useFilterParams();
+    const { filterParams, setFilterParams } = useFilterParams();
 
     const Params = {
         ...filterParams,
@@ -33,14 +34,11 @@ const StoreList = ({ searchInput }) => {
     };
 
     const location = useLocation();
-    let category = null;
-    if (location.state) {
-        category = location.state.category;
-    }
 
     const fetchStoreData = async (page) => {
         setIsLoading(true);
         setHasMore(true);
+        setNotIsFirst();
         if (isFirst) return;
         try {
             const response = await getStoreList({ ...Params, page });
@@ -108,6 +106,14 @@ const StoreList = ({ searchInput }) => {
         }
     };
 
+    useEffect(() => {
+        if (location.state?.searchInput) {
+            setInput(location.state?.searchInput);
+        } else if (location.state?.category) {
+            setCategory(location.state.category);
+        }
+    }, []);
+
     const allFetchButtonHandler = () => {
         setStores([]);
         setIsFirst();
@@ -115,6 +121,7 @@ const StoreList = ({ searchInput }) => {
         localStorage.removeItem('tagValue');
         localStorage.removeItem('location');
         localStorage.removeItem('params');
+        setFilterParams();
     };
 
     const _ = require('lodash');
@@ -128,16 +135,16 @@ const StoreList = ({ searchInput }) => {
         }
         setPage(0);
         setStores([]);
-        !isFirst && fetchStoreData(0);
+        !isFirst && filterParams && fetchStoreData(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filterParams, isFirst, orderByPositiveRatio, orderByRating]);
+    }, [filterParams, orderByPositiveRatio, orderByRating, category, input]);
 
     useEffect(() => {
         setStores([]);
         isFirst && fetchStoreAll(0);
         !isFirst && fetchStoreData(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [isFirst]);
 
     useEffect(() => {
         const updateStores = stores;
@@ -206,6 +213,7 @@ const StoreList = ({ searchInput }) => {
                     placeholder="검색어를 입력해주세요..."
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
+                    value={input}
                 />
             </SearchBarBox>
             <h4>필터링</h4>
