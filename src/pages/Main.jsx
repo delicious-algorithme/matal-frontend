@@ -10,9 +10,15 @@ import { ReactComponent as OriginalImage } from '../assets/image/MainImage.svg';
 import { DartkGrey, Grey, Orange, White } from '../color';
 import { Category } from '../components/common';
 import { useNavigate } from 'react-router-dom';
+import { useStoreDetail } from '../store';
 
 const Main = () => {
     const navigate = useNavigate();
+    const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
+
+    if (isStoreDetailPage) {
+        toggleStoreDetailPage();
+    }
     const categoryClickHandler = () => {
         navigate('/webmap');
     };

@@ -6,13 +6,19 @@ import { ReactComponent as DashBoard } from '../assets/Icon/DashBoard.svg';
 import { ReactComponent as Home } from '../assets/Icon/Home.svg';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useIsFirst } from '../store';
+import { useIsFirst, useStoreDetail } from '../store';
 const WebMap = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isStoreList, setIsStoreList] = useState();
     const [searchInput, setSearchInput] = useState();
     const { setNotIsFirst } = useIsFirst();
+
+    const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
+
+    if (isStoreDetailPage) {
+        toggleStoreDetailPage();
+    }
     useEffect(() => {
         if (!location.state?.listVisible) {
             setIsStoreList(true);

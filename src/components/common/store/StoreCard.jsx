@@ -5,10 +5,14 @@ import { ReactComponent as Path } from '../../../assets/Icon/Path.svg';
 import { ReactComponent as PathMobile } from '../../../assets/Icon/Path_Mobile.svg';
 import { ReactComponent as Star } from '../../../assets/Icon/Star.svg';
 import { useNavigate } from 'react-router-dom';
+import { useStoreDetail } from '../../../store';
 
 const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLink, positiveRatio }) => {
     const navigate = useNavigate();
+
+    const { toggleStoreDetailPage } = useStoreDetail();
     const cardClickHandler = () => {
+        toggleStoreDetailPage();
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
     };
     const storeLinkHandler = () => {

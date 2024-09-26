@@ -12,7 +12,7 @@ import { ReactComponent as WaitingTip } from '../assets/Icon/WaitingTip.svg';
 import { ReactComponent as Path } from '../assets/Icon/Path.svg';
 import { DartkGrey, LightGrey, Grey, Orange, White } from '../color';
 import { MyMap } from '../components/common';
-import { useStoreList } from '../store';
+import { useStoreDetail } from '../store';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { getStoreDetail } from '../apis/api/getStoreDetail';
@@ -22,9 +22,13 @@ const StoreDetailPage = () => {
     const { id } = useParams();
     const storeId = id;
 
-    const { setStoreList } = useStoreList();
+    const { setStoreDetail } = useStoreDetail();
     const [isLoading, setIsLoading] = useState();
+    const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
 
+    if (!isStoreDetailPage) {
+        toggleStoreDetailPage();
+    }
     const fetchStoreDetail = async (storeId) => {
         setIsLoading(true);
         try {
@@ -32,7 +36,6 @@ const StoreDetailPage = () => {
             const newData = response.data;
             if (typeof newData.businessHours === 'string') {
                 try {
-                    console.log(newData.businessHours);
                     const jsonString = newData.businessHours.replace(/'/g, '"');
                     newData.businessHours = JSON.parse(jsonString);
                 } catch (e) {
@@ -40,7 +43,7 @@ const StoreDetailPage = () => {
                 }
             }
             setItem(newData);
-            setStoreList(newData);
+            setStoreDetail(newData);
         } catch (error) {
             console.log(error);
         }

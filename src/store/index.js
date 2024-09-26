@@ -1,4 +1,5 @@
 import useStoreList from './useStoreList';
 import useIsFirst from './useIsFirstState';
 import useFilterParams from './useFilterParams';
-export { useStoreList, useIsFirst, useFilterParams };
+import useStoreDetail from './useStoreDetail';
+export { useStoreList, useIsFirst, useFilterParams, useStoreDetail };
