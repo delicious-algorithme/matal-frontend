@@ -67,7 +67,7 @@ const StoreDetailPage = () => {
     const pathClickHandler = () => {
         window.location.href = item.storeLink;
     };
-    const pieChart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
+    const piechart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
     return (
         !isLoading && (
             <StoreDetailLayout>
@@ -140,7 +140,7 @@ const StoreDetailPage = () => {
                         </TitleBox>
                         <PositiveRatioBox>
                             <PieChartBox>
-                                <PieChart pieChart={pieChart} />
+                                <PieChart piechart={piechart} />
                                 <p>
                                     긍정 {item.positiveRatio}% 부정 {item.negativeRatio}% 중립 {item.neutralRatio}%
                                 </p>
@@ -466,9 +466,9 @@ const PieChart = styled.div`
     width: 200px;
     height: 200px;
     background: ${(props) => `conic-gradient(
-    #ff9a62 0% ${props.pieChart[0]}%, 
-    #fff1e1 ${props.pieChart[0]}% ${props.pieChart[1]}%, 
-    ${Orange} ${props.pieChart[2]}% 100%
+    #ff9a62 0% ${props.piechart[0]}%, 
+    #fff1e1 ${props.piechart[0]}% ${props.piechart[1]}%, 
+    ${Orange} ${props.piechart[2]}% 100%
     )`};
     border-radius: 50%;
 `;
