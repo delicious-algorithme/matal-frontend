@@ -81,6 +81,8 @@ const Filtering = ({ category }) => {
         setTagList(newTagValue);
     };
 
+    //params 관련 함수들
+    const categoryToggleParams = (value) => {
         const newCategoryValue = categories.includes(value)
             ? categories.filter((item) => item !== value)
             : [...categories, value];
