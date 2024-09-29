@@ -29,7 +29,7 @@ const MyMap = () => {
                 lng: storeList[0].longitude,
             });
         }
-    }, [storeList, storeDetail]);
+    }, [storeList, storeDetail, isStoreDetailPage]);
 
     const markerClickHandler = useCallback(
         (id) => {
@@ -39,7 +39,7 @@ const MyMap = () => {
                 navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
             }
         },
-        [navigate, storeList, storeDetail]
+        [navigate, storeDetail, isStoreDetailPage]
     );
 
     //clustering
@@ -141,7 +141,7 @@ const MyMap = () => {
                 indexGenerator: [1, 5, 20, 100],
             });
         });
-    }, [currentLocation.lat, currentLocation.lng, markerClickHandler, storeList]);
+    }, [currentLocation.lat, currentLocation.lng, markerClickHandler, storeList, isStoreDetailPage, storeDetail]);
 
     return <MapContatiner id="map" ref={mapElement} style={{ width: '100%', height: '100%' }} />;
 };
