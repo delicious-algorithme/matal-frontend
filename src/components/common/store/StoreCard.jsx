@@ -63,6 +63,8 @@ const StoreCardLayout = styled.div`
     @media screen and (max-width: 1024px) {
         width: 300px;
         height: auto;
+        gap: 10px;
+        flex-direction: column;
     }
 `;
 const ImgBox = styled.div`
@@ -81,7 +83,9 @@ const ImgBox = styled.div`
         align-items: center;
         justify-content: center;
         width: 150px;
-        margin-left: 10px;
+        height: 120px;
+        margin-top: 10px;
+        margin-left: 0px;
         & > img {
             width: 150px;
             height: 120px;
@@ -102,6 +106,9 @@ const ContentsBox = styled.div`
     gap: 10px;
     & > span {
         font-weight: 700;
+    }
+    @media screen and (max-width: 1024px) {
+        margin-bottom: 10px;
     }
 `;
 const NameAndPath = styled.div`

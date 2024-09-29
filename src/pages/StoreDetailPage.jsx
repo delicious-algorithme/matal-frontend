@@ -237,7 +237,7 @@ export default StoreDetailPage;
 
 const StoreDetailLayout = styled.div`
     display: flex;
-    margin: 0px;
+    padding: 20px;
     width: 100%;
     height: auto;
     font-size: 16px;
@@ -246,8 +246,8 @@ const StoreDetailLayout = styled.div`
 `;
 const Header = styled.div`
     display: flex;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 100px;
+    padding-right: 100px;
     justify-content: space-between;
     width: 100%;
     height: 125px;
@@ -272,6 +272,10 @@ const Header = styled.div`
             color: ${White};
         }
     }
+    @media screen and (max-width: 1024px) {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
 `;
 
 const ContentsContainer = styled.div`
@@ -295,12 +299,13 @@ const ImageAndOverView = styled.div`
     & > div {
         margin-top: 10px;
         display: flex;
+        width: 100%;
         flex-direction: row;
         align-items: center;
         gap: 30px;
         & > img {
-            width: 500px;
-            height: 300px;
+            width: 60%;
+            max-height: 300px;
             border-radius: 10px;
         }
         & > button {
@@ -330,6 +335,13 @@ const ImageAndOverView = styled.div`
         }
         & > h4 {
             color: ${Orange};
+        }
+        @media screen and (max-width: 1024px) {
+            & > img {
+                width: 60%;
+                min-height: 200px;
+                border-radius: 10px;
+            }
         }
     }
 `;

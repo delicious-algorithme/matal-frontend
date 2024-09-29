@@ -303,7 +303,7 @@ const StoreListLayout = styled.div`
         }
     }
     @media screen and (max-width: 1024px) {
-        width: 600px;
+        min-width: 300px;
         height: auto;
     }
 `;
@@ -382,8 +382,8 @@ const SortSelectBox = styled.div`
         ${(props) =>
             props.active &&
             `
-            color: ${Orange}; // 주황색으로 변경
-            border-color: ${Orange}; // 경계선도 주황색으로 변경
+            color: ${Orange}; 
+            border-color: ${Orange};
         `}
     }
     & > ul {
