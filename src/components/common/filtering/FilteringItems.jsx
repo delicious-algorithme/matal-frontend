@@ -99,6 +99,7 @@ export const filteringItems = [
         contents: {
             city: ['서울', '경기'],
             seoul: [
+                '서울 전체',
                 '강남구',
                 '강동구',
                 '강북구',
@@ -125,6 +126,7 @@ export const filteringItems = [
                 '중랑구',
             ],
             gyeongi: [
+                '경기 전체',
                 '가평',
                 '고양',
                 '과천',

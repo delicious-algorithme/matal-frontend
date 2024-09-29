@@ -265,9 +265,15 @@ const Filtering = ({ category }) => {
                                                                             name={item.category}
                                                                             type="checkbox"
                                                                             value={seoul}
-                                                                            checked={isTagSelected(seoul)}
+                                                                            checked={isTagSelected(
+                                                                                seoul === '서울 전체' ? '서울 ' : seoul
+                                                                            )}
                                                                             onClick={() =>
-                                                                                locationDetailClickHandler(seoul)
+                                                                                locationDetailClickHandler(
+                                                                                    seoul === '서울 전체'
+                                                                                        ? '서울 '
+                                                                                        : seoul
+                                                                                )
                                                                             }
                                                                         />
                                                                         {seoul}
@@ -282,9 +288,17 @@ const Filtering = ({ category }) => {
                                                                             name={item.category}
                                                                             type="checkbox"
                                                                             value={gyeongi}
-                                                                            checked={isTagSelected(gyeongi)}
+                                                                            checked={isTagSelected(
+                                                                                gyeongi === '경기 전체'
+                                                                                    ? '경기'
+                                                                                    : gyeongi
+                                                                            )}
                                                                             onClick={() =>
-                                                                                locationDetailClickHandler(gyeongi)
+                                                                                locationDetailClickHandler(
+                                                                                    gyeongi === '경기 전체'
+                                                                                        ? '경기'
+                                                                                        : gyeongi
+                                                                                )
                                                                             }
                                                                         />
                                                                         {gyeongi}
