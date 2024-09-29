@@ -12,7 +12,7 @@ import { ReactComponent as WaitingTip } from '../assets/Icon/WaitingTip.svg';
 import { ReactComponent as Path } from '../assets/Icon/Path.svg';
 import { DartkGrey, LightGrey, Grey, Orange, White } from '../color';
 import { MyMap } from '../components/common';
-import { useStoreList } from '../store';
+import { useStoreDetail } from '../store';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { getStoreDetail } from '../apis/api/getStoreDetail';
@@ -22,8 +22,13 @@ const StoreDetailPage = () => {
     const { id } = useParams();
     const storeId = id;
 
-    const { setStoreList } = useStoreList();
+    const { setStoreDetail } = useStoreDetail();
     const [isLoading, setIsLoading] = useState();
+    const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
+
+    if (!isStoreDetailPage) {
+        toggleStoreDetailPage();
+    }
 
     const fetchStoreDetail = async (storeId) => {
         setIsLoading(true);
@@ -32,7 +37,6 @@ const StoreDetailPage = () => {
             const newData = response.data;
             if (typeof newData.businessHours === 'string') {
                 try {
-                    console.log(newData.businessHours);
                     const jsonString = newData.businessHours.replace(/'/g, '"');
                     newData.businessHours = JSON.parse(jsonString);
                 } catch (e) {
@@ -40,7 +44,7 @@ const StoreDetailPage = () => {
                 }
             }
             setItem(newData);
-            setStoreList(newData);
+            setStoreDetail(newData);
         } catch (error) {
             console.log(error);
         }
@@ -64,7 +68,7 @@ const StoreDetailPage = () => {
     const pathClickHandler = () => {
         window.location.href = item.storeLink;
     };
-    const pieChart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
+    const piechart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
     return (
         !isLoading && (
             <StoreDetailLayout>
@@ -137,7 +141,7 @@ const StoreDetailPage = () => {
                         </TitleBox>
                         <PositiveRatioBox>
                             <PieChartBox>
-                                <PieChart pieChart={pieChart} />
+                                <PieChart piechart={piechart} />
                                 <p>
                                     긍정 {item.positiveRatio}% 부정 {item.negativeRatio}% 중립 {item.neutralRatio}%
                                 </p>
@@ -233,7 +237,7 @@ export default StoreDetailPage;
 
 const StoreDetailLayout = styled.div`
     display: flex;
-    margin: 0px;
+    padding: 20px;
     width: 100%;
     height: auto;
     font-size: 16px;
@@ -242,8 +246,8 @@ const StoreDetailLayout = styled.div`
 `;
 const Header = styled.div`
     display: flex;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 100px;
+    padding-right: 100px;
     justify-content: space-between;
     width: 100%;
     height: 125px;
@@ -268,6 +272,10 @@ const Header = styled.div`
             color: ${White};
         }
     }
+    @media screen and (max-width: 1024px) {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
 `;
 
 const ContentsContainer = styled.div`
@@ -291,12 +299,13 @@ const ImageAndOverView = styled.div`
     & > div {
         margin-top: 10px;
         display: flex;
+        width: 100%;
         flex-direction: row;
         align-items: center;
         gap: 30px;
         & > img {
-            width: 500px;
-            height: 300px;
+            width: 60%;
+            max-height: 300px;
             border-radius: 10px;
         }
         & > button {
@@ -326,6 +335,13 @@ const ImageAndOverView = styled.div`
         }
         & > h4 {
             color: ${Orange};
+        }
+        @media screen and (max-width: 1024px) {
+            & > img {
+                width: 60%;
+                min-height: 200px;
+                border-radius: 10px;
+            }
         }
     }
 `;
@@ -463,9 +479,9 @@ const PieChart = styled.div`
     width: 200px;
     height: 200px;
     background: ${(props) => `conic-gradient(
-    #ff9a62 0% ${props.pieChart[0]}%, 
-    #fff1e1 ${props.pieChart[0]}% ${props.pieChart[1]}%, 
-    ${Orange} ${props.pieChart[2]}% 100%
+    #ff9a62 0% ${props.piechart[0]}%, 
+    #fff1e1 ${props.piechart[0]}% ${props.piechart[1]}%, 
+    ${Orange} ${props.piechart[2]}% 100%
     )`};
     border-radius: 50%;
 `;
