@@ -22,6 +22,14 @@ const StoreDetailPage = () => {
     const { id } = useParams();
     const storeId = id;
 
+    const piechart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
+    const tip = {
+        isSoloDining: item.isSoloDining ? '가능' : '불가능',
+        isParking: item.isParking ? '가능' : '불가능',
+        isPetFriendly: item.isPetFriendly ? '가능' : '불가능',
+        isWaiting: item.isWaiting ? '있는' : '없는',
+    };
+
     const { setStoreDetail } = useStoreDetail();
     const [isLoading, setIsLoading] = useState();
     const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
@@ -68,7 +76,7 @@ const StoreDetailPage = () => {
     const pathClickHandler = () => {
         window.location.href = item.storeLink;
     };
-    const piechart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
+
     return (
         !isLoading && (
             <StoreDetailLayout>
@@ -111,19 +119,19 @@ const StoreDetailPage = () => {
                             <BasicInfoBox>
                                 <div>
                                     <SoloDining />
-                                    <span>혼밥 불가능</span>
+                                    <span>혼밥 {tip.isSoloDining}</span>
                                 </div>
                                 <div>
                                     <Parking />
-                                    <span>주차 불가능</span>
+                                    <span>주차 {tip.isParking}</span>
                                 </div>
                                 <div>
                                     <Dog />
-                                    <div>애완견 동반 불가능</div>
+                                    <div>애완견 동반 {tip.isPetFriendly}</div>
                                 </div>
                                 <div>
                                     <Clock />
-                                    <div>웨이팅 있는 맛집</div>
+                                    <div>웨이팅 {tip.isWaiting} 맛집</div>
                                 </div>
                             </BasicInfoBox>
                         </div>
