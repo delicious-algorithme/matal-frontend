@@ -10,9 +10,15 @@ import { ReactComponent as OriginalImage } from '../assets/image/MainImage.svg';
 import { DartkGrey, Grey, Orange, White } from '../color';
 import { Category } from '../components/common';
 import { useNavigate } from 'react-router-dom';
+import { useStoreDetail } from '../store';
 
 const Main = () => {
     const navigate = useNavigate();
+    const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
+
+    if (isStoreDetailPage) {
+        toggleStoreDetailPage();
+    }
     const categoryClickHandler = () => {
         navigate('/webmap');
     };
@@ -27,8 +33,8 @@ const Main = () => {
                 <CategoryBox>
                     <CategoryHeader>
                         <p>카테고리</p>
-                        <DetailBox onClick={categoryClickHandler}>
-                            <p>View All</p>
+                        <DetailBox>
+                            <p onClick={categoryClickHandler}>View All</p>
                             <Arrow />
                         </DetailBox>
                     </CategoryHeader>
@@ -44,9 +50,9 @@ const Main = () => {
                     <Cake />
                     <Sandwich />
                     <Pasta />
-                    <div onClick={listClickHandler}>
+                    <div>
                         <Arrow />
-                        <p>view all</p>
+                        <p onClick={listClickHandler}>view all</p>
                     </div>
                 </StoreListPreview>
             </MobileContents>

@@ -12,7 +12,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Main />} />
                     <Route path="/webmap" element={<WebMap />} />
-                    <Route path="/webmap/storeList/:keyword" element={<WebMap />} />
+                    <Route path="/webmap/storeList/:item" element={<WebMap />} />
                     <Route path="/webmap/storeDetail/:id" element={<StoreDetailPage />} />
                 </Routes>
             </BrowserRouter>

@@ -6,37 +6,47 @@ import { useEffect, useState } from 'react';
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
 import { useLocation } from 'react-router-dom';
-import { useStoreList, useIsFirst, useFilterParams } from '../../../store';
+import { useStoreList, useIsFetch, useFilterParams, useTagList } from '../../../store';
 import Filtering from '../filtering/Filtering';
 const StoreList = () => {
+    const location = useLocation();
+
     const [stores, setStores] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [isNothing, setIsNothing] = useState(false);
 
-    const [category, setCategory] = useState(null);
-    const [input, setInput] = useState();
+    const [input, setInput] = useState(location.state?.searchInput);
     const [orderByRating, setOrderByRating] = useState(null);
     const [orderByPositiveRatio, setorderByPositiveRatio] = useState(null);
 
     const { setStoreList } = useStoreList();
-    const { isFirst, setNotIsFirst, setIsFirst } = useIsFirst();
+    const { isFetchAll, setIsFetchAll } = useIsFetch();
     const { filterParams, setFilterParams } = useFilterParams();
+    const { tagList, setTagList } = useTagList();
 
     const Params = {
         ...filterParams,
         searchKeywords: input ? input : null,
-        orderByRating: orderByRating,
-        orderByPositiveRatio: orderByPositiveRatio,
+        orderByRating,
+        orderByPositiveRatio,
     };
-
-    const location = useLocation();
+    const initialParams = {
+        addresses: [],
+        category: [],
+        positiveKeyword: [],
+    };
 
     const fetchStoreData = async (page) => {
         setIsLoading(true);
         setHasMore(true);
-        if (isFirst) return;
+        if (isFetchAll) {
+            return;
+        }
+        if (JSON.stringify(filterParams) === JSON.stringify(initialParams) && !input) {
+            return;
+        }
         try {
             const response = await getStoreList({ ...Params, page });
             if (response.status === 200) {
@@ -72,9 +82,11 @@ const StoreList = () => {
             setIsLoading(false);
         }
     };
+
     const fetchStoreAll = async (page) => {
         setIsLoading(true);
         setHasMore(true);
+        if (!isFetchAll) return;
         if (page > 100) return;
         try {
             const response = await getStoreAll({
@@ -103,45 +115,58 @@ const StoreList = () => {
         }
     };
 
-    useEffect(() => {
-        if (location.state?.searchInput) {
-            setInput(location.state?.searchInput);
-        } else if (location.state?.category) {
-            setCategory(location.state.category);
+    //main에서 받아오는 카테고리
+    const isExistCategory = () => {
+        if (location.state?.category) {
+            return location.state?.category;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        return null;
+    };
+
+    const category = isExistCategory();
+
+    const initStores = () => {
+        setStores([]);
+        setPage(0);
+    };
+
+    const fetchAllStores = () => {
+        initStores();
+        fetchStoreAll(0);
+        setIsFetchAll(true);
+    };
+
+    const fetchStores = () => {
+        initStores();
+        fetchStoreData(0);
+        setIsFetchAll(false);
+    };
 
     const allFetchButtonHandler = () => {
-        setStores([]);
-        setIsFirst();
-        fetchStoreAll(0);
-        localStorage.removeItem('tagValue');
-        localStorage.removeItem('location');
-        localStorage.removeItem('params');
-        setFilterParams();
-    };
-
-    const _ = require('lodash');
-    const isObjectEmpty = (objectName) => {
-        return _.isEmpty(objectName);
+        setFilterParams(initialParams);
+        window.localStorage.removeItem('filter-params');
+        setTagList([]);
+        setOrderByRating(null);
+        setorderByPositiveRatio(null);
+        setInput(null);
+        setTimeout(() => {
+            fetchAllStores();
+        }, 0);
     };
 
     useEffect(() => {
-        if (!isObjectEmpty(filterParams)) {
-            setNotIsFirst();
+        if (location.state?.searchInput) {
+            fetchStores();
         }
-        setPage(0);
-        setStores([]);
-        !isFirst && (filterParams || input) && fetchStoreData(0);
+        if (tagList.length > 0 || (input && input.length > 0)) {
+            fetchStores();
+        } else {
+            if (!tagList || tagList.length === 0) {
+                fetchAllStores();
+            }
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filterParams, orderByPositiveRatio, orderByRating, category]);
-
-    useEffect(() => {
-        setStores([]);
-        isFirst && fetchStoreAll(0);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isFirst]);
+    }, [isFetchAll, filterParams, orderByPositiveRatio, orderByRating]);
 
     useEffect(() => {
         const updateStores = stores;
@@ -149,21 +174,26 @@ const StoreList = () => {
     }, [stores, setStoreList]);
 
     useEffect(() => {
-        if (!isFirst && hasMore) fetchStoreData(page);
-        else if (hasMore) fetchStoreAll(page);
+        if (hasMore) {
+            if (!isFetchAll) {
+                fetchStoreData(page);
+            } else {
+                fetchStoreAll(page);
+            }
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     const handleInputChange = (e) => {
         setInput(e.target.value);
     };
+
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            setNotIsFirst();
-            setPage(0);
-            setStores([]);
-            fetchStoreData(0);
+            Params.searchKeywords = input;
+            initStores();
+            fetchStores();
         }
     };
 
@@ -183,6 +213,7 @@ const StoreList = () => {
             setPage((prevPage) => prevPage + 1);
         }
     };
+
     useEffect(() => {
         const observer = new IntersectionObserver(handleObserver, {
             threshold: 0,
@@ -198,6 +229,7 @@ const StoreList = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
+
     return (
         <StoreListLayout>
             <button onClick={allFetchButtonHandler}>전체 식당 보기</button>
@@ -217,10 +249,10 @@ const StoreList = () => {
             <SortBox>
                 <p>정렬</p>
                 <div>
-                    <SortSelectBox>
+                    <SortSelectBox active={orderByRating === 'desc'}>
                         <button onClick={() => sortReviewClickHandler('desc')}>평점 높은 순</button>
                     </SortSelectBox>
-                    <SortSelectBox>
+                    <SortSelectBox active={orderByPositiveRatio === 'desc'}>
                         <button onClick={() => sortPositiveClickHandler('desc')}>긍정 비율 높은 순</button>
                     </SortSelectBox>
                 </div>
@@ -271,7 +303,7 @@ const StoreListLayout = styled.div`
         }
     }
     @media screen and (max-width: 1024px) {
-        width: 600px;
+        min-width: 300px;
         height: auto;
     }
 `;
@@ -347,6 +379,12 @@ const SortSelectBox = styled.div`
         &:hover {
             color: ${Orange};
         }
+        ${(props) =>
+            props.active &&
+            `
+            color: ${Orange}; 
+            border-color: ${Orange};
+        `}
     }
     & > ul {
         width: 100px;

@@ -5,15 +5,21 @@ import { ReactComponent as Path } from '../../../assets/Icon/Path.svg';
 import { ReactComponent as PathMobile } from '../../../assets/Icon/Path_Mobile.svg';
 import { ReactComponent as Star } from '../../../assets/Icon/Star.svg';
 import { useNavigate } from 'react-router-dom';
+import { useStoreDetail } from '../../../store';
 
 const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLink, positiveRatio }) => {
     const navigate = useNavigate();
+
+    const { toggleStoreDetailPage } = useStoreDetail();
     const cardClickHandler = () => {
+        toggleStoreDetailPage();
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
     };
+
     const storeLinkHandler = () => {
         window.location.href = storeLink;
     };
+
     return (
         <StoreCardLayout>
             <ImgBox>
@@ -57,6 +63,8 @@ const StoreCardLayout = styled.div`
     @media screen and (max-width: 1024px) {
         width: 300px;
         height: auto;
+        gap: 10px;
+        flex-direction: column;
     }
 `;
 const ImgBox = styled.div`
@@ -75,7 +83,9 @@ const ImgBox = styled.div`
         align-items: center;
         justify-content: center;
         width: 150px;
-        margin-left: 10px;
+        height: 120px;
+        margin-top: 10px;
+        margin-left: 0px;
         & > img {
             width: 150px;
             height: 120px;
@@ -96,6 +106,9 @@ const ContentsBox = styled.div`
     gap: 10px;
     & > span {
         font-weight: 700;
+    }
+    @media screen and (max-width: 1024px) {
+        margin-bottom: 10px;
     }
 `;
 const NameAndPath = styled.div`

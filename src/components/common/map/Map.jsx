@@ -1,43 +1,47 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useStoreList } from '../../../store';
+import { useStoreList, useStoreDetail } from '../../../store';
 
 const MyMap = () => {
     const navigate = useNavigate();
     const mapElement = useRef(null);
     const mapRef = useRef(null);
     const markersRef = useRef([]);
+
     const { storeList } = useStoreList();
+    const { storeDetail, isStoreDetailPage } = useStoreDetail();
+
     const [currentLocation, setCurrentLocation] = useState({
         lat: '37.5665',
         lng: '126.9780',
     });
 
     useEffect(() => {
-        if (Array.isArray(storeList) && storeList.length > 0) {
+        if (isStoreDetailPage) {
+            setCurrentLocation({
+                lat: storeDetail.latitude,
+                lng: storeDetail.longitude,
+            });
+        } else if (!isStoreDetailPage && storeList.length !== 0) {
             setCurrentLocation({
                 lat: storeList[0].latitude,
                 lng: storeList[0].longitude,
             });
-        } else if (!Array.isArray(storeList)) {
-            setCurrentLocation({
-                lat: storeList.latitude,
-                lng: storeList.longitude,
-            });
         }
-    }, [storeList]);
+    }, [storeList, storeDetail]);
+
     const markerClickHandler = useCallback(
         (id) => {
-            if (storeList.length > 1) {
+            if (isStoreDetailPage) {
+                window.location.href = storeDetail.storeLink;
+            } else if (!isStoreDetailPage) {
                 navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
-            } else {
-                window.location.href = storeList.storeLink;
             }
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [navigate]
+        [navigate, storeList, storeDetail]
     );
+
     //clustering
     useEffect(() => {
         const markers = [];
@@ -80,17 +84,19 @@ const MyMap = () => {
                 console.log(e);
             }
         };
+
         const addMarkers = () => {
-            for (let i = 0; i < storeList.length; i++) {
-                let markerObj = storeList[i];
-                const dom_id = markerObj.id;
-                const title = markerObj.name;
-                const lat = markerObj.latitude;
-                const lng = markerObj.longitude;
-                addMarker(dom_id, title, lat, lng);
-            }
-            if (Array.isArray(storeList) === false) {
-                let markerObj = storeList;
+            if (!isStoreDetailPage && storeList.length !== 0) {
+                for (let i = 0; i < storeList.length; i++) {
+                    let markerObj = storeList[i];
+                    const dom_id = markerObj.storeId;
+                    const title = markerObj.name;
+                    const lat = markerObj.latitude;
+                    const lng = markerObj.longitude;
+                    addMarker(dom_id, title, lat, lng);
+                }
+            } else if (isStoreDetailPage) {
+                let markerObj = storeDetail;
                 const dom_id = markerObj.id;
                 const title = markerObj.name;
                 const lat = markerObj.latitude;
@@ -132,7 +138,7 @@ const MyMap = () => {
                 disableClickZoom: false,
                 gridSize: 120,
                 icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4],
-                indexGenerator: [1, 5, 10, 100],
+                indexGenerator: [1, 5, 20, 100],
             });
         });
     }, [currentLocation.lat, currentLocation.lng, markerClickHandler, storeList]);

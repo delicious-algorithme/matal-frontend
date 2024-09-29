@@ -6,14 +6,16 @@ import { ReactComponent as Logo } from '../../assets/Icon/Logo.svg';
 import { Orange } from '../../color';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useIsFirst, useStoreList } from '../../store';
+import { useIsFetch, useStoreList } from '../../store';
 const MainHeader = () => {
     const navigate = useNavigate();
     const [searchInput, setSearchInput] = useState();
-    const { setNotIsFirst, setIsFirst } = useIsFirst();
+    const { setIsFetchAll } = useIsFetch();
     const { storeList } = useStoreList();
     const dashboardClickHandler = () => {
-        if (storeList.length === 0) setIsFirst();
+        if (storeList.length === 0) {
+            setIsFetchAll(true);
+        }
         navigate(`/webmap`);
     };
     const onChangeHandler = (e) => {
@@ -22,7 +24,7 @@ const MainHeader = () => {
     const onKeyDownHandler = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            setNotIsFirst();
+            setIsFetchAll(false);
             if (e.target.value) {
                 navigate(`/webmap/storeList/${searchInput}`, {
                     state: {
