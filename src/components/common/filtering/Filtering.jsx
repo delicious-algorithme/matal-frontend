@@ -1,130 +1,205 @@
 import styled from 'styled-components';
-import { items } from './FilteringItems';
-import { useState, useEffect } from 'react';
+import { filteringItems } from './FilteringItems';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { DartkGrey, Grey, Orange, White } from '../../../color';
 import { ReactComponent as ArrowUp } from '../../../assets/Icon/ArrowUp.svg';
 import { ReactComponent as ArrowDown } from '../../../assets/Icon/FilterArrowDown.svg';
 import { ReactComponent as Reset } from '../../../assets/Icon/Reset.svg';
-import { useFilterParams, useIsFirst } from '../../../store';
+import { useFilterParams, useIsFetch, useTagList } from '../../../store';
 import { useNavigate } from 'react-router-dom';
-const Filtering = ({ category }) => {
-    const select = items;
-    const { setFilterParams } = useFilterParams();
-    const { setIsFirst } = useIsFirst();
-    const navigate = useNavigate();
-    const savedTags = localStorage.getItem('tagValue');
-    const savedLocation = localStorage.getItem('loaction');
-    const filterParams = localStorage.getItem('params');
-    const [locationValue, setLocationValue] = useState(() => {
-        try {
-            return savedLocation ? JSON.parse(savedLocation) : '';
-        } catch (error) {
-            console.error(error);
-            return '';
-        }
-    });
 
-    const [tagValue, setTagValue] = useState(() => {
-        try {
-            return savedTags ? JSON.parse(savedTags) : [];
-        } catch (error) {
-            console.error(error);
-            return [];
-        }
-    });
+import { isEqual } from 'lodash';
+
+const Filtering = ({ category }) => {
+    const navigate = useNavigate();
+
+    const { setFilterParams, filterParams } = useFilterParams();
+    const { setIsFetchAll } = useIsFetch();
+    const { tagList, setTagList } = useTagList();
+
+    const [categories, setCategories] = useState(filterParams.category);
+    const [keywords, setKeywords] = useState(filterParams.positiveKeyword);
+    const [locationValue, setLocationValue] = useState(filterParams.addresses);
     const [isSeoul, setIsSeoul] = useState(true);
-    const [params, setParams] = useState(() => {
-        try {
-            return filterParams ? JSON.parse(filterParams) : {};
-        } catch (error) {
-            console.error(error);
-            return {};
-        }
-    });
+    const [params, setParams] = useState(filterParams);
     const [selectState, setSelectState] = useState(new Array(11).fill(false));
 
-    const isTagSelected = (content) => tagValue.includes(content);
+    //tag관련함수들
+
+    const isTagSelected = (content) => tagList.includes(content);
+
+    const resetAllValue = () => {
+        setTagList([]);
+        setLocationValue('');
+        setParams({ ...initialParams });
+        setFilterParams({ ...initialParams });
+        setIsFetchAll(true);
+    };
+
+    const initialParams = useMemo(() => {
+        return {
+            addresses: [],
+            category: [],
+            positiveKeyword: [],
+        };
+    }, []);
+
+    const isInitFilterParams = useCallback(() => {
+        return isEqual(filterParams, initialParams);
+    }, [filterParams, initialParams]);
+
     useEffect(() => {
-        if (!filterParams) setTagValue([]);
-    }, [filterParams]);
-    const valueClickHandler = (id, content, filter_type, value) => {
-        const category = select.find((item) => item.id === id).name;
-        const newTagValue = tagValue.filter(
-            (tag) => !select.find((item) => item.name === category).contents.includes(tag)
+        const isInit = isInitFilterParams();
+        if (isInit) {
+            setCategories([]);
+            setKeywords([]);
+            setTagList([]);
+        }
+    }, [isInitFilterParams, setTagList]);
+
+    //중복 불가능한 카테고리들 태그 추가
+    const addTagValue = (content, filterTitle) => {
+        const newTagValue = tagList.filter(
+            (tag) => !filteringItems.find((item) => item.name === filterTitle).contents.includes(tag)
         );
-        //tag
         if (!newTagValue.includes(content)) {
             newTagValue.push(content);
         }
-        setTagValue(newTagValue);
-        localStorage.setItem('tagValue', JSON.stringify(newTagValue));
-        //state
-        let newSelectState = [...selectState];
-        newSelectState[id] = !selectState[id];
-        setSelectState(newSelectState);
-        //params
+        setTagList(newTagValue);
+    };
+
+    //중복 가능한 카테고리들 태그 추가
+    const addMultiTagValue = (content) => {
+        const newTagValue = tagList.includes(content)
+            ? tagList.filter((tag) => tag !== content)
+            : [...tagList, content];
+        setTagList(newTagValue);
+    };
+
+    const deleteTagValue = (content) => {
+        const newTagValue = tagList.filter((tag) => tag !== content);
+        setTagList(newTagValue);
+    };
+
+        const newCategoryValue = categories.includes(value)
+            ? categories.filter((item) => item !== value)
+            : [...categories, value];
+        setCategories(newCategoryValue);
+        return newCategoryValue;
+    };
+
+    const keywordToggleParams = (value) => {
+        const newKeywordValue = keywords.includes(value)
+            ? keywords.filter((item) => item !== value)
+            : [...keywords, value];
+        setKeywords(newKeywordValue);
+        return newKeywordValue;
+    };
+
+    //category, keyword 제외한 카테고리 파라미터
+    const tipToggleParams = (id, newParams, content, filter_type) => {
+        const contentId = filteringItems[id - 1].contents.indexOf(content);
+        if (newParams[filter_type] === filteringItems[id - 1].value[contentId]) {
+            delete newParams[filter_type];
+            deleteTagValue(content);
+        } else {
+            newParams[filter_type] = filteringItems[id - 1].value[contentId];
+        }
+    };
+
+    //params
+    const addParams = (filter_type, id, value, content) => {
         setParams((prevParams) => {
             const newParams = { ...prevParams };
-            if (id < 7) {
-                newParams[filter_type] = value;
-            } else {
-                const contentId = select[id - 1].contents.indexOf(content);
-                let isPossible = null;
-                switch (contentId) {
-                    case 0:
-                        isPossible = true;
-                        break;
-                    case 1:
-                        isPossible = false;
-                        break;
-                    case 2:
-                        isPossible = null;
-                        break;
-                    default:
-                        break;
+            if (filter_type === 'category') {
+                const newCategoryValue = categoryToggleParams(value);
+                newParams[filter_type] = [...newCategoryValue];
+                return newParams;
+            } else if (filter_type === 'positiveKeyword') {
+                const newKeywordValue = keywordToggleParams(value);
+                newParams[filter_type] = [...newKeywordValue];
+                return newParams;
+            } else if (id < 7) {
+                if (newParams[filter_type] && newParams[filter_type] === value) {
+                    delete newParams[filter_type];
+                    deleteTagValue(content);
+                } else {
+                    newParams[filter_type] = value;
                 }
-                newParams[filter_type] = isPossible;
+                return newParams;
+            } else {
+                tipToggleParams(id, newParams, content, filter_type);
+                return newParams;
             }
-            return newParams;
         });
     };
+
+    const valueClickHandler = (id, content, filter_type, value) => {
+        const filterTitle = filteringItems.find((item) => item.id === id).name;
+
+        //tag
+        if (filter_type === 'category' || filter_type === 'positiveKeyword') {
+            addMultiTagValue(content, filterTitle);
+        } else {
+            addTagValue(content, filterTitle);
+        }
+
+        //params
+        addParams(filter_type, id, value, content);
+    };
+
+    //메인 페이지에서 받아오는 카테고리 처리
     useEffect(() => {
-        if (category) {
+        if (category && category.length !== 0) {
             setParams((prevParams) => {
                 const newParams = { ...prevParams };
-                newParams.category = category;
+                setCategories((prev) => {
+                    const updated = new Set(prev);
+                    updated.add(category);
+                    return Array.from(updated);
+                });
+                if (!newParams.category.includes(category)) {
+                    newParams.category = [...categories, category];
+                }
                 return newParams;
             });
             navigate('/webmap');
-            const newTagValue = tagValue;
+            const newTagValue = tagList;
             if (!newTagValue.includes(category)) {
                 newTagValue.push(category);
             }
-            setTagValue(newTagValue);
-            localStorage.setItem('tagValue', JSON.stringify(newTagValue));
+            setTagList(newTagValue);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [category]);
+    }, []);
 
     const locationClickHandler = (city) => {
         city === '경기' ? setIsSeoul(false) : setIsSeoul(true);
     };
 
-    const locationDetailClickHandler = (location) => {
-        const updatedLocationValue = [...locationValue, location];
-        setLocationValue(updatedLocationValue);
-        localStorage.setItem('location', JSON.stringify(updatedLocationValue));
+    const locationToggleValue = (location) => {
+        const newLocationValue = locationValue.includes(location)
+            ? locationValue.filter((item) => item !== location)
+            : [...locationValue, location];
+        setLocationValue(newLocationValue);
+        return newLocationValue;
+    };
 
-        setParams((prevParams) => {
-            const newParams = { ...prevParams };
-            const addressesString = updatedLocationValue.join(',');
-            newParams.addresses = addressesString;
+    const locationDetailClickHandler = (location) => {
+        const newLocationValue = locationToggleValue(location);
+        setParams((prev) => {
+            const newParams = { ...prev };
+            newParams.addresses = [...newLocationValue];
             return newParams;
         });
+
         //tag
-        const newTagValue = [...tagValue, location];
-        setTagValue(newTagValue);
-        localStorage.setItem('tagValue', JSON.stringify(newTagValue));
+        if (!tagList.includes(location)) {
+            const newTagValue = [...tagList, location];
+            setTagList(newTagValue);
+        } else {
+            deleteTagValue(location);
+        }
     };
 
     const CategoryClickHandler = (categoryId) => {
@@ -133,27 +208,15 @@ const Filtering = ({ category }) => {
         setSelectState(newSelectState);
     };
 
-    const removeTagValue = () => {
-        setTagValue([]);
-        setIsFirst();
-        setParams('');
-        setLocationValue('');
-        localStorage.removeItem('tagValue');
-        localStorage.removeItem('location');
-        localStorage.removeItem('params');
-        setFilterParams();
-    };
-
     useEffect(() => {
-        localStorage.setItem('params', JSON.stringify(params));
         setFilterParams(params);
     }, [params, setFilterParams]);
 
     return (
         <SelectLayout>
             <div>
-                {select &&
-                    select.map((item) => {
+                {filteringItems &&
+                    filteringItems.map((item) => {
                         return (
                             <SelectBox key={item.key}>
                                 {item.id === 2 && (
@@ -171,9 +234,9 @@ const Filtering = ({ category }) => {
                                             <LoactionSelectBox>
                                                 <SelectLocationItem>
                                                     <ul>
-                                                        {item.contents.city.map((city) => {
+                                                        {item.contents.city.map((city, index) => {
                                                             return (
-                                                                <Content key={item.id}>
+                                                                <Content key={`${item.id}-${city}-${index}`}>
                                                                     <input
                                                                         name={item.category}
                                                                         type="radio"
@@ -193,9 +256,9 @@ const Filtering = ({ category }) => {
                                                 <SelectLocationItem>
                                                     <ul>
                                                         {isSeoul &&
-                                                            item.contents.seoul.map((seoul) => {
+                                                            item.contents.seoul.map((seoul, index) => {
                                                                 return (
-                                                                    <Content key={item.id}>
+                                                                    <Content key={`${item.id}-${seoul}-${index}`}>
                                                                         <input
                                                                             name={item.category}
                                                                             type="checkbox"
@@ -210,9 +273,9 @@ const Filtering = ({ category }) => {
                                                                 );
                                                             })}
                                                         {!isSeoul &&
-                                                            item.contents.gyeongi.map((gyeongi) => {
+                                                            item.contents.gyeongi.map((gyeongi, index) => {
                                                                 return (
-                                                                    <Content key={item.id}>
+                                                                    <Content key={`${item.id}-${gyeongi}-${index}`}>
                                                                         <input
                                                                             name={item.category}
                                                                             type="checkbox"
@@ -248,10 +311,10 @@ const Filtering = ({ category }) => {
                                                 {item.contents &&
                                                     item.contents.map((content, index) => {
                                                         return (
-                                                            <Content key={item.id}>
+                                                            <Content key={`${item.id}-${content}-${index}`}>
                                                                 <input
                                                                     name={item.category}
-                                                                    type="radio"
+                                                                    type="checkbox"
                                                                     value={content}
                                                                     checked={isTagSelected(content)}
                                                                     onClick={() =>
@@ -276,8 +339,8 @@ const Filtering = ({ category }) => {
                     })}
             </div>
             <TagBox>
-                {tagValue.length > 0 && tagValue.map((tag, index) => <Tag key={index}>{tag}</Tag>)}
-                <button onClick={removeTagValue}>
+                {tagList.length > 0 && tagList.map((tag, index) => <Tag key={`${tag}-${index}`}>{tag}</Tag>)}
+                <button onClick={resetAllValue}>
                     초기화 <Reset />
                 </button>
             </TagBox>

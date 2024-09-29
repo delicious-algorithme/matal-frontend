@@ -1,4 +1,4 @@
-export const items = [
+export const filteringItems = [
     {
         id: 1,
         name: '메뉴',
@@ -95,7 +95,7 @@ export const items = [
     {
         id: 2,
         name: '지역',
-        filter_type: 'address',
+        filter_type: 'addresses',
         contents: {
             city: ['서울', '경기'],
             seoul: [
@@ -109,6 +109,7 @@ export const items = [
                 '금천구',
                 '노원구',
                 '동대문구',
+                '동작구',
                 '마포구',
                 '서대문구',
                 '서초구',

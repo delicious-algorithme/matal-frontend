@@ -29,6 +29,7 @@ const StoreDetailPage = () => {
     if (!isStoreDetailPage) {
         toggleStoreDetailPage();
     }
+
     const fetchStoreDetail = async (storeId) => {
         setIsLoading(true);
         try {

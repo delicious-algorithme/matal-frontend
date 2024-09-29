@@ -4,35 +4,21 @@ import { LightGrey, Orange } from '../color';
 import { ReactComponent as SearchIcon } from '../assets/Icon/Feather Icon.svg';
 import { ReactComponent as DashBoard } from '../assets/Icon/DashBoard.svg';
 import { ReactComponent as Home } from '../assets/Icon/Home.svg';
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useIsFirst, useStoreDetail } from '../store';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useIsFetch, useStoreDetail } from '../store';
 const WebMap = () => {
-    const location = useLocation();
     const navigate = useNavigate();
-    const [isStoreList, setIsStoreList] = useState();
+    const [isStoreList, setIsStoreList] = useState(true);
     const [searchInput, setSearchInput] = useState();
-    const { setNotIsFirst } = useIsFirst();
+    const { setIsFetchAll } = useIsFetch();
 
     const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
 
     if (isStoreDetailPage) {
         toggleStoreDetailPage();
     }
-    useEffect(() => {
-        if (!location.state?.listVisible) {
-            setIsStoreList(true);
-        }
-        if (location.state?.listVisible) {
-            setIsStoreList(false);
-        }
-        if (location.state?.detailVisible) {
-            setIsStoreList(false);
-        }
-        if (location.state?.listVisible) {
-            setIsStoreList(true);
-        }
-    }, [location.state]);
+
     const dashboardClickHandler = () => {
         setIsStoreList(!isStoreList);
     };
@@ -45,9 +31,9 @@ const WebMap = () => {
     const onKeyDownHandler = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            setNotIsFirst();
+            setIsFetchAll(false);
             setIsStoreList(true);
-            navigate(`/${searchInput}`);
+            navigate(`/webmap/storeList/${searchInput}`);
         }
     };
     return (

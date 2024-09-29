@@ -15,9 +15,11 @@ const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLi
         toggleStoreDetailPage();
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
     };
+
     const storeLinkHandler = () => {
         window.location.href = storeLink;
     };
+
     return (
         <StoreCardLayout>
             <ImgBox>
