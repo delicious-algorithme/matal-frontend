@@ -251,6 +251,10 @@ const StoreDetailLayout = styled.div`
     font-size: 16px;
     flex-direction: column;
     align-items: center;
+    @media screen and (max-width: 1024px) {
+        padding: 20px;
+        font-size: 13px;
+    }
 `;
 const Header = styled.div`
     display: flex;
@@ -260,7 +264,6 @@ const Header = styled.div`
     width: 100%;
     height: 125px;
     align-items: center;
-
     background-color: ${White};
     border-bottom: 2px solid ${Grey};
     & > svg {
@@ -281,8 +284,17 @@ const Header = styled.div`
         }
     }
     @media screen and (max-width: 1024px) {
-        padding-left: 50px;
-        padding-right: 50px;
+        padding: 0px;
+        margin: 0px;
+        height: 60px;
+        & > button {
+            width: 120px;
+        }
+        & > svg {
+            display: none;
+        }
+        justify-content: flex-end;
+        border-bottom: none;
     }
 `;
 
@@ -346,7 +358,7 @@ const ImageAndOverView = styled.div`
         }
         @media screen and (max-width: 1024px) {
             & > img {
-                width: 60%;
+                width: 50%;
                 min-height: 200px;
                 border-radius: 10px;
             }
@@ -533,6 +545,11 @@ const TipBox = styled.div`
             justify-content: center;
             padding: 20px;
             box-shadow: 2px 2px 2px ${Grey};
+        }
+    }
+    @media screen and (max-width: 1024px) {
+        & > div > div {
+            min-width: 100px;
         }
     }
 `;

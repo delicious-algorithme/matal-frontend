@@ -95,6 +95,9 @@ const NavBox = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    @media screen and (max-width: 1024px) {
+        display: none;
+    }
 `;
 
 const DashBoardButton = styled.button`
