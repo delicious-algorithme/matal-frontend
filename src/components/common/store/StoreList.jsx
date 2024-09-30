@@ -303,8 +303,9 @@ const StoreListLayout = styled.div`
         }
     }
     @media screen and (max-width: 1024px) {
-        min-width: 300px;
+        min-width: 200px;
         height: auto;
+        margin-left: 20px;
     }
 `;
 const SearchBarBox = styled.div`
@@ -333,6 +334,11 @@ const SearchBarBox = styled.div`
     }
     @media screen and (max-width: 1024px) {
         margin-left: 20px;
+        font-size: 10px;
+        input::placeholder {
+            color: ${Orange};
+            font-size: 12px;
+        }
     }
 `;
 const Icon = styled.div`
