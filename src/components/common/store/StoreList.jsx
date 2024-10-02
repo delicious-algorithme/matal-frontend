@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { DartkGrey, Grey, LightGrey, Orange, White } from '../../../color';
-import { ReactComponent as SearchIcon } from './../../../assets/Icon/Feather Icon.svg';
+import { ReactComponent as SearchIcon } from './../../../assets/Icon/detail/Feather Icon.svg';
 import StoreCard from './StoreCard';
 import { useEffect, useState } from 'react';
 import { getStoreList } from '../../../apis/api/getStoreList';

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { ReactComponent as SearchIcon } from '../../assets/Icon/Feather Icon.svg';
-import { ReactComponent as DashBoard } from '../../assets/Icon/DashBoard.svg';
-import { ReactComponent as ArrowRight } from '../../assets/Icon/ArrowNav.svg';
+import { ReactComponent as SearchIcon } from '../../assets/Icon/detail/Feather Icon.svg';
+import { ReactComponent as DashBoard } from '../../assets/Icon/nav/DashBoard.svg';
+import { ReactComponent as ArrowRight } from '../../assets/Icon/arrow/ArrowNav.svg';
 import { ReactComponent as Logo } from '../../assets/Icon/Logo.svg';
 import { Orange } from '../../color';
 import { useNavigate } from 'react-router-dom';

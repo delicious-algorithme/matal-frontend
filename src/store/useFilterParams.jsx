@@ -1,7 +1,6 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// 초기 상태 값 설정
 const initialFilterParams = {
     category: [],
     addresses: [],
@@ -11,15 +10,12 @@ const initialFilterParams = {
 const useFilterParams = create(
     persist(
         (set) => ({
-            filterParams: initialFilterParams, // 초기 상태 값 설정
+            filterParams: initialFilterParams,
             setFilterParams: (params) => {
-                set(
-                    { filterParams: params }
-                    // 기존 상태와 병합
-                );
+                set({ filterParams: params });
             },
             resetFilterParams: () => {
-                set({ filterParams: initialFilterParams }); // 상태 초기화
+                set({ filterParams: initialFilterParams });
             },
         }),
         { name: 'filter-params' }

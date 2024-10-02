@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import { ReactComponent as Logo } from '../assets/Icon/Logo.svg';
-import { ReactComponent as Star } from '../assets/Icon/Star.svg';
-import { ReactComponent as Insight } from '../assets/Icon/Insight.svg';
-import { ReactComponent as SoloDining } from '../assets/Icon/SoloDining.svg';
-import { ReactComponent as Parking } from '../assets/Icon/Parking.svg';
-import { ReactComponent as Dog } from '../assets/Icon/Dog.svg';
-import { ReactComponent as Clock } from '../assets/Icon/Clock.svg';
-import { ReactComponent as Recommended } from '../assets/Icon/Recommended.svg';
-import { ReactComponent as ParkingTip } from '../assets/Icon/PakingTip.svg';
-import { ReactComponent as WaitingTip } from '../assets/Icon/WaitingTip.svg';
-import { ReactComponent as Path } from '../assets/Icon/Path.svg';
+import { ReactComponent as Star } from '../assets/Icon/detail/Star.svg';
+import { ReactComponent as Insight } from '../assets/Icon/detail/Insight.svg';
+import { ReactComponent as SoloDining } from '../assets/Icon/detail/SoloDining.svg';
+import { ReactComponent as Parking } from '../assets/Icon/detail/Parking.svg';
+import { ReactComponent as Dog } from '../assets/Icon/detail/Dog.svg';
+import { ReactComponent as Clock } from '../assets/Icon/detail/Clock.svg';
+import { ReactComponent as Recommended } from '../assets/Icon/detail/Recommended.svg';
+import { ReactComponent as ParkingTip } from '../assets/Icon/detail/PakingTip.svg';
+import { ReactComponent as WaitingTip } from '../assets/Icon/detail/WaitingTip.svg';
+import { ReactComponent as Path } from '../assets/Icon/detail/Path.svg';
 import { DartkGrey, LightGrey, Grey, Orange, White } from '../color';
 import { MyMap } from '../components/common';
 import { useStoreDetail } from '../store';
@@ -20,8 +20,9 @@ import { getStoreDetail } from '../apis/api/getStoreDetail';
 const StoreDetailPage = () => {
     const [item, setItem] = useState('');
     const { id } = useParams();
-    const storeId = id;
+    const navigate = useNavigate();
 
+    const storeId = id;
     const piechart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
     const tip = {
         isSoloDining: item.isSoloDining ? '가능' : '불가능',
@@ -58,6 +59,7 @@ const StoreDetailPage = () => {
         }
         setIsLoading(false);
     };
+
     useEffect(() => {
         if (storeId) {
             fetchStoreDetail(storeId);
@@ -65,10 +67,10 @@ const StoreDetailPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeId]);
 
-    const navigate = useNavigate();
     const logoClickHandler = () => {
         navigate('/');
     };
+
     const buttonClickHandler = () => {
         navigate('/webmap');
     };
@@ -111,10 +113,7 @@ const StoreDetailPage = () => {
                                     <h2>AI리뷰 인사이트</h2>
                                     <Insight />
                                 </div>
-                                <p>
-                                    {' '}
-                                    AI가 다수의 고객 리뷰를 정밀히 분석하여 숨겨진 인사이트를 찾아주는 서비스 입니다.
-                                </p>
+                                <p>AI가 다수의 고객 리뷰를 정밀히 분석하여 숨겨진 인사이트를 찾아주는 서비스 입니다.</p>
                             </TitleBox>
                             <BasicInfoBox>
                                 <div>

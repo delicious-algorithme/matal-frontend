@@ -1,4 +1,4 @@
-export const filteringItems = [
+export const FITERING_INFO = [
     {
         id: 1,
         name: '메뉴',

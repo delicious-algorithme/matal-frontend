@@ -11,7 +11,7 @@ const useStoreDetail = create(
             setStoreDetail: (store) => {
                 set({ storeDetail: store });
             },
-            toggleStoreDetailPage: () => set((state) => ({ isStoreDetailPage: !state.isStoreDetailPage })), // 상태 업데이트 로직 수정
+            toggleStoreDetailPage: () => set((state) => ({ isStoreDetailPage: !state.isStoreDetailPage })),
         }),
         { name: 'store-detail' }
     )
