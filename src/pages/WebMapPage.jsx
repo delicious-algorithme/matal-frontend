@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { StoreList, MobileNav, MyMap } from '../components/common';
 import { LightGrey, Orange } from '../color';
-import { ReactComponent as SearchIcon } from '../assets/Icon/Feather Icon.svg';
-import { ReactComponent as DashBoard } from '../assets/Icon/DashBoard.svg';
-import { ReactComponent as Home } from '../assets/Icon/Home.svg';
+import { ReactComponent as SearchIcon } from '../assets/Icon/detail/Feather Icon.svg';
+import { ReactComponent as DashBoard } from '../assets/Icon/nav/DashBoard.svg';
+import { ReactComponent as Home } from '../assets/Icon/nav/Home.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIsFetch, useStoreDetail } from '../store';
@@ -22,12 +22,15 @@ const WebMap = () => {
     const dashboardClickHandler = () => {
         setIsStoreList(!isStoreList);
     };
+
     const homeClickHandler = () => {
         navigate('/');
     };
+
     const onChangeHandler = (e) => {
         setSearchInput(e.target.value);
     };
+
     const onKeyDownHandler = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -36,6 +39,7 @@ const WebMap = () => {
             navigate(`/webmap/storeList/${searchInput}`);
         }
     };
+
     return (
         <WebMapLayout>
             <NavBox>

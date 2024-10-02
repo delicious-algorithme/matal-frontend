@@ -3,7 +3,7 @@ import { Orange } from '../../../color';
 import { White } from '../../../color';
 import { useNavigate } from 'react-router-dom';
 import { useIsFetch } from '../../../store';
-import { items } from './CategoryItems';
+import { CATEGORY_ITEMS } from '../../../constants/categoryItem';
 
 const Category = (position) => {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const Category = (position) => {
 
     return (
         <CategoryLayout position={position}>
-            {items.map((item, idx) => {
+            {CATEGORY_ITEMS.map((item, idx) => {
                 return (
                     <div
                         key={idx}

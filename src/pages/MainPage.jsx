@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { MyMap } from '../components/common';
 import { MainHeader } from '../components/main';
-import { ReactComponent as Arrow } from '../assets/Icon/Arrow.svg';
+import { ReactComponent as Arrow } from '../assets/Icon/arrow/Arrow.svg';
 import { ReactComponent as Pizza } from '../assets/image/Pizza.svg';
 import { ReactComponent as Cake } from '../assets/image/Cake.svg';
 import { ReactComponent as Sandwich } from '../assets/image/Sandwich.svg';
@@ -93,7 +93,6 @@ const CategoryBox = styled.div`
     justify-content: center;
     @media screen and (max-width: 1024px) {
         display: flex;
-        //position: inherit;
         flex-direction: row;
         width: 100%;
         height: 70px;
