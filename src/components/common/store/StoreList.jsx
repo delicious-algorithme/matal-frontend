@@ -60,7 +60,6 @@ const StoreList = () => {
                         return [...prevData, ...newDataFiltered];
                     });
                 }
-                //비어있는 경우
                 if (response.data.empty) {
                     setHasMore(false);
                     setIsLoading(false);
@@ -91,6 +90,8 @@ const StoreList = () => {
         try {
             const response = await getStoreAll({
                 page: page,
+                orderByPositiveRatio: orderByPositiveRatio,
+                orderByRating: orderByRating,
             });
             if (response.status === 200) {
                 const newData = response.data.content;
