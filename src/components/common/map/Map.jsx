@@ -147,4 +147,6 @@ const MyMap = () => {
 };
 export default MyMap;
 
-const MapContatiner = styled.div``;
+const MapContatiner = styled.div`
+    border-radius: 20px;
+`;
