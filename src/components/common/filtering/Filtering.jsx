@@ -1,13 +1,12 @@
 import styled from 'styled-components';
-import { filteringItems } from './FilteringItems';
+import { FITERING_INFO } from '../../../constants/filteringItems';
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { DartkGrey, Grey, Orange, White } from '../../../color';
-import { ReactComponent as ArrowUp } from '../../../assets/Icon/ArrowUp.svg';
-import { ReactComponent as ArrowDown } from '../../../assets/Icon/FilterArrowDown.svg';
-import { ReactComponent as Reset } from '../../../assets/Icon/Reset.svg';
+import { DarkGrey, Grey, Orange, White } from '../../../color';
+import { ReactComponent as ArrowUp } from '../../../assets/Icon/arrow/ArrowUp.svg';
+import { ReactComponent as ArrowDown } from '../../../assets/Icon/arrow/FilterArrowDown.svg';
+import { ReactComponent as Reset } from '../../../assets/Icon/arrow/Reset.svg';
 import { useFilterParams, useIsFetch, useTagList } from '../../../store';
 import { useNavigate } from 'react-router-dom';
-
 import { isEqual } from 'lodash';
 
 const Filtering = ({ category }) => {
@@ -60,7 +59,7 @@ const Filtering = ({ category }) => {
     //중복 불가능한 카테고리들 태그 추가
     const addTagValue = (content, filterTitle) => {
         const newTagValue = tagList.filter(
-            (tag) => !filteringItems.find((item) => item.name === filterTitle).contents.includes(tag)
+            (tag) => !FITERING_INFO.find((item) => item.name === filterTitle).contents.includes(tag)
         );
         if (!newTagValue.includes(content)) {
             newTagValue.push(content);
@@ -100,12 +99,12 @@ const Filtering = ({ category }) => {
 
     //category, keyword 제외한 카테고리 파라미터
     const tipToggleParams = (id, newParams, content, filter_type) => {
-        const contentId = filteringItems[id - 1].contents.indexOf(content);
-        if (newParams[filter_type] === filteringItems[id - 1].value[contentId]) {
+        const contentId = FITERING_INFO[id - 1].contents.indexOf(content);
+        if (newParams[filter_type] === FITERING_INFO[id - 1].value[contentId]) {
             delete newParams[filter_type];
             deleteTagValue(content);
         } else {
-            newParams[filter_type] = filteringItems[id - 1].value[contentId];
+            newParams[filter_type] = FITERING_INFO[id - 1].value[contentId];
         }
     };
 
@@ -137,7 +136,7 @@ const Filtering = ({ category }) => {
     };
 
     const valueClickHandler = (id, content, filter_type, value) => {
-        const filterTitle = filteringItems.find((item) => item.id === id).name;
+        const filterTitle = FITERING_INFO.find((item) => item.id === id).name;
 
         //tag
         if (filter_type === 'category' || filter_type === 'positiveKeyword') {
@@ -217,8 +216,8 @@ const Filtering = ({ category }) => {
     return (
         <SelectLayout>
             <div>
-                {filteringItems &&
-                    filteringItems.map((item) => {
+                {FITERING_INFO &&
+                    FITERING_INFO.map((item) => {
                         return (
                             <SelectBox key={item.key}>
                                 {item.id === 2 && (
@@ -392,7 +391,7 @@ const CategoryBox = styled.div`
     font-size: 13px;
     padding: 10px;
     border: 1px solid ${Grey};
-    color: ${DartkGrey};
+    color: ${DarkGrey};
     font-weight: bold;
     &:hover {
         color: ${Orange};
@@ -419,7 +418,7 @@ const Contents = styled.ul`
     padding: 10px;
     font-weight: bold;
     background: ${White};
-    color: ${DartkGrey};
+    color: ${DarkGrey};
     & > p {
         width: 100%;
     }
@@ -477,7 +476,7 @@ const LoactionSelectBox = styled.div`
     padding: 10px;
     font-weight: bold;
     background: ${White};
-    color: ${DartkGrey};
+    color: ${DarkGrey};
     &::-webkit-scrollbar {
         width: 5px;
         height: auto;
@@ -530,6 +529,7 @@ const Tag = styled.div`
     color: ${White};
     & > button {
         background: transparent;
+
         cursor: pointer;
     }
 `;

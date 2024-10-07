@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { DartkGrey, Grey, LightGrey, Orange, White } from '../../../color';
-import { ReactComponent as SearchIcon } from './../../../assets/Icon/Feather Icon.svg';
+import { DarkGrey, Grey, LightGrey, Orange, White } from '../../../color';
+import { ReactComponent as SearchIcon } from './../../../assets/Icon/detail/Feather Icon.svg';
 import StoreCard from './StoreCard';
 import { useEffect, useState } from 'react';
 import { getStoreList } from '../../../apis/api/getStoreList';
@@ -375,7 +375,7 @@ const SortSelectBox = styled.div`
         gap: 10px;
         height: 35px;
         background-color: ${White};
-        color: ${DartkGrey};
+        color: ${DarkGrey};
         font-weight: bold;
         justify-content: center;
         align-items: center;

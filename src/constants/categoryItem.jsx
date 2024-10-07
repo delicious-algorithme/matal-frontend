@@ -1,4 +1,4 @@
-export const items = [
+export const CATEGORY_ITEMS = [
     '한정식',
     '일식당',
     '양식',
