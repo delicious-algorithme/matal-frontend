@@ -10,7 +10,7 @@ import { ReactComponent as Recommended } from '../assets/Icon/detail/Recommended
 import { ReactComponent as ParkingTip } from '../assets/Icon/detail/PakingTip.svg';
 import { ReactComponent as WaitingTip } from '../assets/Icon/detail/WaitingTip.svg';
 import { ReactComponent as Path } from '../assets/Icon/detail/Path.svg';
-import { DartkGrey, LightGrey, Grey, Orange, White } from '../color';
+import { DarkGrey, LightGrey, Grey, Orange, White } from '../color';
 import { MyMap } from '../components/common';
 import { useStoreDetail } from '../store';
 import { useEffect, useState } from 'react';
@@ -267,6 +267,8 @@ const Header = styled.div`
     border-bottom: 2px solid ${Grey};
     & > svg {
         cursor: pointer;
+        width: 200px;
+        height: 120px;
     }
     & > button {
         width: fit-content;
@@ -388,7 +390,7 @@ const TitleBox = styled.div`
     }
     & > p {
         margin-top: 10px;
-        color: ${DartkGrey};
+        color: ${DarkGrey};
         font-size: 13px;
     }
 `;
@@ -430,7 +432,7 @@ const Content = styled.div`
     max-width: 700px;
     height: 150px;
     border: 1px solid ${Grey};
-    color: ${DartkGrey};
+    color: ${DarkGrey};
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -454,7 +456,7 @@ const PositiveRatioBox = styled.div`
         }
         & > p {
             font-size: 13px;
-            color: ${DartkGrey};
+            color: ${DarkGrey};
         }
         & > h4 {
             color: ${Orange};
@@ -471,7 +473,7 @@ const PieChartBox = styled.div`
     padding: 20px;
     gap: 20px;
     & > div {
-        color: ${DartkGrey};
+        color: ${DarkGrey};
         display: flex;
         flex-direction: row;
         gap: 10px;
@@ -512,7 +514,7 @@ const RecommendBox = styled.div`
         color: ${Orange};
     }
     & > p {
-        color: ${DartkGrey};
+        color: ${DarkGrey};
         font-size: 13px;
     }
     & > div {
@@ -569,7 +571,7 @@ const OverViewContainer = styled.div`
         flex-direction: column;
         gap: 10px;
         & > span {
-            color: ${DartkGrey};
+            color: ${DarkGrey};
         }
     }
     padding-bottom: 30px;

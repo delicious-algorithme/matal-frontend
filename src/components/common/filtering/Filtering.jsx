@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FITERING_INFO } from '../../../constants/filteringItems';
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { DartkGrey, Grey, Orange, White } from '../../../color';
+import { DarkGrey, Grey, Orange, White } from '../../../color';
 import { ReactComponent as ArrowUp } from '../../../assets/Icon/arrow/ArrowUp.svg';
 import { ReactComponent as ArrowDown } from '../../../assets/Icon/arrow/FilterArrowDown.svg';
 import { ReactComponent as Reset } from '../../../assets/Icon/arrow/Reset.svg';
@@ -391,7 +391,7 @@ const CategoryBox = styled.div`
     font-size: 13px;
     padding: 10px;
     border: 1px solid ${Grey};
-    color: ${DartkGrey};
+    color: ${DarkGrey};
     font-weight: bold;
     &:hover {
         color: ${Orange};
@@ -418,7 +418,7 @@ const Contents = styled.ul`
     padding: 10px;
     font-weight: bold;
     background: ${White};
-    color: ${DartkGrey};
+    color: ${DarkGrey};
     & > p {
         width: 100%;
     }
@@ -476,7 +476,7 @@ const LoactionSelectBox = styled.div`
     padding: 10px;
     font-weight: bold;
     background: ${White};
-    color: ${DartkGrey};
+    color: ${DarkGrey};
     &::-webkit-scrollbar {
         width: 5px;
         height: auto;
