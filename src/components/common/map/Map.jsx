@@ -53,13 +53,12 @@ const MyMap = () => {
                 center: new naver.maps.LatLng(currentLocation.lat, currentLocation.lng),
                 zoomControl: true,
                 zoomControlOptions: {
-                    style: naver.maps.ZoomControlStyle.SMALL,
                     position: naver.maps.Position.TOP_RIGHT,
                 },
                 mapDataControl: true,
                 scaleControl: true,
                 maxZoom: 20,
-                zoom: 11,
+                zoom: 12,
             };
         }
         mapRef.current = new naver.maps.Map(mapElement.current, mapOptions);
@@ -131,7 +130,7 @@ const MyMap = () => {
         };
         import('./cluster').then(({ MarkerClustering }) => {
             new MarkerClustering({
-                minClusterSize: 2,
+                minClusterSize: 1,
                 maxZoom: 20,
                 map: mapRef.current,
                 markers: createMarkerList,
