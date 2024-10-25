@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Grey, Orange, White } from '../../color';
+
 const items = [
     {
         label: '아이디',
@@ -63,6 +64,7 @@ const Signup = () => {
         </SignupLayout>
     );
 };
+
 export default Signup;
 
 const SignupLayout = styled.div`
@@ -72,6 +74,7 @@ const SignupLayout = styled.div`
     align-items: center;
     flex-direction: column;
 `;
+
 const SignupBox = styled.div`
     width: 500px;
     height: auto;
@@ -81,10 +84,11 @@ const SignupBox = styled.div`
     & > div {
         margin: 1rem 0rem;
     }
-    @media (max-width: 770px) {
+    @media (max-width: 768px) {
         width: auto;
     }
 `;
+
 const InitalinformationBox = styled.form`
     display: flex;
     justify-content: flex-start;
@@ -96,12 +100,13 @@ const InitalinformationBox = styled.form`
         border: 1px solid ${Grey};
         border-radius: 20px;
     }
-    @media (max-width: 770px) {
+    @media (max-width: 768px) {
         & > input {
             width: 100%;
         }
     }
 `;
+
 const ButtonBox = styled.div`
     display: flex;
     gap: 1rem;

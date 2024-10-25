@@ -37,7 +37,10 @@ const MainPage = () => {
         <>
             <MainPageLayout>
                 <Header />
-                <Banner />
+                <BannerContainer>
+                    <Banner />
+                </BannerContainer>
+
                 <SearchBar
                     searchInput={searchInput}
                     onChangeHandler={onChangeHandler}
@@ -52,6 +55,7 @@ const MainPage = () => {
         </>
     );
 };
+
 export default MainPage;
 
 const MainPageLayout = styled.div`
@@ -59,4 +63,23 @@ const MainPageLayout = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    @media screen and (max-width: 1024px) {
+        gap: 10px;
+        & > svg {
+            width: 250px;
+            height: 150px;
+        }
+    }
+`;
+
+const BannerContainer = styled.div`
+    & > svg {
+        width: 100%;
+        height: 200%;
+    }
+    @media screen and (max-width: 768px) {
+        & > svg {
+            display: none;
+        }
+    }
 `;

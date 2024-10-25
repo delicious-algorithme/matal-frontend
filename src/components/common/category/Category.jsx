@@ -63,7 +63,7 @@ const CategoryLayout = styled.div`
             background-color: ${Orange};
             color: ${White};
         }
-        @media screen and (max-width: 800px) {
+        @media screen and (max-width: 768px) {
             & > div {
                 display: flex;
                 flex-direction: row;

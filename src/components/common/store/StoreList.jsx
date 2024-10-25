@@ -5,11 +5,13 @@ import StoreCard from './StoreCard';
 import { useEffect, useState } from 'react';
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreList, useIsFetch, useFilterParams, useTagList } from '../../../store';
 import Filtering from '../filtering/Filtering';
+
 const StoreList = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [stores, setStores] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -230,10 +232,16 @@ const StoreList = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
+    const onClicktoBackButton = () => {
+        navigate('/');
+    };
 
     return (
         <StoreListLayout>
-            <button onClick={allFetchButtonHandler}>전체 식당 보기</button>
+            <ButtonContainer>
+                <button onClick={onClicktoBackButton}>뒤로 가기</button>
+                <button onClick={allFetchButtonHandler}>전체 식당 보기</button>
+            </ButtonContainer>
             <SearchBarBox>
                 <Icon>
                     <SearchIcon />
@@ -280,7 +288,9 @@ const StoreList = () => {
         </StoreListLayout>
     );
 };
+
 export default StoreList;
+
 const StoreListLayout = styled.div`
     position: relative;
     margin-top: 10px;
@@ -288,7 +298,17 @@ const StoreListLayout = styled.div`
     width: 100%;
     background-color: ${White};
     overflow-y: scroll;
-    overflow-x: visible;
+
+    @media screen and (max-width: 1024px) {
+        min-width: 200px;
+        height: auto;
+        margin-left: 20px;
+    }
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    gap: 10px;
     & > button {
         width: fit-content;
         text-align: center;
@@ -302,11 +322,6 @@ const StoreListLayout = styled.div`
             background: ${Orange};
             color: ${White};
         }
-    }
-    @media screen and (max-width: 1024px) {
-        min-width: 200px;
-        height: auto;
-        margin-left: 20px;
     }
 `;
 const SearchBarBox = styled.div`
@@ -331,6 +346,7 @@ const SearchBarBox = styled.div`
         color: ${Orange};
     }
     input::placeholder {
+        font-size: 16px;
         color: ${Orange};
     }
     @media screen and (max-width: 1024px) {
@@ -338,10 +354,10 @@ const SearchBarBox = styled.div`
         font-size: 10px;
         input::placeholder {
             color: ${Orange};
-            font-size: 12px;
         }
     }
 `;
+
 const Icon = styled.div`
     position: absolute;
     z-index: 2;
@@ -366,6 +382,7 @@ const SortBox = styled.div`
         list-style: none;
     }
 `;
+
 const SortSelectBox = styled.div`
     display: flex;
     gap: 10px;
@@ -409,6 +426,7 @@ const SortSelectBox = styled.div`
         }
     }
 `;
+
 const Alert = styled.h3`
     padding: 14px;
     display: flex;

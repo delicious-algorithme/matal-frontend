@@ -144,6 +144,7 @@ const MyMap = () => {
 
     return <MapContatiner id="map" ref={mapElement} style={{ width: '100%', height: '100%' }} />;
 };
+
 export default MyMap;
 
 const MapContatiner = styled.div`

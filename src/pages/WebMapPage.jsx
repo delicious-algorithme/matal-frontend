@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StoreList, MobileNav, MyMap } from '../components/common';
+import { StoreList, MyMap } from '../components/common';
 import { LightGrey, Orange } from '../color';
 import { ReactComponent as SearchIcon } from '../assets/Icon/detail/Feather Icon.svg';
 import { ReactComponent as DashBoard } from '../assets/Icon/nav/DashBoard.svg';
@@ -7,6 +7,7 @@ import { ReactComponent as Home } from '../assets/Icon/nav/Home.svg';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIsFetch, useStoreDetail } from '../store';
+
 const WebMap = () => {
     const navigate = useNavigate();
     const [isStoreList, setIsStoreList] = useState(true);
@@ -72,7 +73,6 @@ const WebMap = () => {
                     <MyMap />
                 </MapContainer>
             </ContentsContainer>
-            <MobileNav />
         </WebMapLayout>
     );
 };
@@ -118,6 +118,7 @@ const DashBoardButton = styled.button`
         fill: ${(props) => (props.isStoreList ? '#FFFFFF' : '#EA6A12')};
     }
 `;
+
 const HomeButton = styled.button`
     width: 40px;
     height: 40px;
@@ -129,6 +130,7 @@ const HomeButton = styled.button`
         height: 50px;
     }
 `;
+
 const ContentsContainer = styled.div`
     display: flex;
     flex-direction: column;

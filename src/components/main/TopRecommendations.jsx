@@ -84,7 +84,7 @@ const TopRecommendations = () => {
                     ))}
                 </AnimatedContainer>
             )}
-            <div>
+            <ButtonContainer>
                 {next > 3 && (
                     <button onClick={loadPrev}>
                         <TopLeftArrow />
@@ -95,7 +95,7 @@ const TopRecommendations = () => {
                         <TopRightArrow />
                     </button>
                 )}
-            </div>
+            </ButtonContainer>
         </TopRecommendationsLayout>
     );
 };
@@ -130,6 +130,14 @@ const AnimatedContainer = styled.div`
         css`
             animation: ${animationDirection === 'in' ? moveIn : moveOut} 1s forwards;
         `}
+    @media screen and (max-width: 768px) {
+        width: 60%;
+        flex-direction: column;
+    }
+    @media screen and (max-width: 576px) {
+        width: 80%;
+        flex-direction: column;
+    }
 `;
 
 const TopRecommendationsLayout = styled.div`
@@ -139,24 +147,27 @@ const TopRecommendationsLayout = styled.div`
     flex-direction: column;
     gap: 10px;
 
-    & > div {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 30px;
-
-        & > button {
-            width: 40px;
-            height: 40px;
-            background-color: ${White};
-            border-radius: 100%;
-            box-shadow: 2px 2px 2px ${Grey};
-        }
-    }
-
     & > label {
         display: flex;
         flex-direction: row;
         gap: 10px;
+    }
+    @media screen and (max-width: 780px) {
+        align-items: center;
+    }
+`;
+
+const ButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+
+    & > button {
+        width: 40px;
+        height: 40px;
+        background-color: ${White};
+        border-radius: 100%;
+        box-shadow: 2px 2px 2px ${Grey};
     }
 `;

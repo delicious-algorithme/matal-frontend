@@ -1,5 +1,6 @@
 import { Signup } from '../components/login';
 import { Header } from '../components/common';
+
 const SignUpPage = () => {
     return (
         <div>
@@ -8,4 +9,5 @@ const SignUpPage = () => {
         </div>
     );
 };
+
 export default SignUpPage;
