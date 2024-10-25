@@ -2,6 +2,7 @@ import { ReactComponent as Bookmark } from '../../assets/Icon/detail/Bookmark.sv
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Orange, Grey } from '../../color';
+
 const TopStoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
     const navigate = useNavigate();
 
@@ -25,6 +26,7 @@ const TopStoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
         </StoreCardContainer>
     );
 };
+
 export default TopStoreCard;
 
 const StoreCardContainer = styled.div`
@@ -50,6 +52,7 @@ const StoreCardContainer = styled.div`
         margin: 0 auto;
     }
 `;
+
 const NameAndCategoryContainer = styled.div`
     display: flex;
     flex-direction: row;

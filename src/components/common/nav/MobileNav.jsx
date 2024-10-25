@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Orange, White } from '../../../color';
 import { ReactComponent as HomeIcon } from '../../../assets/Icon/nav/Home.svg';
 import { useNavigate } from 'react-router-dom';
+
 const MobileNav = () => {
     const navigate = useNavigate();
     const homeNavClickHandler = () => {
@@ -16,6 +17,7 @@ const MobileNav = () => {
         </MobileNavLayout>
     );
 };
+
 export default MobileNav;
 
 const MobileNavLayout = styled.div`
@@ -38,6 +40,7 @@ const MobileNavLayout = styled.div`
         display: none;
     }
 `;
+
 const HomeNav = styled.div`
     margin-left: 20px;
     cursor: pointer;

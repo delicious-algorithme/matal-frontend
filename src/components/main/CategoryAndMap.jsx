@@ -3,6 +3,7 @@ import { Category } from '../common';
 import { MyMap } from '../common';
 import { Grey } from '../../color';
 import { ReactComponent as CategoryIcon } from '../../assets/Icon/main/CategoryIcon.svg';
+
 const CategoryAndMap = () => {
     return (
         <CategoryAndMapLayout>
@@ -35,11 +36,15 @@ const CategoryAndMapLayout = styled.div`
         flex-direction: row;
         gap: 20px;
     }
+    @media screen and (max-width: 1024px) {
+        align-items: center;
+    }
 `;
 
 const CategoryAndMapBox = styled.div`
     display: flex;
     justify-content: center;
+    flex-direction: row;
     gap: 10px;
 
     & > div {
@@ -51,5 +56,14 @@ const CategoryAndMapBox = styled.div`
     }
     :first-child {
         padding: 20px;
+    }
+    @media screen and (max-width: 1024px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & > div {
+            width: 80%;
+        }
     }
 `;
