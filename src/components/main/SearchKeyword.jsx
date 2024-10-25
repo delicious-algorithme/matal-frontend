@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Orange } from '../../color';
+
 const SearchKeyword = () => {
     return (
         <SearchKeywordBox>
@@ -10,6 +11,7 @@ const SearchKeyword = () => {
         </SearchKeywordBox>
     );
 };
+
 export default SearchKeyword;
 
 const SearchKeywordBox = styled.div`
@@ -17,4 +19,8 @@ const SearchKeywordBox = styled.div`
     flex-direction: row;
     gap: 30px;
     color: ${Orange};
+    font-size: 16px;
+    @media screen and (max-width: 780px) {
+        display: none;
+    }
 `;
