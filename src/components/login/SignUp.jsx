@@ -84,7 +84,7 @@ const SignupBox = styled.div`
     & > div {
         margin: 1rem 0rem;
     }
-    @media (max-width: 770px) {
+    @media (max-width: 768px) {
         width: auto;
     }
 `;
@@ -100,7 +100,7 @@ const InitalinformationBox = styled.form`
         border: 1px solid ${Grey};
         border-radius: 20px;
     }
-    @media (max-width: 770px) {
+    @media (max-width: 768px) {
         & > input {
             width: 100%;
         }

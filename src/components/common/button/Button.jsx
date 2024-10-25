@@ -52,7 +52,7 @@ const StyledButton = styled.button`
         padding-right: 20px;
     }
 
-    @media screen and (max-width: 780px) {
+    @media screen and (max-width: 768px) {
         font-size: 12px;
         height: 35px;
         padding-left: 10px;

@@ -47,7 +47,7 @@ const HeaderLayout = styled.header`
     width: 100%;
     padding: 10px;
     transition: all 0ms ease;
-    @media screen and (max-width: 780px) {
+    @media screen and (max-width: 768px) {
         & > svg {
             width: 100px;
             height: 75px;
@@ -61,7 +61,7 @@ const ButtonContainer = styled.div`
     display: flex;
     transition: all 0.5s ease;
     gap: 20px;
-    @media screen and (max-width: 780px) {
+    @media screen and (max-width: 768px) {
         :nth-child(2) {
             display: none;
         }

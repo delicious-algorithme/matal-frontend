@@ -77,7 +77,7 @@ const BannerContainer = styled.div`
         width: 100%;
         height: 200%;
     }
-    @media screen and (max-width: 780px) {
+    @media screen and (max-width: 768px) {
         & > svg {
             display: none;
         }
