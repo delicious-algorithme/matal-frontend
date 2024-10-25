@@ -37,10 +37,7 @@ const MainPage = () => {
         <>
             <MainPageLayout>
                 <Header />
-                <BannerContainer>
-                    <Banner />
-                </BannerContainer>
-
+                <Banner width="80%" height="100%" />
                 <SearchBar
                     searchInput={searchInput}
                     onChangeHandler={onChangeHandler}
@@ -65,21 +62,5 @@ const MainPageLayout = styled.div`
     gap: 30px;
     @media screen and (max-width: 1024px) {
         gap: 10px;
-        & > svg {
-            width: 250px;
-            height: 150px;
-        }
-    }
-`;
-
-const BannerContainer = styled.div`
-    & > svg {
-        width: 100%;
-        height: 200%;
-    }
-    @media screen and (max-width: 768px) {
-        & > svg {
-            display: none;
-        }
     }
 `;
