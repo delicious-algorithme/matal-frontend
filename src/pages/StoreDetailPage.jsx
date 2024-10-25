@@ -255,6 +255,7 @@ const StoreDetailLayout = styled.div`
         font-size: 13px;
     }
 `;
+
 const Header = styled.div`
     display: flex;
     padding-left: 100px;
@@ -374,6 +375,7 @@ const AIReviewInsightBox = styled.div`
     padding-bottom: 30px;
     border-bottom: 1px solid ${Grey};
 `;
+
 const TitleBox = styled.div`
     margin-top: 20px;
     & > div {
@@ -506,6 +508,7 @@ const PieChart = styled.div`
     )`};
     border-radius: 50%;
 `;
+
 const RecommendBox = styled.div`
     display: flex;
     flex-direction: column;
@@ -554,6 +557,7 @@ const TipBox = styled.div`
         }
     }
 `;
+
 const OverViewContainer = styled.div`
     margin-top: 30px;
     display: flex;
@@ -577,6 +581,7 @@ const OverViewContainer = styled.div`
     padding-bottom: 30px;
     border-bottom: 1px solid ${Grey};
 `;
+
 const OverViewAndMenuBox = styled.div`
     display: flex;
     flex-direction: row;
@@ -586,6 +591,7 @@ const OverViewAndMenuBox = styled.div`
         gap: 20px;
     }
 `;
+
 const LocationContainer = styled.div`
     margin-top: 30px;
     display: flex;
