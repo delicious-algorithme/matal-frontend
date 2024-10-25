@@ -52,21 +52,24 @@ const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLi
         </StoreCardLayout>
     );
 };
+
 export default StoreCard;
+
 const StoreCardLayout = styled.div`
-    width: 500px;
+    width: 100%;
     height: 250px;
     display: flex;
     flex-direction: row;
     gap: 20px;
     border-bottom: 1px solid ${Grey};
     @media screen and (max-width: 1024px) {
-        width: 300px;
+        width: 100%;
         height: auto;
         gap: 10px;
         flex-direction: column;
     }
 `;
+
 const ImgBox = styled.div`
     width: 200px;
     height: 200px;
@@ -92,11 +95,13 @@ const ImgBox = styled.div`
         }
     }
 `;
+
 const Location = styled.p`
     @media screen and (max-width: 1024px) {
         display: none;
     }
 `;
+
 const ContentsBox = styled.div`
     margin-top: 20px;
     display: flex;
@@ -115,6 +120,7 @@ const ContentsBox = styled.div`
         }
     }
 `;
+
 const NameAndPath = styled.div`
     & > h1 {
         color: ${Orange};
@@ -160,6 +166,7 @@ const NameAndPath = styled.div`
         }
     }
 `;
+
 const ReviewBox = styled.div`
     display: flex;
     flex-direction: row;

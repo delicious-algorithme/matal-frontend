@@ -376,10 +376,12 @@ const SelectLayout = styled.div`
         gap: 10px;
     }
 `;
+
 const SelectBox = styled.div`
     position: relative;
     height: auto;
 `;
+
 const CategoryBox = styled.div`
     cursor: pointer;
     display: flex;
@@ -397,6 +399,7 @@ const CategoryBox = styled.div`
         color: ${Orange};
     }
 `;
+
 const SelectItem = styled.div`
     margin: 10px;
     position: relative;
@@ -404,6 +407,7 @@ const SelectItem = styled.div`
     flex-direction: column;
     gap: 10px;
 `;
+
 const Contents = styled.ul`
     position: absolute;
     margin-top: 2px;
@@ -432,6 +436,7 @@ const Contents = styled.ul`
         width: 5px;
     }
 `;
+
 const Content = styled.li`
     position: relative;
     height: 20px;
@@ -460,6 +465,7 @@ const Content = styled.li`
         }
     }
 `;
+
 const LoactionSelectBox = styled.div`
     display: flex;
     flex-direction: row;
@@ -486,6 +492,11 @@ const LoactionSelectBox = styled.div`
         border-radius: 15px;
         width: 5px;
     }
+    @media screen and (max-width: 1024px) {
+        width: 160px;
+        gap: 20px;
+        flex-direction: column;
+    }
 `;
 
 const SelectLocationItem = styled.div`
@@ -495,6 +506,9 @@ const SelectLocationItem = styled.div`
     & > ul {
         list-style: none;
         z-index: 100;
+    }
+    @media screen and (max-width: 1024px) {
+        width: 130px;
     }
 `;
 
@@ -516,6 +530,7 @@ const TagBox = styled.div`
         font-weight: 600;
     }
 `;
+
 const Tag = styled.div`
     width: fit-content;
     height: 25px;
