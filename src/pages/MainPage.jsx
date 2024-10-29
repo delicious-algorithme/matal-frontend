@@ -60,7 +60,10 @@ const MainPageLayout = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 500px) {
         gap: 10px;
+        & > svg {
+            display: none;
+        }
     }
 `;

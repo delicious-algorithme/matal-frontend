@@ -12,7 +12,9 @@ const TopStoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
 
     return (
         <StoreCardContainer onClick={() => cardClickHandler(id)}>
-            <img src={image} width="100%" height="auto" alt={alt} />
+            <ImageContainer>
+                <img src={image} width="100%" height="auto" alt={alt} />
+            </ImageContainer>
             <NameAndCategoryContainer>
                 <p>{name}</p>
                 <span>{positiveRatio}</span>
@@ -41,13 +43,39 @@ const StoreCardContainer = styled.div`
         }
     }
 
-    & > img {
-        max-width: 100%;
-        height: 200px;
+    & > div > img {
+        width: 100%;
+        height: 100%;
         border-radius: 10px 10px 0px 0;
     }
+
     box-shadow: 2px 2px 2px ${Grey};
+
     @media screen and (max-width: 1024px) {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    @media screen and (max-width: 768px) {
+        & > img {
+            //   height: 400px;
+        }
+    }
+`;
+
+const ImageContainer = styled.div`
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+
+    @media screen and (max-width: 500px) {
         max-width: 100%;
         margin: 0 auto;
     }
@@ -78,6 +106,14 @@ const NameAndCategoryContainer = styled.div`
         & > img {
             max-width: 100%;
             height: auto;
+            border-radius: 10px;
+        }
+    }
+
+    @media screen and (max-width: 1024px) {
+        & > img {
+            max-width: 100%;
+            height: 400px;
             border-radius: 10px;
         }
     }

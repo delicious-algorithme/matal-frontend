@@ -37,6 +37,7 @@ const CategoryAndMapLayout = styled.div`
         gap: 20px;
     }
     @media screen and (max-width: 1024px) {
+        width: 100%;
         align-items: center;
     }
 `;
@@ -57,13 +58,13 @@ const CategoryAndMapBox = styled.div`
     :first-child {
         padding: 20px;
     }
+
     @media screen and (max-width: 1024px) {
         display: flex;
         flex-direction: column;
         align-items: center;
-
         & > div {
-            width: 80%;
+            width: 95%;
         }
     }
 `;
