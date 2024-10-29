@@ -130,7 +130,7 @@ const MyMap = () => {
         };
         import('./cluster').then(({ MarkerClustering }) => {
             new MarkerClustering({
-                minClusterSize: 1,
+                minClusterSize: 2,
                 maxZoom: 20,
                 map: mapRef.current,
                 markers: createMarkerList,
