@@ -1,34 +1,55 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useLogin } from '../../../store';
 import Button from '../button/Button';
 import { ReactComponent as Logo } from '../../../assets/Icon/Logo.svg';
-import { useNavigate } from 'react-router-dom';
+import { logout } from '../../../apis/api/login';
+import Swal from 'sweetalert2';
 
 const Header = () => {
+    const { isLoggedIn, setLogout } = useLogin();
     const navigate = useNavigate();
 
-    const loginClickHandler = () => {
-        navigate('/login');
+    const handleClick = {
+        login: () => navigate('/login'),
+        signUp: () => navigate('/signup'),
+        bookmark: () => navigate('/bookmark'),
+        logo: () => navigate('/'),
     };
 
-    const signUpClickHandler = () => {
-        navigate('/signup');
+    const logoutHandler = async () => {
+        const response = await logout();
+        if (response.status === 200) {
+            Swal.fire({
+                icon: 'success',
+                title: '로그아웃 성공',
+                text: '로그아웃 성공',
+            });
+            setLogout();
+            navigate('/');
+        }
     };
 
-    const bookMarkClickHandler = () => {
-        navigate('/bookmark');
-    };
-
-    const logoClickHandler = () => {
-        navigate('/');
-    };
+    const buttons = [
+        { text: '로그인', color: 'white', visible: !isLoggedIn, onClick: handleClick.login },
+        { text: '회원가입', color: 'orange', visible: !isLoggedIn, onClick: handleClick.signUp },
+        { text: '내 가게', color: 'green', visible: isLoggedIn, onClick: handleClick.bookmark },
+        { text: '로그아웃', color: 'white', visible: isLoggedIn, onClick: logoutHandler },
+    ];
 
     return (
         <HeaderLayout>
-            <Logo onClick={logoClickHandler} />
+            <Logo onClick={handleClick.logo} />
             <ButtonContainer>
-                <Button color="white" text="로그인" onClickHandler={loginClickHandler} />
-                <Button color="orange" text="회원가입" onClickHandler={signUpClickHandler} />
-                <Button color="green" text="내 가게" onClickHandler={bookMarkClickHandler} />
+                {buttons.map((button, index) => (
+                    <Button
+                        key={index}
+                        color={button.color}
+                        text={button.text}
+                        onClickHandler={button.onClick}
+                        visible={button.visible}
+                    />
+                ))}
             </ButtonContainer>
         </HeaderLayout>
     );
@@ -38,6 +59,7 @@ export default Header;
 const HeaderLayout = styled.header`
     display: flex;
     justify-content: space-between;
+    padding-right: 30px;
     & > svg {
         width: 250px;
         height: 120px;
@@ -45,7 +67,6 @@ const HeaderLayout = styled.header`
     }
     align-items: center;
     width: 100%;
-    padding: 10px;
     transition: all 0ms ease;
     @media screen and (max-width: 768px) {
         & > svg {
@@ -61,9 +82,4 @@ const ButtonContainer = styled.div`
     display: flex;
     transition: all 0.5s ease;
     gap: 20px;
-    @media screen and (max-width: 768px) {
-        :nth-child(2) {
-            display: none;
-        }
-    }
 `;
