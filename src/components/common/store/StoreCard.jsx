@@ -60,6 +60,7 @@ const StoreCardLayout = styled.div`
     height: 250px;
     display: flex;
     flex-direction: row;
+
     gap: 20px;
     border-bottom: 1px solid ${Grey};
     @media screen and (max-width: 1024px) {
@@ -71,13 +72,13 @@ const StoreCardLayout = styled.div`
 `;
 
 const ImgBox = styled.div`
-    width: 200px;
+    width: 250px;
     height: 200px;
     margin-left: 10px;
     margin-top: 20px;
     border-radius: 20px;
     & > img {
-        width: 200px;
+        width: 250px;
         height: 200px;
         border-radius: 20px;
     }
@@ -85,14 +86,8 @@ const ImgBox = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 150px;
-        height: 120px;
         margin-top: 10px;
         margin-left: 0px;
-        & > img {
-            width: 150px;
-            height: 120px;
-        }
     }
 `;
 
