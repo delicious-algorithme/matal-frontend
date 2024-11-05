@@ -1,8 +1,9 @@
 import React from 'react';
 import { GlobalStyle } from './styles';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import { MainPage, WebMap, StoreDetailPage, SignUpPage } from './pages';
+import { MainPage, WebMap, StoreDetailPage, SignUpPage, LoginPage } from './pages';
 import './App.css';
+import { HeaderLayout } from './components/common';
 
 function App() {
     return (
@@ -10,9 +11,11 @@ function App() {
             <GlobalStyle />
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="/login" element={<SignUpPage />} />
-                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route element={<HeaderLayout />}>
+                        <Route path="/" element={<MainPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/signup" element={<SignUpPage />} />
+                    </Route>
                     <Route path="/webmap" element={<WebMap />} />
                     <Route path="/webmap/storeList/:item" element={<WebMap />} />
                     <Route path="/webmap/storeDetail/:id" element={<StoreDetailPage />} />

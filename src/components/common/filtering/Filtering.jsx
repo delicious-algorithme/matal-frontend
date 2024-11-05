@@ -24,7 +24,6 @@ const Filtering = ({ category }) => {
     const [selectState, setSelectState] = useState(new Array(11).fill(false));
 
     //tag관련함수들
-
     const isTagSelected = (content) => tagList.includes(content);
 
     const resetAllValue = () => {

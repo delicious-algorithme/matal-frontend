@@ -1,131 +1,130 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Grey, Orange, White } from '../../color';
-
-const items = [
-    {
-        label: '아이디',
-        type: 'text',
-        placeholder: '아이디를 입력하세요.',
-        value: null,
-    },
-    {
-        label: '비밀번호',
-        type: 'password',
-        placeholder: '비밀번호를 입력하세요',
-        value: null,
-    },
-    {
-        label: '이메일',
-        type: 'email',
-        placeholder: '이메일을 입력하세요.',
-        value: null,
-    },
-    {
-        label: '닉네임',
-        type: 'nickName',
-        placeholder: '닉네임을 입력하세요',
-        value: null,
-    },
-];
+import { Grey, DarkGreen } from '../../color';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import FormField from '../common/form/FormField';
+import { SIGNUP_FORM_ITEMS } from '../../constants/formItems';
+import { signUp } from '../../apis/api/postSignupForm';
+import { Button } from '../common';
+import Swal from 'sweetalert2';
 
 const Signup = () => {
-    const [inputs, setInputs] = useState({
-        text: '',
+    const navigate = useNavigate();
+    const [signupForms, setSignupForms] = useState({
         email: '',
         password: '',
-        description: '',
+        nickname: '',
     });
-    const handleSubmit = (e) => {
-        //
+
+    const [errors, setErrors] = useState({
+        email: '',
+        password: '',
+        nickname: '',
+    });
+
+    const verifyEmail = (email) => {
+        const regExp = /\S+@\S+\.\S+/.test(email);
+        setErrors((prev) => ({ ...prev, email: regExp ? '' : '유효한 이메일 주소가 아닙니다.' }));
     };
+
+    const verifyPassword = (password) => {
+        const regExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(password);
+        setErrors((prev) => ({
+            ...prev,
+            password: regExp ? '' : '올바른 비밀번호를 입력해주세요.',
+        }));
+    };
+
+    const verifyInputs = () => {
+        return !errors.email && !errors.password && !errors.nickname;
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setSignupForms((prev) => ({ ...prev, [name]: value }));
+        if (name === 'email') verifyEmail(value);
+        if (name === 'password') verifyPassword(value);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!verifyInputs()) return;
+        const response = await signUp(signupForms);
+
+        if (response.status !== 201) {
+            const errorMessage = response.error.message;
+            Swal.fire({
+                icon: 'warning',
+                title: '회원 가입 실패',
+                text: errorMessage,
+            });
+        }
+        if (response.status === 201) {
+            Swal.fire({
+                icon: 'success',
+                title: '회원가입 성공',
+                text: '회원 가입 성공',
+            });
+
+            navigate('/login');
+        }
+    };
+
     return (
-        <SignupLayout>
-            <SignupBox>
-                <h1>환영합니다 !</h1>
-                <div>기본 회원 정보를 등록해주세요.</div>
-                <InitalinformationBox>
-                    {items.map((item) => (
-                        <input
-                            value={inputs[item.type]}
-                            key={item.label}
-                            label={item.label}
-                            type={item.type}
-                            placeholder={item.placeholder}
-                            setInputs={setInputs}
+        <AuthLayout>
+            <FormBox>
+                <h1>회원 가입</h1>
+                <AuthBox onSubmit={handleSubmit}>
+                    {SIGNUP_FORM_ITEMS.map((form) => (
+                        <FormField
+                            key={form.type}
+                            type={form.type}
+                            name={form.type}
+                            value={form[form.type]}
+                            placeholder={form.placeholder}
+                            error={errors[form.type]}
+                            onChange={handleChange}
                         />
                     ))}
-                </InitalinformationBox>
-                <ButtonBox>
-                    <button onClick={handleSubmit}>가입하기</button>
-                    <button> 로그인하러가기</button>
-                </ButtonBox>
-            </SignupBox>
-        </SignupLayout>
+                    <Button text="가입하기" color="orange" visible="true" type="submit" onClickHandler={handleSubmit} />
+                </AuthBox>
+            </FormBox>
+        </AuthLayout>
     );
 };
 
 export default Signup;
 
-const SignupLayout = styled.div`
+const AuthLayout = styled.div`
     display: flex;
+    width: 100%;
+    height: 100%;
     margin-top: 100px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 `;
 
-const SignupBox = styled.div`
-    width: 500px;
-    height: auto;
-    & > h1 {
-        font-weight: 700;
-    }
-    & > div {
-        margin: 1rem 0rem;
-    }
-    @media (max-width: 768px) {
-        width: auto;
-    }
-`;
-
-const InitalinformationBox = styled.form`
+const AuthBox = styled.form`
+    width: 100%;
+    border: 1px solid ${Grey};
+    border-radius: 10px;
+    padding: 30px;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    gap: 1.25rem;
-    & > input {
-        padding: 20px;
-        width: 100%;
-        border: 1px solid ${Grey};
-        border-radius: 20px;
-    }
-    @media (max-width: 768px) {
-        & > input {
-            width: 100%;
-        }
-    }
+    gap: 10px;
 `;
 
-const ButtonBox = styled.div`
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    & > button {
-        width: 100%;
-        border: none;
-        border-radius: 1.5rem;
-        height: 48px;
-        font-size: 1.25rem;
-        font-weight: 600;
-        cursor: pointer;
+const FormBox = styled.div`
+    min-width: 30%;
+    height: auto;
+    & > h1 {
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: ${DarkGreen};
     }
-    :first-child {
-        background-color: ${Orange};
-        color: ${White};
-    }
-    :last-child {
-        background-color: ${White};
-        color: ${Orange};
+    @media (max-width: 768px) {
+        min-width: 80%;
     }
 `;

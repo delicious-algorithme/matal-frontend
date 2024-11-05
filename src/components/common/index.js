@@ -8,4 +8,19 @@ import Footer from './footer/Footer';
 import SearchBar from './searchBar/SearchBar';
 import Button from './button/Button';
 import Header from './header/Header';
-export { Category, MyMap, StoreList, StoreCard, MobileNav, Filtering, Footer, Button, SearchBar, Header };
+import HeaderLayout from './header/HeaderLayout';
+import FormField from './form/FormField';
+export {
+    Category,
+    MyMap,
+    StoreList,
+    StoreCard,
+    MobileNav,
+    Filtering,
+    Footer,
+    Button,
+    SearchBar,
+    Header,
+    HeaderLayout,
+    FormField,
+};

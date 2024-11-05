@@ -72,7 +72,7 @@ const TopRecommendations = () => {
                 <AnimatedContainer isAnimating={isAnimating} animationDirection={animationDirection}>
                     {visibleStores.map((store, idx) => (
                         <div key={idx}>
-                            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{next + idx - 2}</p>
+                            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Top {next + idx - 2}</p>
                             <TopStoreCard
                                 image={store.imageUrls}
                                 id={store.storeId}
