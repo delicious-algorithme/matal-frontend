@@ -114,10 +114,6 @@ const ContentsBox = styled.div`
     }
     @media screen and (max-width: 1024px) {
         margin-bottom: 10px;
-        & > p {
-            max-width: 100px;
-            overflow: scroll;
-        }
     }
 `;
 
