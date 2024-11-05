@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-import { DarkGrey, Grey, LightGrey, Orange, White } from '../../../color';
-import { ReactComponent as SearchIcon } from './../../../assets/Icon/detail/Feather Icon.svg';
+import { DarkGrey, Grey, Orange, White } from '../../../color';
 import StoreCard from './StoreCard';
 import { useEffect, useState } from 'react';
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Button from '../button/Button';
 import { useStoreList, useIsFetch, useFilterParams, useTagList } from '../../../store';
 import Filtering from '../filtering/Filtering';
+import SearchBar from '../searchBar/SearchBar';
 
 const StoreList = () => {
     const location = useLocation();
@@ -232,6 +233,7 @@ const StoreList = () => {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
+
     const onClicktoBackButton = () => {
         navigate('/');
     };
@@ -239,30 +241,31 @@ const StoreList = () => {
     return (
         <StoreListLayout>
             <ButtonContainer>
-                <button onClick={onClicktoBackButton}>뒤로 가기</button>
-                <button onClick={allFetchButtonHandler}>전체 식당 보기</button>
+                <Button visible="true" color="green" onClickHandler={onClicktoBackButton} text="뒤로 가기" />
+                <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
             </ButtonContainer>
-            <SearchBarBox>
-                <Icon>
-                    <SearchIcon />
-                </Icon>
-                <input
-                    type="text"
-                    placeholder="검색어를 입력해주세요..."
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyDown}
-                    value={input}
-                />
-            </SearchBarBox>
+            <SearchBarContainer>
+                <SearchBar onChangeHandler={handleInputChange} onKeyDownHandler={handleKeyDown} searchInput={input} />
+            </SearchBarContainer>
             <Filtering category={category} />
             <SortBox>
                 <p>정렬</p>
                 <div>
                     <SortSelectBox active={orderByRating === 'desc'}>
-                        <button onClick={() => sortReviewClickHandler('desc')}>평점 높은 순</button>
+                        <Button
+                            visible="true"
+                            color="white"
+                            onClickHandler={() => sortReviewClickHandler('desc')}
+                            text="평점 높은 순"
+                        />
                     </SortSelectBox>
                     <SortSelectBox active={orderByPositiveRatio === 'desc'}>
-                        <button onClick={() => sortPositiveClickHandler('desc')}>긍정 비율 높은 순</button>
+                        <Button
+                            visible="true"
+                            color="white"
+                            onClickHandler={() => sortPositiveClickHandler('desc')}
+                            text="긍정 비율 높은 순"
+                        />
                     </SortSelectBox>
                 </div>
             </SortBox>
@@ -294,7 +297,6 @@ export default StoreList;
 const StoreListLayout = styled.div`
     position: relative;
     margin-top: 10px;
-    padding-bottom: 100px;
     width: 100%;
     background-color: ${White};
     overflow-y: scroll;
@@ -309,59 +311,14 @@ const StoreListLayout = styled.div`
 const ButtonContainer = styled.div`
     display: flex;
     gap: 10px;
-    & > button {
-        width: fit-content;
-        text-align: center;
-        padding: 10px;
-        color: ${Orange};
-        background: ${LightGrey};
-        font-weight: bold;
-        border-radius: 10px;
-        cursor: pointer;
-        &:hover {
-            background: ${Orange};
-            color: ${White};
-        }
-    }
-`;
-const SearchBarBox = styled.div`
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 30px;
-    display: flex;
-    gap: 30px;
-    text-align: left;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    & > input {
-        width: 100%;
-        height: 45px;
-        border-radius: 30px;
-        border: 1px solid ${Orange};
-        z-index: 1;
-        padding-left: 50px;
-        padding-right: 20px;
-        font-size: 16px;
-        color: ${Orange};
-    }
-    input::placeholder {
-        font-size: 16px;
-        color: ${Orange};
-    }
-    @media screen and (max-width: 1024px) {
-        margin-left: 20px;
-        font-size: 10px;
-        input::placeholder {
-            color: ${Orange};
-        }
-    }
+    margin: 10px;
 `;
 
-const Icon = styled.div`
-    position: absolute;
-    z-index: 2;
-    padding: 10px 20px;
+const SearchBarContainer = styled.div`
+    margin: 10px;
+    & > input {
+        width: 100%;
+    }
 `;
 
 const SortBox = styled.div`
@@ -377,10 +334,6 @@ const SortBox = styled.div`
         flex-direction: row;
         gap: 10px;
     }
-    & > div > div > ul {
-        width: 100%;
-        list-style: none;
-    }
 `;
 
 const SortSelectBox = styled.div`
@@ -390,40 +343,15 @@ const SortSelectBox = styled.div`
     & > button {
         cursor: pointer;
         display: flex;
-        gap: 10px;
-        height: 35px;
-        background-color: ${White};
         color: ${DarkGrey};
-        font-weight: bold;
-        justify-content: center;
         align-items: center;
-        padding: 10px;
         border: 1px solid ${Grey};
-        border-radius: 10px;
-        &:hover {
-            color: ${Orange};
-        }
         ${(props) =>
             props.active &&
             `
             color: ${Orange}; 
             border-color: ${Orange};
         `}
-    }
-    & > ul {
-        width: 100px;
-        border: 1px solid ${Grey};
-        border-radius: 10px;
-        font-size: 13px;
-        text-align: center;
-        & > li {
-            margin-top: 6px;
-            margin-bottom: 6px;
-            cursor: pointer;
-            &:hover {
-                background: ${LightGrey};
-            }
-        }
     }
 `;
 

@@ -17,7 +17,7 @@ const TopStoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
             </ImageContainer>
             <NameAndCategoryContainer>
                 <p>{name}</p>
-                <span>{positiveRatio}</span>
+                <span>긍정비율{positiveRatio}%</span>
             </NameAndCategoryContainer>
             <Review>
                 <p>{keyword}</p>
@@ -32,8 +32,8 @@ const TopStoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
 export default TopStoreCard;
 
 const StoreCardContainer = styled.div`
-    width: 100%;
-    height: auto;
+    width: 300px;
+    height: 400px;
     border-radius: 10px;
     cursor: pointer;
 
@@ -52,7 +52,7 @@ const StoreCardContainer = styled.div`
     box-shadow: 2px 2px 2px ${Grey};
 
     @media screen and (max-width: 1024px) {
-        max-width: 100%;
+        width: 100%;
         margin: 0 auto;
     }
 
@@ -88,12 +88,12 @@ const NameAndCategoryContainer = styled.div`
     justify-content: space-between;
     max-width: 100%;
     margin: 10px;
-
+    height: 60px;
     border-bottom: 1px solid ${Orange};
 
     & > p {
         margin: 10px 0 5px;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: bold;
     }
 

@@ -9,4 +9,3 @@ const Api = axios.create({
 });
 
 export const defaultInstance = Api;
-//일단 어떤 데이터들 받아야하는지 정리
