@@ -29,13 +29,20 @@ const Login = () => {
         e.preventDefault();
         const response = await login(loginForm);
         if (response.status === 200) {
-            setLogin(loginForm.email);
-            Swal.fire({
-                icon: 'success',
-                title: '로그인 성공',
-                text: '로그인 성공',
-            });
-            navigate('/');
+            const { email } = loginForm;
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+            const userInfo = users[email];
+
+            if (userInfo) {
+                setLogin(userInfo);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: '로그인 성공',
+                    text: '로그인 성공',
+                });
+                navigate('/');
+            }
         } else {
             setError(LOGIN_ERROR_MESSAGE);
         }
