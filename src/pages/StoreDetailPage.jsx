@@ -16,6 +16,7 @@ import { useStoreDetail } from '../store';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { getStoreDetail } from '../apis/api/getStoreDetail';
+import { ReactComponent as Bookmark } from '../assets/Icon/detail/Bookmark.svg';
 
 const StoreDetailPage = () => {
     const [item, setItem] = useState('');
@@ -75,6 +76,10 @@ const StoreDetailPage = () => {
         navigate('/webmap');
     };
 
+    const handleClickBookmarks = () => {
+        //
+    };
+
     const pathClickHandler = () => {
         window.location.href = item.storeLink;
     };
@@ -88,6 +93,9 @@ const StoreDetailPage = () => {
                 </Header>
                 <ContentsContainer>
                     <ImageAndOverView>
+                        <BookmarkBox onClick={handleClickBookmarks}>
+                            <Bookmark />
+                        </BookmarkBox>
                         <div>
                             <img src={item.imageUrl} alt={item.name} />
                             <button onClick={pathClickHandler}>
@@ -95,16 +103,18 @@ const StoreDetailPage = () => {
                                 경로
                             </button>
                         </div>
-                        <div>
+                        <StoreContents>
                             <h1>{item.name}</h1>
                             <div>
-                                <p>별점</p>
-                                <Star />
-                                <span>{item.rating}</span>
+                                <div>
+                                    <p>별점</p>
+                                    <Star />
+                                    <span>{item.rating}</span>
+                                </div>
+                                <p>리뷰 {item.reviewsCount}</p>
+                                <h4>{item.category}</h4>
                             </div>
-                            <p>리뷰 {item.reviewsCount}</p>
-                            <h4>{item.category}</h4>
-                        </div>
+                        </StoreContents>
                     </ImageAndOverView>
                     <AIReviewInsightBox>
                         <div>
@@ -150,15 +160,15 @@ const StoreDetailPage = () => {
                             <PieChartBox>
                                 <PieChart piechart={piechart} />
                                 <p>
-                                    긍정 {item.positiveRatio}% 부정 {item.negativeRatio}% 중립 {item.neutralRatio}%
+                                    긍정 {item.positiveRatio}% 중립 {item.neutralRatio}% 부정 {item.negativeRatio}%
                                 </p>
                                 <div>
                                     <div />
                                     <span>:긍정</span>
                                     <div />
-                                    <span>:부정</span>
-                                    <div />
                                     <span>:중립</span>
+                                    <div />
+                                    <span>:부정</span>
                                 </div>
                             </PieChartBox>
                             <div>
@@ -250,6 +260,7 @@ const StoreDetailLayout = styled.div`
     font-size: 16px;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     @media screen and (max-width: 1024px) {
         padding: 20px;
         font-size: 13px;
@@ -304,6 +315,12 @@ const ContentsContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+`;
+
+const BookmarkBox = styled.div`
+    display: flex;
+    justify-content: end;
+    padding: 10px;
 `;
 
 const ImageAndOverView = styled.div`
@@ -379,6 +396,7 @@ const AIReviewInsightBox = styled.div`
 const TitleBox = styled.div`
     margin-top: 20px;
     & > div {
+        width: 250px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -420,6 +438,18 @@ const BasicInfoBox = styled.div`
             justify-content: center;
             text-align: center;
         }
+        @media screen and (max-width: 500px) {
+            min-width: 150px;
+        }
+    }
+`;
+
+const StoreContents = styled.div`
+    display: flex;
+    flex-direction: row;
+    @media screen and (max-width: 500px) {
+        display: flex;
+        flex-direction: column;
     }
 `;
 
@@ -465,6 +495,7 @@ const PositiveRatioBox = styled.div`
         }
     }
 `;
+
 const PieChartBox = styled.div`
     box-shadow: 2px 2px 2px ${Grey};
     border-radius: 20px;
@@ -487,10 +518,10 @@ const PieChartBox = styled.div`
             background-color: ${Orange};
         }
         :nth-child(3) {
-            background-color: #ff9a62;
+            background-color: #fff1e1;
         }
         :nth-child(5) {
-            background-color: #fff1e1;
+            background-color: #ff9a62;
         }
     }
     margin-bottom: 30px;

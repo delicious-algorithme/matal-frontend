@@ -131,6 +131,9 @@ const AnimatedContainer = styled.div`
             animation: ${animationDirection === 'in' ? moveIn : moveOut} 1s forwards;
         `}
 
+    & > div > p {
+        margin-bottom: 20px;
+    }
     @media screen and (max-width: 768px) {
         width: 100%;
         flex-direction: row;
@@ -147,9 +150,11 @@ const TopRecommendationsLayout = styled.div`
     padding: 10px;
     display: flex;
     flex-direction: column;
+
     gap: 10px;
 
     & > label {
+        text-align: center;
         display: flex;
         flex-direction: row;
         gap: 10px;
@@ -158,6 +163,7 @@ const TopRecommendationsLayout = styled.div`
     @media screen and (max-width: 780px) {
         width: 100%;
         align-items: center;
+        justify-content: center;
     }
 `;
 

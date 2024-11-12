@@ -35,6 +35,9 @@ const CategoryAndMapLayout = styled.div`
         display: flex;
         flex-direction: row;
         gap: 20px;
+        & > p {
+            flex-wrap: nowrap;
+        }
     }
     @media screen and (max-width: 1024px) {
         width: 100%;
