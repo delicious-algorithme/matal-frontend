@@ -2,12 +2,26 @@ import { ReactComponent as Bookmark } from '../../assets/Icon/detail/Bookmark.sv
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Orange, Grey } from '../../color';
+import { postBookmarks } from '../../apis/api/bookmarks';
 
-const TopStoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
+const StoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
     const navigate = useNavigate();
 
     const cardClickHandler = (id) => {
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
+    };
+
+    //const bookmarkForm =
+
+    const handleClickBookmarks = async (e) => {
+        e.preventDefault();
+        const response = await postBookmarks();
+        if (response.status === 200) {
+            //   setLogin(loginForm.email);
+            navigate('/');
+        } else {
+            //setError(LOGIN_ERROR_MESSAGE);
+        }
     };
 
     return (
@@ -22,14 +36,14 @@ const TopStoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
             <Review>
                 <p>{keyword}</p>
             </Review>
-            <BookmarkBox>
+            <BookmarkBox onClick={handleClickBookmarks}>
                 <Bookmark />
             </BookmarkBox>
         </StoreCardContainer>
     );
 };
 
-export default TopStoreCard;
+export default StoreCard;
 
 const StoreCardContainer = styled.div`
     width: 300px;

@@ -20,7 +20,7 @@ export const LOGIN_FORM_ITEMS = [
     },
     {
         type: 'password',
-        placeholder: '특수문자, 숫자를 포함하여 입력해주세요.',
+        placeholder: '특수문자, 대소문자, 숫자를 포함하여 입력해주세요.',
     },
 ];
 

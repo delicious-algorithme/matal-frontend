@@ -51,7 +51,6 @@ const MyMap = () => {
         if (currentLocation.lat !== 0 && currentLocation.lng !== 0) {
             mapOptions = {
                 center: new naver.maps.LatLng(currentLocation.lat, currentLocation.lng),
-                zoomControl: true,
                 zoomControlOptions: {
                     position: naver.maps.Position.TOP_RIGHT,
                 },

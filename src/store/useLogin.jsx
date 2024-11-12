@@ -6,10 +6,28 @@ const useLogin = create(
         (set) => ({
             isLoggedIn: false,
             user: null,
-            setLogin: (userInfo) => set({ isLoggedIn: true, user: userInfo }),
-            setLogout: () => set({ isLoggedIn: false, user: null }),
+
+            setLogin: (email) => {
+                const users = JSON.parse(localStorage.getItem('users')) || {};
+                const userInfo = users[email];
+
+                if (userInfo) {
+                    set({ isLoggedIn: true, user: userInfo });
+                } else {
+                    console.error('유저 정보를 찾을 수 없습니다.');
+                }
+            },
+
+            setLogout: () => {
+                set({ isLoggedIn: false, user: null });
+            },
         }),
-        { name: 'auth' }
+        {
+            name: 'auth',
+            getStorage: () => localStorage,
+            serialize: (state) => JSON.stringify(state),
+            deserialize: (str) => JSON.parse(str),
+        }
     )
 );
 
