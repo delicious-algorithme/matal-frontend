@@ -2,7 +2,7 @@ import styled, { keyframes, css } from 'styled-components';
 import { ReactComponent as Trophy } from '../../assets/Icon/main/Trophy.svg';
 import { ReactComponent as TopLeftArrow } from '../../assets/Icon/arrow/TopLeftArrow.svg';
 import { ReactComponent as TopRightArrow } from '../../assets/Icon/arrow/TopRightArrow.svg';
-import { TopStoreCard } from '../storeCard';
+import { StoreCard } from '../storeCard';
 import { useEffect, useState } from 'react';
 import { Grey, White } from '../../color';
 import { getTopStores } from '../../apis/api/getTopStores';
@@ -73,7 +73,7 @@ const TopRecommendations = () => {
                     {visibleStores.map((store, idx) => (
                         <div key={idx}>
                             <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Top {next + idx - 2}</p>
-                            <TopStoreCard
+                            <StoreCard
                                 image={store.imageUrls}
                                 id={store.storeId}
                                 positiveRatio={store.positiveRatio}
