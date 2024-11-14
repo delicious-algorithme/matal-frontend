@@ -60,11 +60,6 @@ const Signup = () => {
             });
         }
         if (response.status === 201) {
-            const { email, nickname } = signupForms;
-            const existingUsers = JSON.parse(localStorage.getItem('users')) || {};
-            existingUsers[email] = { email, nickname };
-            localStorage.setItem('users', JSON.stringify(existingUsers));
-
             Swal.fire({
                 icon: 'success',
                 title: '회원가입 성공',

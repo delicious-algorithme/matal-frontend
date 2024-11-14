@@ -2,7 +2,7 @@ import styled, { keyframes, css } from 'styled-components';
 import { ReactComponent as Trophy } from '../../assets/Icon/main/Trophy.svg';
 import { ReactComponent as TopLeftArrow } from '../../assets/Icon/arrow/TopLeftArrow.svg';
 import { ReactComponent as TopRightArrow } from '../../assets/Icon/arrow/TopRightArrow.svg';
-import { StoreCard } from '../storeCard';
+import { TopStoreCard } from '../storeCard';
 import { useEffect, useState } from 'react';
 import { Grey, White } from '../../color';
 import { getTopStores } from '../../apis/api/getTopStores';
@@ -73,8 +73,9 @@ const TopRecommendations = () => {
                     {visibleStores.map((store, idx) => (
                         <div key={idx}>
                             <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Top {next + idx - 2}</p>
-                            <StoreCard
+                            <TopStoreCard
                                 image={store.imageUrls}
+                                address={store.address}
                                 id={store.storeId}
                                 positiveRatio={store.positiveRatio}
                                 keyword={store.positiveKeywords}
@@ -139,7 +140,7 @@ const AnimatedContainer = styled.div`
         flex-direction: row;
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: 768px) {
         width: 100%;
         flex-direction: column;
     }
@@ -147,10 +148,8 @@ const AnimatedContainer = styled.div`
 
 const TopRecommendationsLayout = styled.div`
     width: 80%;
-    padding: 10px;
     display: flex;
     flex-direction: column;
-
     gap: 10px;
 
     & > label {
@@ -161,7 +160,7 @@ const TopRecommendationsLayout = styled.div`
     }
 
     @media screen and (max-width: 780px) {
-        width: 100%;
+        width: 80%;
         align-items: center;
         justify-content: center;
     }
