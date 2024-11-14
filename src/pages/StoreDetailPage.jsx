@@ -309,12 +309,6 @@ const ContentsContainer = styled.div`
     justify-content: center;
 `;
 
-const BookmarkBox = styled.div`
-    display: flex;
-    justify-content: end;
-    padding: 10px;
-`;
-
 const ImageAndOverView = styled.div`
     border-bottom: 1px solid ${Grey};
     display: flex;
