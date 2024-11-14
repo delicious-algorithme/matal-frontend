@@ -1,180 +1,103 @@
 import styled from 'styled-components';
-import { Grey, Orange, White } from '../../../color';
-import React from 'react';
-import { ReactComponent as Path } from '../../../assets/Icon/detail/Path.svg';
-import { ReactComponent as PathMobile } from '../../../assets/Icon/detail/Path_Mobile.svg';
-import { ReactComponent as Star } from '../../../assets/Icon/detail/Star.svg';
-import { useNavigate } from 'react-router-dom';
-import { useStoreDetail } from '../../../store';
+import Bookmark from '../bookmark/Bookmark';
+import { Star } from '@mui/icons-material';
+import { LightGrey, Orange } from '../../../color';
 
-const StoreCard = ({ id, image, name, rating, address, positiveKeywords, storeLink, positiveRatio }) => {
-    const navigate = useNavigate();
-
-    const { toggleStoreDetailPage } = useStoreDetail();
-    const cardClickHandler = () => {
-        toggleStoreDetailPage();
-        navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
-    };
-
-    const storeLinkHandler = () => {
-        window.location.href = storeLink;
-    };
-
+const StoreListCard = ({ image, alt, id, name, address, storLink, rating, positiveRatio, positiveKeyword }) => {
+    const cardClickHandler = () => {};
     return (
-        <StoreCardLayout>
-            <ImgBox>
-                <img src={image} alt="맛집 대표 사진" />
-            </ImgBox>
-            <ContentsBox>
-                <NameAndPath>
-                    <Name onClick={cardClickHandler}>{name}</Name>
-                    <button onClick={storeLinkHandler}>
-                        <Path />
-                        경로
-                    </button>
-                    <PathMobile onClick={storeLinkHandler} />
-                </NameAndPath>
-                <Location>위치 : {address}</Location>
-                <ReviewBox>
-                    <div>
-                        <p>별점 </p>
-                        <Star />
-                        <h4>{rating}</h4>
-                    </div>
-                    <div>
-                        <p>AI 리뷰 긍정비율 </p>
-                        <h4>{positiveRatio}%</h4>
-                    </div>
-                </ReviewBox>
-                <p>AI 분석결과 </p>
-                <h4>{positiveKeywords}</h4>
-            </ContentsBox>
-        </StoreCardLayout>
+        <StoreListCardLayout>
+            <ContentsContainer>
+                <ImageContainer onClick={() => cardClickHandler(id)}>
+                    <StyledImage src={image} alt={alt} />
+                </ImageContainer>
+                <NameAndBookmarkContainer>
+                    <p>{name}</p>
+                    <Bookmark />
+                </NameAndBookmarkContainer>
+            </ContentsContainer>
+            <RatingContainer>
+                <Star />
+                <p>{rating}</p>
+            </RatingContainer>
+            <PositiveRatioContainer>
+                <p>
+                    AI 긍정 리뷰 비율: <span>{positiveRatio}</span>%
+                </p>
+            </PositiveRatioContainer>
+        </StoreListCardLayout>
     );
 };
 
-export default StoreCard;
+export default StoreListCard;
 
-const StoreCardLayout = styled.div`
+const StoreListCardLayout = styled.div`
     width: 100%;
-    height: 250px;
+    height: 220px;
+    padding: 10px;
+    border-top: 1px solid ${LightGrey};
+
+    &:hover {
+        cursor: pointer;
+        background-color: ${LightGrey};
+    }
+`;
+
+const ContentsContainer = styled.div`
     display: flex;
     flex-direction: row;
-
-    gap: 20px;
-    border-bottom: 1px solid ${Grey};
-    @media screen and (max-width: 1024px) {
-        width: 100%;
-        height: auto;
-        gap: 10px;
-        flex-direction: column;
-    }
 `;
 
-const ImgBox = styled.div`
-    width: 250px;
-    height: 200px;
-    margin-left: 10px;
-    margin-top: 20px;
-    border-radius: 20px;
-    & > img {
-        width: 250px;
-        height: 200px;
-        border-radius: 20px;
-    }
-    @media screen and (max-width: 1024px) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 10px;
-        margin-left: 0px;
-    }
+const ImageContainer = styled.div`
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-radius: 10px;
 `;
 
-const Location = styled.p`
-    @media screen and (max-width: 1024px) {
-        display: none;
-    }
+const StyledImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 `;
 
-const ContentsBox = styled.div`
-    margin-top: 20px;
+const NameAndBookmarkContainer = styled.div`
+    width: 100%;
+    height: 50px;
+    padding-left: 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 10px;
-    & > span {
-        font-weight: 700;
-    }
-    @media screen and (max-width: 1024px) {
-        margin-bottom: 10px;
-    }
-`;
-
-const NameAndPath = styled.div`
-    & > h1 {
-        color: ${Orange};
-    }
-    display: flex;
-    justify-content: space-between;
+    flex-direction: row;
     align-items: center;
-    gap: 30px;
-    & > button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: ${Orange};
-        gap: 10px;
-        width: 90px;
-        height: 40px;
-        font-size: 16px;
-        border-radius: 20px;
-        border: 1px solid ${Orange};
-        background-color: ${White};
-        & > svg {
-            width: 15px;
-        }
-        cursor: pointer;
-    }
-    & > svg {
-        display: none;
-    }
+    justify-content: space-between;
+
     & > p {
         color: ${Orange};
-        font-weight: 600;
-    }
-    @media screen and (max-width: 1024px) {
-        gap: 10px;
-        & > svg {
-            display: flex;
-        }
-        & > button {
-            display: none;
-            & > svg {
-                display: none;
-            }
-        }
+        font-weight: 500;
+        font-size: 17px;
     }
 `;
 
-const ReviewBox = styled.div`
+const RatingContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: flex-start;
-    & > div {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 10px;
+    align-items: center;
+    width: 150px;
+    justify-content: flex-end;
+    & > svg {
+        color: ${Orange};
+        width: 16px;
+        height: 16px;
     }
-    @media screen and (max-width: 1024px) {
-        flex-direction: column;
+    & > p {
+        font-weight: 600;
+        font-size: 16px;
     }
 `;
 
-const Name = styled.p`
-    cursor: pointer;
+const PositiveRatioContainer = styled.div`
+    font-weight: 600;
+    & p > span {
+        font-weight: 700;
+        color: ${Orange};
+    }
 `;

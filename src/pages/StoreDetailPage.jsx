@@ -16,7 +16,6 @@ import { useStoreDetail } from '../store';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { getStoreDetail } from '../apis/api/getStoreDetail';
-import { ReactComponent as Bookmark } from '../assets/Icon/detail/Bookmark.svg';
 
 const StoreDetailPage = () => {
     const [item, setItem] = useState('');
@@ -76,10 +75,6 @@ const StoreDetailPage = () => {
         navigate('/webmap');
     };
 
-    const handleClickBookmarks = () => {
-        //
-    };
-
     const pathClickHandler = () => {
         window.location.href = item.storeLink;
     };
@@ -93,9 +88,6 @@ const StoreDetailPage = () => {
                 </Header>
                 <ContentsContainer>
                     <ImageAndOverView>
-                        <BookmarkBox onClick={handleClickBookmarks}>
-                            <Bookmark />
-                        </BookmarkBox>
                         <div>
                             <img src={item.imageUrl} alt={item.name} />
                             <button onClick={pathClickHandler}>

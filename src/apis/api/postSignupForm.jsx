@@ -3,7 +3,9 @@ import { defaultInstance } from '../utils/instance';
 export const signUp = async (submitForms) => {
     const jsonBody = JSON.stringify(submitForms);
     try {
-        const { data, status } = await defaultInstance.post('/api/users/signup', jsonBody);
+        const { data, status } = await defaultInstance.post('/api/users/signup', jsonBody, {
+            withCredentials: true,
+        });
         return {
             data,
             status,
