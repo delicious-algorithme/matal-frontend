@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { DarkGrey, Grey, Orange, White } from '../../../color';
-import StoreCard from './StoreCard';
+import StoreListCard from './StoreCard';
 import { useEffect, useState } from 'react';
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
@@ -241,54 +241,62 @@ const StoreList = () => {
 
     return (
         <StoreListLayout>
-            <ButtonContainer>
-                <Button visible="true" color="green" onClickHandler={onClicktoBackButton} text="뒤로 가기" />
-                <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
-            </ButtonContainer>
-            <SearchBarContainer>
-                <SearchBar onChangeHandler={handleInputChange} onKeyDownHandler={handleKeyDown} searchInput={input} />
-            </SearchBarContainer>
-            <Filtering category={category} />
-            <SortBox>
-                <p>정렬</p>
-                <div>
-                    <SortSelectBox active={orderByRating === 'desc'}>
-                        <Button
-                            visible="true"
-                            color="white"
-                            onClickHandler={() => sortReviewClickHandler('desc')}
-                            text="평점 높은 순"
-                        />
-                    </SortSelectBox>
-                    <SortSelectBox active={orderByPositiveRatio === 'desc'}>
-                        <Button
-                            visible="true"
-                            color="white"
-                            onClickHandler={() => sortPositiveClickHandler('desc')}
-                            text="긍정 비율 높은 순"
-                        />
-                    </SortSelectBox>
-                </div>
-            </SortBox>
-            {stores &&
-                stores.map((store) => {
-                    return (
-                        <StoreCard
-                            key={store.id}
-                            id={store.storeId}
-                            image={store.imageUrls}
-                            name={store.name}
-                            address={store.address}
-                            rating={store.rating}
-                            positiveKeywords={store.positiveKeywords}
-                            storeLink={store.storeLink}
-                            positiveRatio={store.positiveRatio}
-                        />
-                    );
-                })}
-            {isNothing && stores.length === 0 && <Alert>조건에 맞는 검색어가 없습니다. </Alert>}
-            {isLoading && <p>Loading...</p>}
-            <div id="observer" style={{ height: '10px' }} />
+            <FilteringContentsContainer>
+                <ButtonContainer>
+                    <Button visible="true" color="green" onClickHandler={onClicktoBackButton} text="뒤로 가기" />
+                    <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
+                </ButtonContainer>
+                <SearchBarContainer>
+                    <SearchBar
+                        onChangeHandler={handleInputChange}
+                        onKeyDownHandler={handleKeyDown}
+                        searchInput={input}
+                    />
+                </SearchBarContainer>
+                <Filtering category={category} />
+                <SortBox>
+                    <p>정렬</p>
+                    <div>
+                        <SortSelectBox active={orderByRating === 'desc'}>
+                            <Button
+                                visible="true"
+                                color="white"
+                                onClickHandler={() => sortReviewClickHandler('desc')}
+                                text="평점 높은 순"
+                            />
+                        </SortSelectBox>
+                        <SortSelectBox active={orderByPositiveRatio === 'desc'}>
+                            <Button
+                                visible="true"
+                                color="white"
+                                onClickHandler={() => sortPositiveClickHandler('desc')}
+                                text="긍정 비율 높은 순"
+                            />
+                        </SortSelectBox>
+                    </div>
+                </SortBox>
+            </FilteringContentsContainer>
+            <StoreListCardContainer>
+                {stores &&
+                    stores.map((store) => {
+                        return (
+                            <StoreListCard
+                                key={store.id}
+                                id={store.storeId}
+                                image={store.imageUrls}
+                                name={store.name}
+                                address={store.address}
+                                rating={store.rating}
+                                positiveKeywords={store.positiveKeywords}
+                                storeLink={store.storeLink}
+                                positiveRatio={store.positiveRatio}
+                            />
+                        );
+                    })}
+                {isNothing && stores.length === 0 && <Alert>조건에 맞는 검색어가 없습니다. </Alert>}
+                {isLoading && <p>Loading...</p>}
+                <div id="observer" style={{ height: '10px' }} />
+            </StoreListCardContainer>
         </StoreListLayout>
     );
 };
@@ -300,13 +308,28 @@ const StoreListLayout = styled.div`
     margin-top: 10px;
     width: 100%;
     background-color: ${White};
-    overflow-y: scroll;
+    height: calc(100vh - 10px);
+    overflow-y: auto;
 
     @media screen and (max-width: 1024px) {
         min-width: 200px;
         height: auto;
         margin-left: 20px;
     }
+`;
+
+const FilteringContentsContainer = styled.div`
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: ${White};
+    z-index: 10;
+    padding: 10px;
+    margin-bottom: 20px;
+`;
+
+const StoreListCardContainer = styled.div`
+    overflow: auto;
 `;
 
 const ButtonContainer = styled.div`

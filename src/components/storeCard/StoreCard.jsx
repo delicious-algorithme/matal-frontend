@@ -1,79 +1,93 @@
 import { ReactComponent as Bookmark } from '../../assets/Icon/detail/Bookmark.svg';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { Orange, Grey } from '../../color';
-import { postBookmarks } from '../../apis/api/bookmarks';
+import { Orange, Grey, DarkGrey } from '../../color';
+import { postBookmarkStore } from '../../apis/api/bookmarks';
 
-const StoreCard = ({ image, alt, id, name, positiveRatio, keyword }) => {
+const TopStoreCard = ({ image, alt, id, address, name, positiveRatio, keyword }) => {
     const navigate = useNavigate();
 
     const cardClickHandler = (id) => {
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
     };
 
-    //const bookmarkForm =
-
     const handleClickBookmarks = async (e) => {
+        const auth = JSON.parse(localStorage.getItem('auth')) || {};
+
+        if (!auth.state.isLoggedIn) {
+            navigate('/login');
+        }
+
+        console.log('storeId', id);
+        const bookmarkForm = {
+            id,
+        };
+
         e.preventDefault();
-        const response = await postBookmarks();
+        const response = await postBookmarkStore(bookmarkForm);
+        console.log(response);
         if (response.status === 200) {
-            //   setLogin(loginForm.email);
-            navigate('/');
+            navigate('/bookmark');
         } else {
-            //setError(LOGIN_ERROR_MESSAGE);
+            console.log(response.error);
         }
     };
 
     return (
-        <StoreCardContainer onClick={() => cardClickHandler(id)}>
-            <ImageContainer>
+        <StoreCardContainer>
+            <ImageContainer onClick={() => cardClickHandler(id)}>
                 <img src={image} width="100%" height="auto" alt={alt} />
             </ImageContainer>
-            <NameAndCategoryContainer>
-                <p>{name}</p>
-                <span>긍정비율{positiveRatio}%</span>
-            </NameAndCategoryContainer>
-            <Review>
-                <p>{keyword}</p>
-            </Review>
-            <BookmarkBox onClick={handleClickBookmarks}>
-                <Bookmark />
-            </BookmarkBox>
+            <ContentsContainer>
+                <Review>
+                    <p>#{keyword}</p>
+                </Review>
+                <NameAndCategoryContainer>
+                    <p onClick={() => cardClickHandler(id)}>{name}</p>
+                    <BookmarkBox onClick={handleClickBookmarks}>
+                        <Bookmark />
+                    </BookmarkBox>
+                </NameAndCategoryContainer>
+                <PositiveRatio>
+                    <p>
+                        {positiveRatio}%<span> 긍정</span>
+                    </p>
+                </PositiveRatio>
+                <Location>
+                    <p>
+                        <span>위치: </span>
+                        {address}
+                    </p>
+                </Location>
+            </ContentsContainer>
         </StoreCardContainer>
     );
 };
 
-export default StoreCard;
+export default TopStoreCard;
 
 const StoreCardContainer = styled.div`
     width: 300px;
     height: 400px;
     border-radius: 10px;
+    border-radius: 5px;
+    position: relative;
+    transition: all 0.3s ease;
     cursor: pointer;
 
     &:hover {
         & > p {
             color: ${Orange};
         }
-    }
-
-    & > div > img {
-        width: 100%;
-        height: 100%;
-        border-radius: 10px 10px 0px 0;
+        transform: scale(1.05);
     }
 
     box-shadow: 2px 2px 2px ${Grey};
 
     @media screen and (max-width: 1024px) {
         width: 100%;
+        max-width: 300px;
         margin: 0 auto;
-    }
-
-    @media screen and (max-width: 768px) {
-        & > img {
-            //   height: 400px;
-        }
     }
 `;
 
@@ -101,19 +115,23 @@ const NameAndCategoryContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     max-width: 100%;
-    margin: 10px;
-    height: 60px;
+    height: 40px;
     border-bottom: 1px solid ${Orange};
 
     & > p {
-        margin: 10px 0 5px;
-        font-size: 18px;
-        font-weight: bold;
+        font-size: 21px;
+        text-align: center;
+        color: ${Orange};
+        font-weight: 600;
+        padding-bottom: 10px;
     }
 
-    & > span {
+    & > div {
         color: ${Orange};
-        font-size: 16px;
+        font-size: 13px;
+        display: flex;
+        text-align: center;
+        font-weight: bold;
     }
 
     @media screen and (max-width: 1024px) {
@@ -123,22 +141,44 @@ const NameAndCategoryContainer = styled.div`
             border-radius: 10px;
         }
     }
+`;
 
-    @media screen and (max-width: 1024px) {
-        & > img {
-            max-width: 100%;
-            height: 400px;
-            border-radius: 10px;
-        }
-    }
+const ContentsContainer = styled.div`
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
 `;
 
 const Review = styled.div`
-    padding: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    height: 40px;
+    color: ${DarkGrey};
 `;
 
 const BookmarkBox = styled.div`
     display: flex;
     justify-content: end;
-    padding: 10px;
+`;
+
+const PositiveRatio = styled.div`
+    font-size: 14px;
+    & > p {
+        color: ${Orange};
+        font-weight: bold;
+        & > span {
+            color: black;
+        }
+    }
+`;
+
+const Location = styled.div`
+    & > p {
+        font-size: 14px;
+    }
+    & > p > span {
+        font-weight: bold;
+    }
 `;

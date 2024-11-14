@@ -29,7 +29,10 @@ const WebMapLayout = styled.div`
     padding: 0;
     width: 100%;
     height: 100vh;
-    display: flex;
+    display: grid;
+
+    overflow: hidden;
+    grid-template-columns: 450px auto;
     flex-direction: row;
 `;
 
@@ -37,7 +40,6 @@ const ContentsContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100vw;
-    height: 100%;
     @media screen and (max-width: 500px) {
         display: none;
     }

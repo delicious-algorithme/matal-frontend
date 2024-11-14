@@ -28,21 +28,15 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await login(loginForm);
+        console.log(response);
         if (response.status === 200) {
-            const { email } = loginForm;
-            const users = JSON.parse(localStorage.getItem('users')) || {};
-            const userInfo = users[email];
-
-            if (userInfo) {
-                setLogin(userInfo);
-
-                Swal.fire({
-                    icon: 'success',
-                    title: '로그인 성공',
-                    text: '로그인 성공',
-                });
-                navigate('/');
-            }
+            navigate('/');
+            setLogin(loginForm.email);
+            Swal.fire({
+                icon: 'success',
+                title: '로그인 성공',
+                text: '로그인 성공',
+            });
         } else {
             setError(LOGIN_ERROR_MESSAGE);
         }
