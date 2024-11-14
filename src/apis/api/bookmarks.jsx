@@ -19,9 +19,9 @@ export const getBookmarksStores = async () => {
 };
 
 export const postBookmarkStore = async (body) => {
-    const jsonBody = JSON.stringify(body);
+    //const jsonBody = JSON.stringify(1);
     try {
-        const { data, status } = await defaultInstance.post(`/api/bookmarks`, jsonBody, {
+        const { data, status } = await defaultInstance.post(`/api/bookmarks`, 1, {
             withCredentials: true,
         });
         return {
