@@ -4,7 +4,6 @@ export const getBookmarksStores = async () => {
     try {
         const { data, status } = await defaultInstance.get(`/api/bookmarks`, {
             withCredentials: true,
-            httpOnly: false,
         });
         return {
             data,
