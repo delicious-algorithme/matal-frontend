@@ -1,3 +1,3 @@
-import Bookmarks from './Bookmark';
+import Bookmarks from './Bookmarks';
 
 export { Bookmarks };
