@@ -1,19 +1,19 @@
 import { ReactComponent as BookmarkIcon } from '../../../assets/Icon/detail/Bookmark.svg';
+import { ReactComponent as SavedBookmarkIcon } from '../../../assets/Icon/detail/SavedBookmark.svg';
 import { deleteBookmarkStore, postBookmarkStore } from '../../../apis/api/bookmarks';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSaveBookmarkId } from '../../../store';
-import { Bookmark } from '@mui/icons-material';
 
 const BookmarkContainer = ({ storeId }) => {
     const { savedStoreId } = useSaveBookmarkId();
 
-    const isSaved = savedStoreId.includes(storeId);
+    const auth = JSON.parse(localStorage.getItem('auth')) || {};
+    const isSaved = savedStoreId.includes(storeId) && auth.state.isLoggedIn;
 
     const navigate = useNavigate();
 
     const handleClickBookmarks = async (e) => {
-        const auth = JSON.parse(localStorage.getItem('auth')) || {};
         e.preventDefault();
         if (!auth.state.isLoggedIn) {
             navigate('/login');
@@ -22,12 +22,12 @@ const BookmarkContainer = ({ storeId }) => {
         try {
             if (isSaved) {
                 const response = await deleteBookmarkStore(storeId);
-                if (response.status === 200) {
+                if (response.status === 204) {
                     console.log('success delete');
                 }
             } else {
                 const response = await postBookmarkStore(storeId);
-                if (response.status === 200) {
+                if (response.status === 201) {
                     navigate('/bookmark');
                 } else {
                     console.log(response.error);
@@ -41,7 +41,7 @@ const BookmarkContainer = ({ storeId }) => {
     return (
         <BookmarkBox onClick={handleClickBookmarks}>
             {!isSaved && <BookmarkIcon />}
-            {isSaved && <Bookmark />}
+            {isSaved && <SavedBookmarkIcon />}
         </BookmarkBox>
     );
 };
