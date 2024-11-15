@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSaveBookmarkId } from '../../../store';
 
-const BookmarkContainer = ({ storeId }) => {
-    const { savedStoreId } = useSaveBookmarkId();
+const BookmarkContainer = ({ bookmarkId, storeId }) => {
+    const { savedId } = useSaveBookmarkId();
 
     const auth = JSON.parse(localStorage.getItem('auth')) || {};
-    const isSaved = savedStoreId.includes(storeId) && auth.state.isLoggedIn;
+    const isSaved = savedId.includes(bookmarkId) && auth.state.isLoggedIn;
 
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const BookmarkContainer = ({ storeId }) => {
 
         try {
             if (isSaved) {
-                const response = await deleteBookmarkStore(storeId);
+                const response = await deleteBookmarkStore(bookmarkId);
                 if (response.status === 204) {
                     console.log('success delete');
                 }
