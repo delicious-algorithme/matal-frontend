@@ -9,7 +9,7 @@ import { useSaveBookmarkId } from '../../store';
 const Bookmarks = () => {
     const [stores, setStores] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { setSaveStoreId } = useSaveBookmarkId();
+    const { setSaveBookmarkId, setBookmarkStore } = useSaveBookmarkId();
 
     const navigate = useNavigate();
 
@@ -20,9 +20,9 @@ const Bookmarks = () => {
 
     useEffect(() => {
         if (stores.length > 0) {
-            const saveStoreId = stores.map((store) => store.storeResponseDto.storeId);
-            const uniqueStoreId = [...new Set(saveStoreId)];
-            setSaveStoreId(uniqueStoreId);
+            const saveBookmarkId = stores.map((store) => store.bookmarkId);
+            const bookmarkIds = [...new Set(saveBookmarkId)];
+            setSaveBookmarkId(bookmarkIds);
         }
         // eslint-disable-next-line
     }, [stores]);
@@ -39,6 +39,7 @@ const Bookmarks = () => {
             if (response.status === 200) {
                 const newData = response.data;
                 setStores([...newData]);
+                setBookmarkStore([...newData]);
             } else {
                 navigate('/login');
             }
@@ -57,6 +58,7 @@ const Bookmarks = () => {
                         stores.length > 0 &&
                         stores.map((store) => (
                             <TopStoreCard
+                                bookmarkId={store.bookmarkId}
                                 address={store.storeResponseDto.address}
                                 key={store.storeResponseDto.storeId}
                                 image={store.storeResponseDto.imageUrls}

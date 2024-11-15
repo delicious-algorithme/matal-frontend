@@ -1,17 +1,21 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
-const initialStoreId = [];
+const initialBookmarkId = [];
 
 const useSaveBookmarkId = create(
     persist(
         (set) => ({
-            savedStoreId: initialStoreId,
-            setSaveStoreId: (storeId) => {
-                set({ savedStoreId: storeId });
+            savedId: initialBookmarkId,
+            setSaveBookmarkId: (bookmarkId) => {
+                set({ savedId: bookmarkId });
+            },
+            savedStores: [],
+            setBookmarkStore: (stores) => {
+                set({ savedStores: stores });
             },
         }),
-        { name: 'saved-storeId' }
+        { name: 'saved-bookmarkId' }
     )
 );
 
