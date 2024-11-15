@@ -304,33 +304,26 @@ const StoreList = () => {
 export default StoreList;
 
 const StoreListLayout = styled.div`
-    position: relative;
     margin-top: 10px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
     background-color: ${White};
-    height: calc(100vh - 10px);
-    overflow-y: auto;
 
     @media screen and (max-width: 1024px) {
         min-width: 200px;
-        height: auto;
-        margin-left: 20px;
     }
 `;
 
 const FilteringContentsContainer = styled.div`
-    position: sticky;
-    top: 0;
-    left: 0;
     background-color: ${White};
     z-index: 10;
     padding: 10px;
     margin-bottom: 20px;
 `;
 
-const StoreListCardContainer = styled.div`
-    overflow: auto;
-`;
+const StoreListCardContainer = styled.div``;
 
 const ButtonContainer = styled.div`
     display: flex;
@@ -340,6 +333,7 @@ const ButtonContainer = styled.div`
 
 const SearchBarContainer = styled.div`
     margin: 10px;
+
     & > input {
         width: 100%;
     }

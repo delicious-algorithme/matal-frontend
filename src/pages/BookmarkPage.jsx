@@ -19,6 +19,7 @@ export default BookmarkPage;
 
 const BookmarkLayout = styled.div`
     width: 100%;
+    height: 100%;
     margin-top: 30px;
     display: flex;
     justify-items: center;
@@ -37,11 +38,12 @@ const Title = styled.h3`
     width: 80%;
     margin-bottom: 30px;
     color: ${DarkGreen};
-    font-size: 24px;
+    font-size: 18px;
     display: flex;
     justify-items: center;
     align-items: center;
     padding-bottom: 10px;
+
     & > p {
         border-bottom: 2px solid ${DarkGreen};
     }

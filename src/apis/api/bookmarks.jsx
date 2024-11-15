@@ -4,7 +4,6 @@ export const getBookmarksStores = async () => {
     try {
         const { data, status } = await defaultInstance.get(`/api/bookmarks`, {
             withCredentials: true,
-            httpOnly: false,
         });
         return {
             data,
@@ -19,10 +18,9 @@ export const getBookmarksStores = async () => {
     }
 };
 
-export const postBookmarkStore = async (body) => {
-    const jsonBody = JSON.stringify(body);
+export const postBookmarkStore = async (id) => {
     try {
-        const { data, status } = await defaultInstance.post(`/api/bookmarks`, jsonBody, {
+        const { data, status } = await defaultInstance.post(`/api/bookmarks`, id, {
             withCredentials: true,
         });
         return {
@@ -38,11 +36,9 @@ export const postBookmarkStore = async (body) => {
     }
 };
 
-export const deleteBookmarkStore = async (id, body) => {
-    const jsonBody = JSON.stringify(body);
-
+export const deleteBookmarkStore = async (id) => {
     try {
-        const { data, status } = await defaultInstance.delete(`/api/bookmarks`, { params: id }, jsonBody, {
+        const { data, status } = await defaultInstance.delete(`/api/bookmarks/${id}`, {
             withCredentials: true,
         });
         return {

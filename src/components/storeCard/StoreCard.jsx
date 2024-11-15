@@ -1,36 +1,13 @@
-import { ReactComponent as Bookmark } from '../../assets/Icon/detail/Bookmark.svg';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Orange, Grey, DarkGrey } from '../../color';
-import { postBookmarkStore } from '../../apis/api/bookmarks';
+import Bookmark from '../common/bookmark/BookmarkContainer';
 
 const TopStoreCard = ({ image, alt, id, address, name, positiveRatio, keyword }) => {
     const navigate = useNavigate();
 
     const cardClickHandler = (id) => {
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
-    };
-
-    const handleClickBookmarks = async (e) => {
-        const auth = JSON.parse(localStorage.getItem('auth')) || {};
-
-        if (!auth.state.isLoggedIn) {
-            navigate('/login');
-        }
-
-        console.log('storeId', id);
-        const bookmarkForm = {
-            id,
-        };
-
-        e.preventDefault();
-        const response = await postBookmarkStore(bookmarkForm);
-        console.log(response);
-        if (response.status === 200) {
-            navigate('/bookmark');
-        } else {
-            console.log(response.error);
-        }
     };
 
     return (
@@ -44,9 +21,7 @@ const TopStoreCard = ({ image, alt, id, address, name, positiveRatio, keyword })
                 </Review>
                 <NameAndCategoryContainer>
                     <p onClick={() => cardClickHandler(id)}>{name}</p>
-                    <BookmarkBox onClick={handleClickBookmarks}>
-                        <Bookmark />
-                    </BookmarkBox>
+                    <Bookmark storeId={id} />
                 </NameAndCategoryContainer>
                 <PositiveRatio>
                     <p>
@@ -156,11 +131,6 @@ const Review = styled.div`
     font-size: 13px;
     height: 40px;
     color: ${DarkGrey};
-`;
-
-const BookmarkBox = styled.div`
-    display: flex;
-    justify-content: end;
 `;
 
 const PositiveRatio = styled.div`
