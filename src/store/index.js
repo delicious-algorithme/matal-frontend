@@ -4,4 +4,6 @@ import useFilterParams from './useFilterParams';
 import useStoreDetail from './useStoreDetail';
 import useTagList from './useTagList';
 import useLogin from './useLogin';
-export { useStoreList, useIsFetch, useFilterParams, useStoreDetail, useTagList, useLogin };
+import useSaveBookmarkId from './useSaveBookmarkId';
+
+export { useStoreList, useIsFetch, useFilterParams, useStoreDetail, useTagList, useLogin, useSaveBookmarkId };

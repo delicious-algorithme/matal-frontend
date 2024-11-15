@@ -24,6 +24,7 @@ export default SearchBar;
 const StyledSearchBar = styled.div`
     width: 60%;
     display: flex;
+    position: relative;
     text-align: left;
     & > input {
         width: 100%;

@@ -1,30 +1,46 @@
 import styled from 'styled-components';
-import Bookmark from '../bookmark/Bookmark';
-import { Star } from '@mui/icons-material';
-import { LightGrey, Orange } from '../../../color';
+import Bookmark from '../bookmark/BookmarkContainer';
+import { ReactComponent as Star } from '../../../assets/Icon/detail/Star.svg';
+import { DarkGreen, DarkGrey, LightGrey, Orange } from '../../../color';
+import { LocationOn } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
-const StoreListCard = ({ image, alt, id, name, address, storLink, rating, positiveRatio, positiveKeyword }) => {
-    const cardClickHandler = () => {};
+const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, positiveKeywords }) => {
+    const navigate = useNavigate();
+
+    const cardClickHandler = () => {
+        navigate(`/webmap/storeDetail/${id}`);
+    };
+
     return (
         <StoreListCardLayout>
-            <ContentsContainer>
-                <ImageContainer onClick={() => cardClickHandler(id)}>
+            <ContentsContainer onClick={() => cardClickHandler(id)}>
+                <ImageContainer>
                     <StyledImage src={image} alt={alt} />
                 </ImageContainer>
-                <NameAndBookmarkContainer>
-                    <p>{name}</p>
-                    <Bookmark />
-                </NameAndBookmarkContainer>
+                <ContentsBox>
+                    <NameAndBookmarkContainer>
+                        <p>{name}</p>
+                        <Bookmark />
+                    </NameAndBookmarkContainer>
+                    <RatingContainer>
+                        <Star />
+                        <p>{rating}</p>
+                        <PositiveRatioContainer>
+                            <p>
+                                <span>{positiveRatio}%</span> AI 긍정 리뷰 비율
+                            </p>
+                        </PositiveRatioContainer>
+                    </RatingContainer>
+                    <PositiveKeywordsBox>
+                        <p># {positiveKeywords}</p>
+                    </PositiveKeywordsBox>
+                    <LocationBox>
+                        <LocationOn />
+                        <p>{address}</p>
+                    </LocationBox>
+                </ContentsBox>
             </ContentsContainer>
-            <RatingContainer>
-                <Star />
-                <p>{rating}</p>
-            </RatingContainer>
-            <PositiveRatioContainer>
-                <p>
-                    AI 긍정 리뷰 비율: <span>{positiveRatio}</span>%
-                </p>
-            </PositiveRatioContainer>
         </StoreListCardLayout>
     );
 };
@@ -33,8 +49,10 @@ export default StoreListCard;
 
 const StoreListCardLayout = styled.div`
     width: 100%;
-    height: 220px;
+    height: 190px;
     padding: 10px;
+    display: flex;
+    align-items: center;
     border-top: 1px solid ${LightGrey};
 
     &:hover {
@@ -62,41 +80,74 @@ const StyledImage = styled.img`
     object-fit: cover;
 `;
 
+const ContentsBox = styled.div`
+    width: 280px;
+    padding-left: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+const LocationBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    & > svg {
+        color: ${DarkGrey};
+        width: 16px;
+        height: 16px;
+    }
+
+    font-size: 14px;
+`;
+
 const NameAndBookmarkContainer = styled.div`
-    width: 100%;
-    height: 50px;
-    padding-left: 10px;
+    height: 30px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 
     & > p {
-        color: ${Orange};
-        font-weight: 500;
-        font-size: 17px;
+        font-weight: 700;
+        font-size: 19px;
     }
 `;
 
 const RatingContainer = styled.div`
     display: flex;
     align-items: center;
-    width: 150px;
-    justify-content: flex-end;
+    width: 220px;
+    gap: 10px;
+    justify-content: flex-start;
+
     & > svg {
-        color: ${Orange};
         width: 16px;
         height: 16px;
     }
+
     & > p {
         font-weight: 600;
         font-size: 16px;
     }
 `;
 
+const PositiveKeywordsBox = styled.div`
+    color: ${DarkGreen};
+    font-size: 14px;
+    padding-left: 2px;
+`;
+
 const PositiveRatioContainer = styled.div`
     font-weight: 600;
+    font-size: 14px;
+    & > p {
+        color: ${DarkGrey};
+    }
+
     & p > span {
+        font-size: 16px;
         font-weight: 700;
         color: ${Orange};
     }
