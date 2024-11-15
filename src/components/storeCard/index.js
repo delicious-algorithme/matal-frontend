@@ -1,3 +1,3 @@
-import TopStoreCard from './StoreCard';
+import TopStoreCard from './TopStoreCard';
 
 export { TopStoreCard };

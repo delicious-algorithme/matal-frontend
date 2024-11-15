@@ -3,17 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { Orange, Grey, DarkGrey } from '../../color';
 import Bookmark from '../common/bookmark/BookmarkContainer';
 import { useSaveBookmarkId } from '../../store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, positiveRatio, keyword }) => {
     const navigate = useNavigate();
     const { savedStores } = useSaveBookmarkId();
     const [savedId, setSavedId] = useState(bookmarkId ? bookmarkId : null);
 
-    if (!bookmarkId) {
-        const bookmarkId = savedStores.filter((store) => store.storeResponseDto.storeId === id);
-        setSavedId(bookmarkId);
-    }
+    useEffect(() => {
+        if (!bookmarkId) {
+            const bookmarkId = savedStores.filter((store) => store.storeResponseDto.storeId === id);
+            setSavedId(bookmarkId);
+        }
+        // eslint-disable-next-line
+    }, []);
 
     const cardClickHandler = (id) => {
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
