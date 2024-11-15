@@ -18,6 +18,7 @@ export const getBookmarksStores = async () => {
     }
 };
 
+
 export const postBookmarkStore = async (id) => {
     try {
         const { data, status } = await defaultInstance.post(`/api/bookmarks`, id, {

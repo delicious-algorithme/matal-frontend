@@ -208,15 +208,15 @@ const StoreDetailPage = () => {
                             <div>
                                 <h3>개요</h3>
                                 <div>
-                                    <span>전화번호</span>
+                                    <h4>전화번호</h4>
                                     <p>{item.phone}</p>
                                 </div>
                                 <div>
-                                    <span>주소</span>
+                                    <h4>주소</h4>
                                     <p>{item.address}</p>
                                 </div>
                                 <div>
-                                    <span>영업시간</span>
+                                    <h4>영업시간</h4>
                                     {Array.isArray(item.businessHours) &&
                                         item.businessHours.map((item, idx) => <div key={idx}>{item}</div>)}
                                 </div>
@@ -591,9 +591,6 @@ const OverViewContainer = styled.div`
         display: flex;
         flex-direction: column;
         gap: 10px;
-        & > span {
-            color: ${DarkGrey};
-        }
     }
     padding-bottom: 30px;
     border-bottom: 1px solid ${Grey};

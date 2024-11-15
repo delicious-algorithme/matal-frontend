@@ -52,13 +52,12 @@ const MyMap = () => {
             mapOptions = {
                 center: new naver.maps.LatLng(currentLocation.lat, currentLocation.lng),
                 zoomControlOptions: {
-                    style: naver.maps.ZoomControlStyle.SMALL,
                     position: naver.maps.Position.TOP_RIGHT,
                 },
                 mapDataControl: true,
                 scaleControl: true,
                 maxZoom: 20,
-                zoom: 11,
+                zoom: 12,
             };
         }
         mapRef.current = new naver.maps.Map(mapElement.current, mapOptions);

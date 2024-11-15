@@ -63,7 +63,6 @@ const StoreList = () => {
                         return [...prevData, ...newDataFiltered];
                     });
                 }
-                //비어있는 경우
                 if (response.data.empty) {
                     setHasMore(false);
                     setIsLoading(false);
