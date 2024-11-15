@@ -12,7 +12,8 @@ const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, positiveRatio
 
     useEffect(() => {
         if (!bookmarkId) {
-            const bookmarkId = savedStores.filter((store) => store.storeResponseDto.storeId === id);
+            const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === id);
+            const bookmarkId = bookmark?.bookmarkId;
             setSavedId(bookmarkId);
         }
         // eslint-disable-next-line

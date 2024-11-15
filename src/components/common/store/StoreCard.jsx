@@ -10,7 +10,8 @@ const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, p
     const navigate = useNavigate();
     const { savedStores } = useSaveBookmarkId();
 
-    const bookmarkId = savedStores.filter((store) => store.storeResponseDto.storeId === id).bookmarkId;
+    const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === id);
+    const bookmarkId = bookmark?.bookmarkId;
 
     const cardClickHandler = () => {
         navigate(`/webmap/storeDetail/${id}`);
