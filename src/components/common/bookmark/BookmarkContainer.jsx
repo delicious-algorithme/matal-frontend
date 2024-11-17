@@ -5,13 +5,24 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBookmarksStores } from '../../../apis/api/bookmarks';
 import { useSaveBookmarkId } from '../../../store';
+import { useState, useEffect } from 'react';
 
 const BookmarkContainer = ({ bookmarkId, storeId }) => {
-    const { savedId, setBookmarkStore } = useSaveBookmarkId();
+    const [stores, setStores] = useState([]);
+    const { savedId, setSaveBookmarkId, setBookmarkStore } = useSaveBookmarkId();
 
     const auth = JSON.parse(localStorage.getItem('auth')) || {};
     const isSaved = savedId.includes(bookmarkId) && auth.state.isLoggedIn;
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (stores.length > 0) {
+            const saveBookmarkId = stores.map((store) => store.bookmarkId);
+            const bookmarkIds = [...new Set(saveBookmarkId)];
+            setSaveBookmarkId(bookmarkIds);
+        }
+        // eslint-disable-next-line
+    }, [stores]);
 
     const handleClickBookmarks = async (e) => {
         e.preventDefault();
@@ -48,8 +59,8 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
             const response = await getBookmarksStores();
             if (response.status === 200) {
                 const newData = response.data;
+                setStores([...newData]);
                 setBookmarkStore([...newData]);
-                navigate(0);
             } else {
                 navigate('/login');
             }
