@@ -25,13 +25,11 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
                 if (response.status === 204) {
                     console.log('success delete');
                     fetchBookmarkStores();
-                    navigate(0);
                 }
             } else {
                 const response = await postBookmarkStore(storeId);
                 if (response.status === 201) {
                     fetchBookmarkStores();
-                    navigate(0);
                 } else {
                     console.log(response.error);
                 }
@@ -51,6 +49,7 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
             if (response.status === 200) {
                 const newData = response.data;
                 setBookmarkStore([...newData]);
+                navigate(0);
             } else {
                 navigate('/login');
             }
