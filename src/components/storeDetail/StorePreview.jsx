@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { DarkGrey, Orange } from '../../color';
+import { DarkGrey, Grey, LightGrey, Orange } from '../../color';
 import { LocationButton } from '../common';
 import { ReactComponent as StarIcon } from '../../assets/Icon/detail/Star.svg';
+import { LocationOn } from '@mui/icons-material';
 
 const StorePreview = ({ store }) => {
     const pathClickHandler = () => {
@@ -22,19 +23,20 @@ const StorePreview = ({ store }) => {
                 </NameAndCategoryBox>
                 <RatingBox>
                     <div>
-                        <p>{store.category} </p>
+                        <CategoryText>{store.category} </CategoryText>
                         <StarBox>
                             <StarIcon />
                             <p>{store.rating} </p>
                         </StarBox>
-                        <p>리뷰 {store.reviewsCount}개 </p>
-                    </div>
-                    <div>
-                        <p>{store.nearbyStation}</p>
+                        <RiviewCountText>리뷰 {store.reviewsCount}개 </RiviewCountText>
                         <p>
-                            <span>{store.positiveRatio}</span>% 긍정비율
+                            <RatioText>{store.positiveRatio}</RatioText>% 긍정비율
                         </p>
                     </div>
+                    <StationBox>
+                        <LocationOn />
+                        <p>{store.nearbyStation}</p>
+                    </StationBox>
                 </RatingBox>
             </ContentsBox>
         </StorePreviewContainer>
@@ -49,7 +51,7 @@ const StorePreviewContainer = styled.div`
     align-items: center;
     text-align: center;
     padding-bottom: 20px;
-    border-bottom: 1px solid ${Orange};
+    border-bottom: 1px solid ${Grey};
 `;
 
 const ImageContainer = styled.div`
@@ -69,6 +71,13 @@ const ImageBox = styled.div`
         max-width: 400px;
         object-fit: cover;
     }
+
+    @media screen and (max-width: 768px) {
+        border-radius: 0px;
+        & > img {
+            border-radius: 0px;
+        }
+    }
 `;
 
 const NameAndCategoryBox = styled.div`
@@ -79,6 +88,13 @@ const NameAndCategoryBox = styled.div`
 
     & > h1 {
         font-weight: 700;
+    }
+
+    @media screen and (max-width: 768px) {
+        & > h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
     }
 `;
 
@@ -95,9 +111,8 @@ const ContentsBox = styled.div`
 
 const RatingBox = styled.div`
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
+    gap: 10px;
 
     & > div > svg {
         width: 20px;
@@ -110,13 +125,6 @@ const RatingBox = styled.div`
         flex-direction: row;
         align-items: center;
         gap: 10px;
-        & > div > p {
-            font-size: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
     }
 
     & > p {
@@ -125,28 +133,19 @@ const RatingBox = styled.div`
         color: ${DarkGrey};
     }
 
-    & > p > span {
-        font-size: 18px;
-        font-weight: 700;
-        color: ${Orange};
-    }
-
     @media screen and (max-width: 1024px) {
         flex-direction: column;
         & > div {
             display: flex;
-            height: 30px;
+            height: 20px;
             gap: 10px;
             flex-direction: row;
-            align-items: center;
-            text-align: center;
-
+            justify-content: flex-start;
+            align-items: flex-start;
+            text-align: left;
             & > div > p {
-                font-size: 18px;
+                font-size: 16px;
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
             }
         }
     }
@@ -162,5 +161,26 @@ const StarBox = styled.div`
     & > svg {
         width: 16px;
         height: 16px;
+    }
+`;
+
+const RatioText = styled.span`
+    color: ${Orange};
+    font-weight: 700;
+`;
+
+const CategoryText = styled.p`
+    color: ${DarkGrey};
+`;
+
+const StationBox = styled.div`
+    & > svg {
+        color: ${LightGrey};
+    }
+`;
+
+const RiviewCountText = styled.p`
+    @media screen and (max-width: 1024px) {
+        display: none;
     }
 `;

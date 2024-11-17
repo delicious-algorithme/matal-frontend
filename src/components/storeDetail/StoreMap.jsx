@@ -33,6 +33,7 @@ const StoreMapContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding-bottom: 30px;
 
     & > div {
         display: flex;
@@ -41,13 +42,11 @@ const StoreMapContainer = styled.div`
             color: ${DarkGrey};
         }
     }
-    padding-bottom: 30px;
 `;
 
 const MapBox = styled.div`
     border-radius: 20px;
     width: 100%;
-
     height: 300px;
 
     & > div {

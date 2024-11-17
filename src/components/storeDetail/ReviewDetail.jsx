@@ -59,6 +59,11 @@ const ContentBox = styled.div`
     border: 1px solid ${Grey};
     border-radius: 10px;
     gap: 10px;
+
+    @media screen and (max-width: 1024px) {
+        border-bottom: 1px solid ${Grey};
+        border-radius: none;
+    }
 `;
 
 const TitleBox = styled.div`
