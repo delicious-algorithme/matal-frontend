@@ -544,6 +544,7 @@ const RecommendBox = styled.div`
     }
     margin-bottom: 30px;
 `;
+
 const TipBox = styled.div`
     display: flex;
     flex-direction: column;
