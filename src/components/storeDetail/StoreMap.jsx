@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 import { MyMap } from '../common';
-import { DarkGrey, Orange } from '../../color';
+import { DarkGrey } from '../../color';
 import { LocationOn } from '@mui/icons-material';
 import { LocationButton } from '../common';
 
 const StoreMap = ({ store }) => {
+    const pathClickHandler = () => {
+        window.location.href = store.storeLink;
+    };
+
     return (
         <StoreMapContainer>
             <div>
@@ -15,8 +19,8 @@ const StoreMap = ({ store }) => {
                 <MyMap />
             </MapBox>
             <StaitionBox>
-                <p>{store.nearbyStation}</p>
-                <LocationButton />
+                <Staition>{store.nearbyStation}</Staition>
+                <LocationButton pathClickHandler={pathClickHandler} />
             </StaitionBox>
         </StoreMapContainer>
     );
@@ -32,10 +36,7 @@ const StoreMapContainer = styled.div`
 
     & > div {
         display: flex;
-        flex-direction: row;
-        align-items: center;
         gap: 5px;
-
         & > svg {
             color: ${DarkGrey};
         }
@@ -57,6 +58,10 @@ const MapBox = styled.div`
 const StaitionBox = styled.div`
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
+`;
+
+const Staition = styled.p`
+    width: 100%;
 `;

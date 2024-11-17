@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import PopOver from './PopOver';
 import StoreInfoCard from './StoreInfoCard';
-import { Orange, Grey, LightGrey } from '../../color';
+import { Orange, Grey } from '../../color';
 import { ReactComponent as Person } from '../../assets/Icon/detail/SoloDining.svg';
 import { ReactComponent as Parking } from '../../assets/Icon/detail/Parking.svg';
 import { ReactComponent as Dog } from '../../assets/Icon/detail/Dog.svg';
@@ -21,7 +21,10 @@ const StoreInsight = ({ store }) => {
         <StoreInsightContainer>
             <TitleBox>
                 <h2>AI리뷰 인사이트</h2>
-                <PopOver text="AI가 다수의 고객 리뷰를 정밀히 분석하여 숨겨진 인사이트를 찾아주는 서비스 입니다." />
+                <PopOver
+                    label="AI리뷰 인사이트란?"
+                    text="AI가 다수의 고객 리뷰를 정밀히 분석하여 숨겨진 인사이트를 찾아줍니다."
+                />
             </TitleBox>
             <ContentBox>
                 <StoreInfoCardBox>
@@ -53,9 +56,6 @@ const TitleBox = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
-    & > h2 {
-        color: ${Orange};
-    }
 `;
 
 const ContentBox = styled.div`
@@ -65,9 +65,8 @@ const ContentBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border-bottom: 1px solid ${Grey};
-    //box-shadow: 1px 1px 1px ${Grey};
-    //border-radius: 10px;
+    border: 1px solid ${Grey};
+    border-radius: 10px;
 
     & > p {
         font-size: 15px;

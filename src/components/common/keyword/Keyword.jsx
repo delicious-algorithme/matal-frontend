@@ -1,18 +1,17 @@
 import styled from 'styled-components';
-import { DarkGreen, Orange, White } from '../../../color';
+import { DarkGreen, Orange } from '../../../color';
 
 const Keyword = ({ keyword, type }) => {
     if (!keyword) {
         return <p>로딩 중...</p>;
     }
-    console.log(keyword);
     const keywordItem = keyword.split(', ');
 
     return (
         <KeywordBox>
             {keywordItem.map((item) => {
                 return (
-                    <KeywordTag type={type}>
+                    <KeywordTag type={type} key={type}>
                         <p>#{item}</p>
                     </KeywordTag>
                 );
@@ -40,9 +39,9 @@ const KeywordTag = styled.div`
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 15px;
 
-    //border: 1px solid ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
+    border: 1px solid ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
     color: ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
 
     @media screen and (max-width: 768px) {

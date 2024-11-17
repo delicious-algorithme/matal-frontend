@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { White, Orange, DarkGrey } from '../../../color';
+import { White, Orange } from '../../../color';
 import { ReactComponent as Path } from '../../../assets/Icon/detail/Path.svg';
 
 const LocationButton = ({ pathClickHandler }) => {
@@ -19,7 +19,7 @@ const StyledButton = styled.button`
     justify-content: center;
     color: ${Orange};
     gap: 5px;
-    width: 80px;
+    width: 100px;
     height: 35px;
     font-size: 16px;
     font-weight: 600;

@@ -41,7 +41,6 @@ const PieChartBox = styled.div`
     flex-direction: column;
     padding: 20px;
     gap: 20px;
-    margin-bottom: 30px;
 
     & > p {
         font-size: 14px;

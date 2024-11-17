@@ -48,6 +48,7 @@ const StorePreviewContainer = styled.div`
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding-bottom: 20px;
     border-bottom: 1px solid ${Orange};
 `;
 
@@ -77,8 +78,7 @@ const NameAndCategoryBox = styled.div`
     gap: 10px;
 
     & > h1 {
-        font-weight: 500;
-        color: ${Orange};
+        font-weight: 700;
     }
 `;
 

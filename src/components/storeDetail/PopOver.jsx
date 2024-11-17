@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Orange, Grey, White } from '../../color';
+import { Orange, White, LightGrey, DarkGrey, Grey } from '../../color';
 
-const PopOver = ({ text }) => {
+const PopOver = ({ text, label }) => {
     const [isHovered, setIsHovered] = useState();
 
     return (
@@ -10,6 +10,7 @@ const PopOver = ({ text }) => {
             <Button> ? </Button>
             {isHovered && (
                 <PopoverText>
+                    <Label>{label}</Label>
                     <p>{text}</p>
                 </PopoverText>
             )}
@@ -25,11 +26,17 @@ const PopOverContainer = styled.div`
     position: relative;
 `;
 
-const Button = styled.div`
+const Label = styled.label`
+    font-weight: bold;
+    color: ${DarkGrey};
+`;
+
+const Button = styled.button`
     width: 15px;
     height: 15px;
     border-radius: 100px;
     display: flex;
+    background: ${White};
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -44,15 +51,18 @@ const PopoverText = styled.div`
     min-width: 400px;
     position: absolute;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: ${White};
+    gap: 10px;
+    background-color: ${LightGrey};
     z-index: 10;
     padding: 30px;
     margin: 50px;
     height: 70px;
     box-shadow: 2px 2px 2px 2px ${Grey};
     border-radius: 20px;
+    border: 1px solid ${Grey};
 
-    font-size: 13px;
+    font-size: 14px;
 `;
