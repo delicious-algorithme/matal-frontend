@@ -61,6 +61,7 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
                 const newData = response.data;
                 setStores([...newData]);
                 setBookmarkStore([...newData]);
+                navigate(0);
             } else {
                 navigate('/login');
             }
