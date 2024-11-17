@@ -1,43 +1,21 @@
 import styled from 'styled-components';
-import { ReactComponent as Logo } from '../assets/Icon/Logo.svg';
-import { ReactComponent as Star } from '../assets/Icon/detail/Star.svg';
-import { ReactComponent as Insight } from '../assets/Icon/detail/Insight.svg';
-import { ReactComponent as SoloDining } from '../assets/Icon/detail/SoloDining.svg';
-import { ReactComponent as Parking } from '../assets/Icon/detail/Parking.svg';
-import { ReactComponent as Dog } from '../assets/Icon/detail/Dog.svg';
-import { ReactComponent as Clock } from '../assets/Icon/detail/Clock.svg';
-import { ReactComponent as Recommended } from '../assets/Icon/detail/Recommended.svg';
-import { ReactComponent as ParkingTip } from '../assets/Icon/detail/PakingTip.svg';
-import { ReactComponent as WaitingTip } from '../assets/Icon/detail/WaitingTip.svg';
-import { ReactComponent as Path } from '../assets/Icon/detail/Path.svg';
-import { DarkGrey, LightGrey, Grey, Orange, White } from '../color';
-import { MyMap } from '../components/common';
 import { useStoreDetail } from '../store';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom/dist';
+import { useState, useEffect } from 'react';
+import { StorePreview, StoreMap, StoreInsight, StoreOverview, ReviewDetail, StoreTip } from '../components/storeDetail';
+import { Grey, LightGrey, White } from '../color';
+import { Footer } from '../components/common';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getStoreDetail } from '../apis/api/getStoreDetail';
+import { Button } from '../components/common';
+import { ReactComponent as BookmarkIcon } from '../assets/Icon/detail/Bookmark.svg';
 
 const StoreDetailPage = () => {
-    const [item, setItem] = useState('');
+    const [item, setItem] = useState({});
     const { id } = useParams();
     const navigate = useNavigate();
-
+    const [isLoading, setIsLoading] = useState(false);
     const storeId = id;
-    const piechart = [item.neutralRatio, item.negativeRatio + item.neutralRatio, item.neutralRatio];
-    const tip = {
-        isSoloDining: item.isSoloDining ? '가능' : '불가능',
-        isParking: item.isParking ? '가능' : '불가능',
-        isPetFriendly: item.isPetFriendly ? '가능' : '불가능',
-        isWaiting: item.isWaiting ? '있는' : '없는',
-    };
-
     const { setStoreDetail } = useStoreDetail();
-    const [isLoading, setIsLoading] = useState();
-    const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
-
-    if (!isStoreDetailPage) {
-        toggleStoreDetailPage();
-    }
 
     const fetchStoreDetail = async (storeId) => {
         setIsLoading(true);
@@ -53,6 +31,7 @@ const StoreDetailPage = () => {
                 }
             }
             setItem(newData);
+            console.log(newData);
             setStoreDetail(newData);
         } catch (error) {
             console.log(error);
@@ -67,568 +46,142 @@ const StoreDetailPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [storeId]);
 
-    const logoClickHandler = () => {
-        navigate('/');
-    };
-
     const buttonClickHandler = () => {
         navigate('/webmap');
     };
 
-    const pathClickHandler = () => {
-        window.location.href = item.storeLink;
-    };
+    const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
+
+    if (!isStoreDetailPage) {
+        toggleStoreDetailPage();
+    }
 
     return (
-        !isLoading && (
-            <StoreDetailLayout>
-                <Header>
-                    <Logo onClick={logoClickHandler} />
-                    <button onClick={buttonClickHandler}>식당 찾아보기</button>
-                </Header>
-                <ContentsContainer>
-                    <ImageAndOverView>
-                        <div>
-                            <img src={item.imageUrl} alt={item.name} />
-                            <button onClick={pathClickHandler}>
-                                <Path />
-                                경로
-                            </button>
-                        </div>
-                        <StoreContents>
-                            <h1>{item.name}</h1>
+        <>
+            <ButtonBox>
+                <Button onClickHandler={buttonClickHandler} text="뒤로 가기" color="orange" visible={true} />
+                <h4>{item.name}</h4>
+            </ButtonBox>
+            {!isLoading && (
+                <DetailPageLayout>
+                    <StorePreview store={item} />
+                    <StoreOverviewContainer>
+                        <StyledLeftContainer>
                             <div>
-                                <div>
-                                    <p>별점</p>
-                                    <Star />
-                                    <span>{item.rating}</span>
-                                </div>
-                                <p>리뷰 {item.reviewsCount}</p>
-                                <h4>{item.category}</h4>
+                                <StoreInsight store={item} />
+                                <ReviewDetail store={item} />
+                                <StoreTip store={item} />
                             </div>
-                        </StoreContents>
-                    </ImageAndOverView>
-                    <AIReviewInsightBox>
-                        <div>
-                            <TitleBox>
-                                <div>
-                                    <h2>AI리뷰 인사이트</h2>
-                                    <Insight />
-                                </div>
-                                <p>AI가 다수의 고객 리뷰를 정밀히 분석하여 숨겨진 인사이트를 찾아주는 서비스 입니다.</p>
-                            </TitleBox>
-                            <BasicInfoBox>
-                                <div>
-                                    <SoloDining />
-                                    <span>혼밥 {tip.isSoloDining}</span>
-                                </div>
-                                <div>
-                                    <Parking />
-                                    <span>주차 {tip.isParking}</span>
-                                </div>
-                                <div>
-                                    <Dog />
-                                    <div>애완견 동반 {tip.isPetFriendly}</div>
-                                </div>
-                                <div>
-                                    <Clock />
-                                    <div>웨이팅 {tip.isWaiting} 맛집</div>
-                                </div>
-                            </BasicInfoBox>
-                        </div>
-                        <ReviewSummaryBox>
-                            <TitleBox>
-                                <h2>AI리뷰 한 줄 요약</h2>
-                            </TitleBox>
-                            <Content>
-                                <p>{item.reviewSummary}</p>
-                            </Content>
-                        </ReviewSummaryBox>
-                        <TitleBox>
-                            <h2>AI 긍정/부정/중립 리뷰 비율</h2>
-                            <p>AI가 분석한 이 식당의 긍정적인 리뷰의 비율은 {item.positiveRatio}%입니다.</p>
-                        </TitleBox>
-                        <PositiveRatioBox>
-                            <PieChartBox>
-                                <PieChart piechart={piechart} />
-                                <p>
-                                    긍정 {item.positiveRatio}% 중립 {item.neutralRatio}% 부정 {item.negativeRatio}%
-                                </p>
-                                <div>
-                                    <div />
-                                    <span>:긍정</span>
-                                    <div />
-                                    <span>:중립</span>
-                                    <div />
-                                    <span>:부정</span>
-                                </div>
-                            </PieChartBox>
-                            <div>
-                                <h3>
-                                    AI 리뷰 <span>긍정</span>키워드
-                                </h3>
-                                <p>AI가 분석한 이 식당 리뷰의 긍정 키워드</p>
-                                <h4>{item.positiveKeywords}</h4>
-                                <h3>
-                                    AI 리뷰 <span>부정</span>키워드
-                                </h3>
-                                <p>AI가 분석한 이 식당 리뷰의 부정 키워드</p>
-                                <h4>{item.negativeKeywords}</h4>
-                            </div>
-                        </PositiveRatioBox>
-                        <RecommendBox>
-                            <h2>AI 추천 메뉴</h2>
-                            <p>리뷰를 분석해 AI가 메뉴를 추천해줍니다.</p>
-                            <div>
-                                <Recommended />
-                                <p>{item.recommendMenu}</p>
-                            </div>
-                        </RecommendBox>
-                        <TipBox>
-                            <h2>AI TIP</h2>
-                            <div>
-                                <div>
-                                    <ParkingTip />
-                                    <h3>주차 팁</h3>
-                                    <p>{item.parkingTip}</p>
-                                </div>
-                                <div>
-                                    <WaitingTip />
-                                    <h3>웨이팅 꿀팁</h3>
-                                    <p>{item.waitingTip}</p>
-                                </div>
-                            </div>
-                        </TipBox>
-                    </AIReviewInsightBox>
-                    <OverViewContainer>
-                        <div>
-                            <h2>식당 정보</h2>
-                        </div>
-                        <OverViewAndMenuBox>
-                            <div>
-                                <h3>개요</h3>
-                                <div>
-                                    <h4>전화번호</h4>
-                                    <p>{item.phone}</p>
-                                </div>
-                                <div>
-                                    <h4>주소</h4>
-                                    <p>{item.address}</p>
-                                </div>
-                                <div>
-                                    <h4>영업시간</h4>
-                                    {Array.isArray(item.businessHours) &&
-                                        item.businessHours.map((item, idx) => <div key={idx}>{item}</div>)}
-                                </div>
-                            </div>
-                            <div>
-                                <h3>메뉴</h3>
-                                <p>{item.menuAndPrice}</p>
-                            </div>
-                        </OverViewAndMenuBox>
-                    </OverViewContainer>
-                    <LocationContainer>
-                        <div>
-                            <h2>위치</h2>
-                            <p>{item.address}</p>
-                        </div>
-                        <MapBox>
-                            <MyMap />
-                        </MapBox>
-                    </LocationContainer>
-                </ContentsContainer>
-            </StoreDetailLayout>
-        )
+                            <StoreOverview store={item} />
+                        </StyledLeftContainer>
+                        <StyledRightContainer>
+                            <BookmarkBox>
+                                <BookmarkIcon />
+                                <button>저장하기</button>
+                            </BookmarkBox>
+                            <StoreMap store={item} />
+                        </StyledRightContainer>
+                    </StoreOverviewContainer>
+                </DetailPageLayout>
+            )}
+            {isLoading && <p>로딩중,,</p>}
+            <Footer />
+        </>
     );
 };
 
 export default StoreDetailPage;
 
-const StoreDetailLayout = styled.div`
+const DetailPageLayout = styled.div`
+    width: 80%;
+    max-width: 1000px;
+    min-height: 100vh;
+    margin: 30px auto 0px auto;
     display: flex;
-    padding: 20px;
-    width: 100%;
-    height: auto;
-    font-size: 16px;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    @media screen and (max-width: 1024px) {
-        padding: 20px;
-        font-size: 13px;
-    }
-`;
-
-const Header = styled.div`
-    display: flex;
-    padding-left: 100px;
-    padding-right: 100px;
-    justify-content: space-between;
-    width: 100%;
-    height: 125px;
-    align-items: center;
-    background-color: ${White};
-    border-bottom: 2px solid ${Grey};
-    & > svg {
-        cursor: pointer;
-        width: 200px;
-        height: 120px;
-    }
-    & > button {
-        width: fit-content;
-        text-align: center;
-        padding: 15px;
-        color: ${Orange};
-        background: ${LightGrey};
-        font-weight: bold;
-        border-radius: 10px;
-        cursor: pointer;
-        &:hover {
-            background: ${Orange};
-            color: ${White};
-        }
-    }
-    @media screen and (max-width: 1024px) {
-        padding: 0px;
-        margin: 0px;
-        height: 60px;
-        & > button {
-            width: 120px;
-        }
-        & > svg {
-            display: none;
-        }
-        justify-content: flex-end;
-        border-bottom: none;
-    }
-`;
-
-const ContentsContainer = styled.div`
-    display: flex;
+    gap: 20px;
     flex-direction: column;
     justify-content: center;
-`;
 
-const ImageAndOverView = styled.div`
-    border-bottom: 1px solid ${Grey};
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 30px;
-    padding-bottom: 20px;
-    :first-child {
-        display: flex;
-        align-items: flex-start;
-    }
-    & > div {
-        margin-top: 10px;
-        display: flex;
+    @media screen and (max-width: 1024px) {
         width: 100%;
-        flex-direction: row;
-        align-items: center;
-        gap: 30px;
-        & > img {
-            width: 60%;
-            max-height: 300px;
-            border-radius: 10px;
-        }
-        & > button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: ${Orange};
-            gap: 10px;
-            width: 90px;
-            height: 40px;
-            font-size: 16px;
-            border-radius: 20px;
-            border: 1px solid ${Orange};
-            background-color: ${White};
-            & > svg {
-                width: 15px;
-            }
+    }
+`;
+
+const StoreOverviewContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+
+    @media screen and (max-width: 1024px) {
+        flex-direction: column;
+        margin: 10px 10px;
+    }
+`;
+
+const StyledLeftContainer = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+`;
+
+const StyledRightContainer = styled.div`
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media screen and (max-width: 1024px) {
+        flex: 1;
+    }
+`;
+
+const BookmarkBox = styled.div`
+    width: 100%;
+    height: 80px;
+    margin-top: 60px;
+    padding: 20px;
+    border: 1px solid ${Grey};
+    border-radius: 10px;
+
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    & > button {
+        background-color: ${White};
+        font-size: 18px;
+        font-weight: 600;
+
+        &:hover {
             cursor: pointer;
         }
-        & > h1 {
-            color: ${Orange};
-        }
-        & > div {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-        & > h4 {
-            color: ${Orange};
-        }
-        @media screen and (max-width: 1024px) {
-            & > img {
-                width: 50%;
-                min-height: 200px;
-                border-radius: 10px;
-            }
-        }
     }
-`;
 
-const AIReviewInsightBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid ${Grey};
-`;
-
-const TitleBox = styled.div`
-    margin-top: 20px;
-    & > div {
-        width: 250px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-        & > h2 {
-            color: ${Orange};
-        }
-    }
-    & > h2 {
-        color: ${Orange};
-    }
-    & > p {
-        margin-top: 10px;
-        color: ${DarkGrey};
-        font-size: 13px;
-    }
-`;
-
-const BasicInfoBox = styled.div`
-    margin-top: 30px;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    & > div {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-        & > span {
-            width: 80px;
-            font-weight: bold;
-            display: flex;
-        }
-        & > div {
-            width: 80px;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            justify-content: center;
-            text-align: center;
-        }
-        @media screen and (max-width: 500px) {
-            min-width: 150px;
-        }
-    }
-`;
-
-const StoreContents = styled.div`
-    display: flex;
-    flex-direction: row;
-    @media screen and (max-width: 500px) {
-        display: flex;
-        flex-direction: column;
-    }
-`;
-
-const ReviewSummaryBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 50px;
-`;
-
-const Content = styled.div`
-    max-width: 700px;
-    height: 150px;
-    border: 1px solid ${Grey};
-    color: ${DarkGrey};
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    background-color: ${White};
-    box-shadow: 2px 2px 2px ${Grey};
-    line-height: 2;
-`;
-
-const PositiveRatioBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
-    & > div {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        & > h3 > span {
-            color: ${Orange};
-        }
-        & > p {
-            font-size: 13px;
-            color: ${DarkGrey};
-        }
-        & > h4 {
-            color: ${Orange};
-        }
-    }
-`;
-
-const PieChartBox = styled.div`
-    box-shadow: 2px 2px 2px ${Grey};
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    gap: 20px;
-    & > div {
-        color: ${DarkGrey};
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        :nth-child(2n + 1) {
-            width: 35px;
-            height: 20px;
-        }
-        :first-child {
-            background-color: ${Orange};
-        }
-        :nth-child(3) {
-            background-color: #fff1e1;
-        }
-        :nth-child(5) {
-            background-color: #ff9a62;
-        }
-    }
-    margin-bottom: 30px;
-`;
-
-const PieChart = styled.div`
-    display: inline-block;
-    position: relative;
-    width: 200px;
-    height: 200px;
-    background: ${(props) => `conic-gradient(
-    #ff9a62 0% ${props.piechart[0]}%, 
-    #fff1e1 ${props.piechart[0]}% ${props.piechart[1]}%, 
-    ${Orange} ${props.piechart[2]}% 100%
-    )`};
-    border-radius: 50%;
-`;
-
-const RecommendBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    & > h2 {
-        color: ${Orange};
-    }
-    & > p {
-        color: ${DarkGrey};
-        font-size: 13px;
-    }
-    & > div {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-    }
-    margin-bottom: 30px;
-`;
-const TipBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    & > h2 {
-        color: ${Orange};
-    }
-    & > div {
-        display: flex;
-        flex-direction: row;
-        gap: 30px;
-        & > div {
-            min-width: 200px;
-            height: 200px;
-            display: flex;
-            gap: 10px;
-            border-radius: 20px;
-            border: 1px solid ${Orange};
-            flex-direction: column;
-            justify-content: center;
-            padding: 20px;
-            box-shadow: 2px 2px 2px ${Grey};
-        }
-    }
     @media screen and (max-width: 1024px) {
-        & > div > div {
-            min-width: 100px;
-        }
+        margin-top: 0px;
+        padding: 10px;
     }
 `;
 
-const OverViewContainer = styled.div`
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    & > div > h2 {
-        color: ${Orange};
-    }
-    & > div {
-        display: flex;
-        gap: 20px;
-    }
-    & > div > div > div {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    padding-bottom: 30px;
-    border-bottom: 1px solid ${Grey};
-`;
-
-const OverViewAndMenuBox = styled.div`
+const ButtonBox = styled.div`
+    position: sticky;
+    width: 100%;
+    height: 80px;
     display: flex;
     flex-direction: row;
-    & > div {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-`;
+    align-items: center;
+    gap: 10px;
+    background-color: ${White};
+    border-bottom: 1px solid ${LightGrey};
+    padding: 10px;
+    z-index: 10;
+    top: 0;
+    left: 0;
 
-const LocationContainer = styled.div`
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    & > div {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-        & > h2 {
-            color: ${Orange};
-        }
-        & > p {
-            font-weight: 600;
-        }
-    }
-    padding-bottom: 30px;
-`;
-
-const MapBox = styled.div`
-    border-radius: 20px;
-    height: 500px;
-    & > div {
-        border-radius: 20px;
+    @media screen and (max-width: 1024px) {
+        flex: 1;
+        height: 60px;
     }
 `;

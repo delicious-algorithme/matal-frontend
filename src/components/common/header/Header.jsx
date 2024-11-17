@@ -5,7 +5,7 @@ import Button from '../button/Button';
 import { ReactComponent as Logo } from '../../../assets/Icon/Logo.svg';
 import { logout } from '../../../apis/api/login';
 import Swal from 'sweetalert2';
-import { LightGrey } from '../../../color';
+import { LightGrey, White } from '../../../color';
 
 const Header = () => {
     const { isLoggedIn, setLogout } = useLogin();
@@ -61,6 +61,7 @@ const HeaderLayout = styled.header`
     display: flex;
     justify-content: space-between;
     padding-right: 100px;
+    background-color: ${White};
     padding-left: 50px;
     & > svg {
         width: 250px;

@@ -9,4 +9,20 @@ import Button from './button/Button';
 import Header from './header/Header';
 import HeaderLayout from './header/HeaderLayout';
 import FormField from './form/FormField';
-export { Category, MyMap, StoreList, StoreCard, Filtering, Footer, Button, SearchBar, Header, HeaderLayout, FormField };
+import LocationButton from './button/LocationButton';
+import Keyword from './keyword/Keyword';
+export {
+    Category,
+    MyMap,
+    StoreList,
+    StoreCard,
+    Filtering,
+    Footer,
+    Button,
+    SearchBar,
+    Header,
+    HeaderLayout,
+    FormField,
+    LocationButton,
+    Keyword,
+};

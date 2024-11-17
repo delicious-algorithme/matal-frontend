@@ -10,7 +10,7 @@ const Footer = () => {
                 </p>
                 <p>맛알고리즘은 AI가 다수의 고객 리뷰를 정밀히 분석하여 숨겨진 인사이트를 찾아주는 서비스입니다.</p>
                 <p>
-                    <span>Email :</span> gmail@gmail.com
+                    <span>Email :</span> aktdkfrhflwma@gmail.com
                 </p>
             </div>
         </FooterLayout>
