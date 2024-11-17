@@ -19,13 +19,13 @@ const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, p
 
     return (
         <StoreListCardLayout>
-            <ContentsContainer onClick={() => cardClickHandler(id)}>
-                <ImageContainer>
+            <ContentsContainer>
+                <ImageContainer onClick={() => cardClickHandler(id)}>
                     <StyledImage src={image} alt={alt} />
                 </ImageContainer>
                 <ContentsBox>
                     <NameAndBookmarkContainer>
-                        <p>{name}</p>
+                        <p onClick={() => cardClickHandler(id)}>{name}</p>
                         <Bookmark bookmarkId={bookmarkId} storeId={id} />
                     </NameAndBookmarkContainer>
                     <RatingContainer>
