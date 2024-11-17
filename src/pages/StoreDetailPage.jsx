@@ -140,7 +140,7 @@ const StyledRightContainer = styled.div`
 const BookmarkBox = styled.div`
     width: 100%;
     height: 80px;
-    margin-top: 50px;
+    margin-top: 60px;
     padding: 20px;
     border: 1px solid ${Grey};
     border-radius: 10px;
@@ -157,6 +157,11 @@ const BookmarkBox = styled.div`
         &:hover {
             cursor: pointer;
         }
+    }
+
+    @media screen and (max-width: 1024px) {
+        margin-top: 0px;
+        padding: 10px;
     }
 `;
 
