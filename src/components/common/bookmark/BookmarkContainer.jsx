@@ -13,6 +13,7 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
 
     const auth = JSON.parse(localStorage.getItem('auth')) || {};
     const isSaved = savedId.includes(bookmarkId) && auth.state.isLoggedIn;
+
     const navigate = useNavigate();
 
     useEffect(() => {
