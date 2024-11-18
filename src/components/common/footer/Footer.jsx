@@ -1,10 +1,15 @@
 import styled from 'styled-components';
-import { DarkGrey, LightGrey } from '../../../color';
+import { DarkGrey, LightGrey, Orange } from '../../../color';
 
 const Footer = () => {
     return (
         <FooterLayout>
             <div>
+                <Terms>
+                    <a href="/terms">이용 약관</a>
+                    <a href="/privacyConsent">개인 정보 수집 및 이용 동의</a>
+                    <a href="/privacy">개인정보처리방침</a>
+                </Terms>
                 <p>
                     <span>MataI c </span>2024 All Right Reserved
                 </p>
@@ -28,10 +33,31 @@ const FooterLayout = styled.footer`
     align-items: center;
     height: 200px;
     & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         text-align: center;
         color: ${DarkGrey};
         & > p > span {
             font-weight: bold;
+        }
+    }
+`;
+
+const Terms = styled.p`
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+
+    & > a {
+        color: ${DarkGrey};
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+
+        &:hover {
+            color: ${Orange};
+            text-decoration: underline;
         }
     }
 `;
