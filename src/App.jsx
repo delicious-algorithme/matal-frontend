@@ -5,6 +5,7 @@ import { MainPage, WebMap, SignUpPage, StoreDetailPage, LoginPage } from './page
 import './App.css';
 import { HeaderLayout } from './components/common';
 import BookmarkPage from './pages/BookmarkPage';
+import { Terms, PrivacyConsent, Privacy } from './document';
 
 function App() {
     return (
@@ -20,6 +21,9 @@ function App() {
                         <Route path="/webmap/storeDetail/:id" element={<StoreDetailPage />} />
                     </Route>
                     <Route path="/webmap" element={<WebMap />} />
+                    <Route path="/terms" element={<Terms />} />
+                    <Route path="/privacyConsent" element={<PrivacyConsent />} />
+                    <Route path="/privacy" element={<Privacy />} />
                     <Route path="/webmap/storeList/:item" element={<WebMap />} />
                 </Routes>
             </BrowserRouter>

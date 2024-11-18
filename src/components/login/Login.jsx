@@ -28,7 +28,6 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await login(loginForm);
-        console.log(response);
         if (response.status === 200) {
             navigate('/');
             setLogin(loginForm.email);
