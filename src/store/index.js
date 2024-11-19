@@ -5,15 +5,5 @@ import useStoreDetail from './useStoreDetail';
 import useTagList from './useTagList';
 import useLogin from './useLogin';
 import useSaveBookmarkId from './useSaveBookmarkId';
-import useSearchInput from './useSearchInput';
 
-export {
-    useStoreList,
-    useIsFetch,
-    useFilterParams,
-    useStoreDetail,
-    useTagList,
-    useLogin,
-    useSaveBookmarkId,
-    useSearchInput,
-};
+export { useStoreList, useIsFetch, useFilterParams, useStoreDetail, useTagList, useLogin, useSaveBookmarkId };
