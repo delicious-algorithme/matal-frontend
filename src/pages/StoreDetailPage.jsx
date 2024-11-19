@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getStoreDetail } from '../apis/api/getStoreDetail';
 import { Button } from '../components/common';
 import { ReactComponent as BookmarkIcon } from '../assets/Icon/detail/Bookmark.svg';
+import { useSaveBookmarkId } from '../store';
 
 const StoreDetailPage = () => {
     const [item, setItem] = useState({});
@@ -16,6 +17,10 @@ const StoreDetailPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const storeId = id;
     const { setStoreDetail } = useStoreDetail();
+    const { savedStores } = useSaveBookmarkId();
+
+    const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === item.id);
+    const bookmarkId = bookmark?.bookmarkId;
 
     const fetchStoreDetail = async (storeId) => {
         setIsLoading(true);
@@ -81,8 +86,10 @@ const StoreDetailPage = () => {
                         </StyledLeftContainer>
                         <StyledRightContainer>
                             <BookmarkBox>
-                                <BookmarkIcon />
-                                <button>저장하기</button>
+                                <BookmarkIcon bookmarkId={bookmarkId} storeId={item.storeId} />
+                                <button>
+                                    저장하기<span>(북마크 아이콘을 눌러 저장해주세요.)</span>
+                                </button>
                             </BookmarkBox>
                             <StoreMap store={item} />
                         </StyledRightContainer>
@@ -159,6 +166,12 @@ const BookmarkBox = styled.div`
         font-size: 18px;
         font-weight: 600;
 
+        & > span {
+            font-size: 14px;
+            padding: 5px;
+            text-align: center;
+            font-weight: 500;
+        }
         &:hover {
             cursor: pointer;
         }
