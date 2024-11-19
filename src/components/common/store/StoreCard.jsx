@@ -64,11 +64,24 @@ const StoreListCardLayout = styled.div`
         cursor: pointer;
         background-color: ${LightGrey};
     }
+
+    @media screen and (max-width: 500px) {
+        flex-direction: column;
+        align-items: flex-start;
+        height: 300px;
+    }
+
+    @media screen and (max-width: 350px) {
+        margin-left: 10px;
+    }
 `;
 
 const ContentsContainer = styled.div`
     display: flex;
     flex-direction: row;
+    @media screen and (max-width: 500px) {
+        flex-direction: column;
+    }
 `;
 
 const ImageContainer = styled.div`
@@ -77,6 +90,10 @@ const ImageContainer = styled.div`
     overflow: hidden;
     flex-shrink: 0;
     border-radius: 10px;
+    @media screen and (max-width: 500px) {
+        width: 300px;
+        height: 160px;
+    }
 `;
 
 const StyledImage = styled.img`
