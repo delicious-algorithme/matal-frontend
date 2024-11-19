@@ -37,13 +37,15 @@ const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, p
                             </p>
                         </PositiveRatioContainer>
                     </RatingContainer>
-                    <PositiveKeywordsBox>
-                        <p># {positiveKeywords}</p>
-                    </PositiveKeywordsBox>
-                    <LocationBox>
-                        <LocationOn />
-                        <p>{address}</p>
-                    </LocationBox>
+                    <KeywordAndLocationBox>
+                        <PositiveKeywordsBox>
+                            <p># {positiveKeywords}</p>
+                        </PositiveKeywordsBox>
+                        <LocationBox>
+                            <LocationOn />
+                            <p>{address}</p>
+                        </LocationBox>
+                    </KeywordAndLocationBox>
                 </ContentsBox>
             </ContentsContainer>
         </StoreListCardLayout>
@@ -64,6 +66,17 @@ const StoreListCardLayout = styled.div`
         cursor: pointer;
         background-color: ${LightGrey};
     }
+
+    @media screen and (max-width: 500px) {
+        flex-direction: column;
+        align-items: flex-start;
+        height: 160px;
+    }
+
+    @media screen and (max-width: 350px) {
+        margin-left: 10px;
+        height: 160px;
+    }
 `;
 
 const ContentsContainer = styled.div`
@@ -71,12 +84,19 @@ const ContentsContainer = styled.div`
     flex-direction: row;
 `;
 
+const KeywordAndLocationBox = styled.div``;
+
 const ImageContainer = styled.div`
     width: 150px;
     height: 150px;
     overflow: hidden;
     flex-shrink: 0;
     border-radius: 10px;
+    display: flex;
+    @media screen and (max-width: 500px) {
+        width: 100px;
+        height: 100px;
+    }
 `;
 
 const StyledImage = styled.img`
@@ -91,6 +111,9 @@ const ContentsBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+    @media screen and (max-width: 350px) {
+        width: 200px;
+    }
 `;
 
 const LocationBox = styled.div`
@@ -117,6 +140,13 @@ const NameAndBookmarkContainer = styled.div`
     & > p {
         font-weight: 700;
         font-size: 19px;
+    }
+
+    @media screen and (max-width: 500px) {
+        & > p {
+            font-weight: 700;
+            font-size: 16px;
+        }
     }
 `;
 

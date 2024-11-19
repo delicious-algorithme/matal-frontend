@@ -16,6 +16,7 @@ const Filtering = ({ category }) => {
     const { setIsFetchAll } = useIsFetch();
     const { tagList, setTagList } = useTagList();
 
+    const [seeMore, setSeeMore] = useState(true);
     const [categories, setCategories] = useState(filterParams.category);
     const [keywords, setKeywords] = useState(filterParams.positiveKeyword);
     const [locationValue, setLocationValue] = useState(filterParams.addresses);
@@ -41,6 +42,10 @@ const Filtering = ({ category }) => {
             positiveKeyword: [],
         };
     }, []);
+
+    const handleSeemore = () => {
+        setSeeMore(!seeMore);
+    };
 
     const isInitFilterParams = useCallback(() => {
         return isEqual(filterParams, initialParams);
@@ -214,8 +219,10 @@ const Filtering = ({ category }) => {
 
     return (
         <SelectLayout>
+            <SeemoreButton onClick={handleSeemore}>가게 필터링 하기</SeemoreButton>
             <div>
                 {FITERING_INFO &&
+                    seeMore &&
                     FITERING_INFO.map((item) => {
                         return (
                             <SelectBox key={item.key}>
@@ -373,6 +380,18 @@ const SelectLayout = styled.div`
         flex-direction: row;
         flex-wrap: wrap;
         gap: 10px;
+    }
+`;
+
+const SeemoreButton = styled.button`
+    margin-right: 20px;
+    margin-bottom: 10px;
+    height: 30px;
+    border-radius: 20px;
+    font-weight: bold;
+
+    @media screen and (min-width: 350px) {
+        display: none;
     }
 `;
 
