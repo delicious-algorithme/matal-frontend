@@ -1,3 +1,4 @@
 import Signup from './SignUp';
 import Login from './Login';
-export { Signup, Login };
+import Consent from './Consent';
+export { Signup, Login, Consent };
