@@ -7,8 +7,8 @@ import { Footer } from '../components/common';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getStoreDetail } from '../apis/api/getStoreDetail';
 import { Button } from '../components/common';
-import { ReactComponent as BookmarkIcon } from '../assets/Icon/detail/Bookmark.svg';
 import { useSaveBookmarkId } from '../store';
+import Bookmark from '../components/common/bookmark/BookmarkContainer';
 
 const StoreDetailPage = () => {
     const [item, setItem] = useState({});
@@ -36,7 +36,6 @@ const StoreDetailPage = () => {
                 }
             }
             setItem(newData);
-            console.log(newData);
             setStoreDetail(newData);
         } catch (error) {
             console.log(error);
@@ -86,7 +85,7 @@ const StoreDetailPage = () => {
                         </StyledLeftContainer>
                         <StyledRightContainer>
                             <BookmarkBox>
-                                <BookmarkIcon bookmarkId={bookmarkId} storeId={item.storeId} />
+                                <Bookmark bookmarkId={bookmarkId} storeId={item.storeId} />
                                 <button>
                                     저장하기<span>(북마크 아이콘을 눌러 저장해주세요.)</span>
                                 </button>
