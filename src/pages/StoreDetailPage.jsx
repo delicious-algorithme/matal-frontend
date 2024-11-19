@@ -59,7 +59,12 @@ const StoreDetailPage = () => {
     return (
         <>
             <ButtonBox>
-                <Button onClickHandler={buttonClickHandler} text="뒤로 가기" color="orange" visible={true} />
+                <Button
+                    onClickHandler={buttonClickHandler}
+                    text="다른 식당 찾아 보러 가기"
+                    color="orange"
+                    visible={true}
+                />
                 <h4>{item.name}</h4>
             </ButtonBox>
             {!isLoading && (
