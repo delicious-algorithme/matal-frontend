@@ -19,7 +19,7 @@ const StoreDetailPage = () => {
     const { setStoreDetail } = useStoreDetail();
     const { savedStores } = useSaveBookmarkId();
 
-    const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === item.id);
+    const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === storeId);
     const bookmarkId = bookmark?.bookmarkId;
 
     const fetchStoreDetail = async (storeId) => {
