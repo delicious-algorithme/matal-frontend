@@ -72,11 +72,6 @@ const StoreListCardLayout = styled.div`
         align-items: flex-start;
         height: 160px;
     }
-
-    @media screen and (max-width: 350px) {
-        margin-left: 10px;
-        height: 160px;
-    }
 `;
 
 const ContentsContainer = styled.div`
