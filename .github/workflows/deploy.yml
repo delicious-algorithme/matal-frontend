@@ -40,7 +40,7 @@ jobs:
 
     - name: Copy Build files to the production website with AWS CLI
       run: |
-        aws s3 sync --delete $${{env.DIST}} s3://${{env.BUCKET}}
+        aws s3 sync --delete ${{env.DIST}} s3://${{env.BUCKET}}
 
     - name: Deploy to CodeDeploy
       run: |
