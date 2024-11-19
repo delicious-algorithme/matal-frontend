@@ -6,7 +6,7 @@ import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../button/Button';
-import { useStoreList, useIsFetch, useFilterParams, useTagList } from '../../../store';
+import { useStoreList, useIsFetch, useFilterParams, useTagList, useSearchInput } from '../../../store';
 import Filtering from '../filtering/Filtering';
 import SearchBar from '../searchBar/SearchBar';
 
@@ -20,7 +20,17 @@ const StoreList = () => {
     const [hasMore, setHasMore] = useState(true);
     const [isNothing, setIsNothing] = useState(false);
 
-    const [input, setInput] = useState(location.state?.searchInput);
+    const { setSearchInput, searchInput } = useSearchInput();
+
+    let initInput = '';
+
+    if (location.state?.searchInput) {
+        initInput = location.state?.searchInput;
+    } else if (searchInput) {
+        initInput = searchInput;
+    }
+
+    const [input, setInput] = useState(initInput);
     const [orderByRating, setOrderByRating] = useState(null);
     const [orderByPositiveRatio, setorderByPositiveRatio] = useState(null);
 
@@ -198,6 +208,7 @@ const StoreList = () => {
             Params.searchKeywords = input;
             initStores();
             fetchStores();
+            setSearchInput(input);
         }
     };
 
@@ -280,7 +291,7 @@ const StoreList = () => {
                     stores.map((store) => {
                         return (
                             <StoreListCard
-                                key={store.id}
+                                key={store.storeId}
                                 id={store.storeId}
                                 image={store.imageUrls}
                                 name={store.name}

@@ -30,7 +30,6 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
         if (!auth.state.isLoggedIn) {
             navigate('/login');
         }
-
         try {
             if (isSaved) {
                 const response = await deleteBookmarkStore(bookmarkId);
@@ -87,4 +86,8 @@ const BookmarkBox = styled.div`
     display: flex;
     justify-content: end;
     padding: 10px;
+
+    & > svg {
+        cursor: pointer;
+    }
 `;

@@ -70,6 +70,12 @@ const StoreListCardLayout = styled.div`
     @media screen and (max-width: 500px) {
         flex-direction: column;
         align-items: flex-start;
+        height: 140px;
+    }
+
+    @media screen and (max-width: 350px) {
+        flex-direction: column;
+        align-items: flex-start;
         height: 160px;
     }
 `;
