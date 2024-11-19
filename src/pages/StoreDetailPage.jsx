@@ -36,7 +36,6 @@ const StoreDetailPage = () => {
                 }
             }
             setItem(newData);
-            console.log(newData);
             setStoreDetail(newData);
         } catch (error) {
             console.log(error);
