@@ -85,7 +85,7 @@ const StoreDetailPage = () => {
                         </StyledLeftContainer>
                         <StyledRightContainer>
                             <BookmarkBox>
-                                <Bookmark bookmarkId={bookmarkId} storeId={item.storeId} />
+                                <Bookmark bookmarkId={bookmarkId} storeId={storeId} />
                                 <button>
                                     저장하기<span>(북마크 아이콘을 눌러 저장해주세요.)</span>
                                 </button>
@@ -112,10 +112,6 @@ const DetailPageLayout = styled.div`
     gap: 20px;
     flex-direction: column;
     justify-content: center;
-
-    @media screen and (max-width: 1024px) {
-        width: 100%;
-    }
 `;
 
 const StoreOverviewContainer = styled.div`
