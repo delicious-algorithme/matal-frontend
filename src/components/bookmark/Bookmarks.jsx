@@ -50,6 +50,10 @@ const Bookmarks = () => {
         }
     };
 
+    const handleClickScrap = () => {
+        navigate('/webmap');
+    };
+
     return (
         <>
             {stores.length !== 0 && (
@@ -73,7 +77,7 @@ const Bookmarks = () => {
             {stores.length === 0 && (
                 <EmptyBox>
                     <h2> 저장된 가게가 없습니다.</h2>
-                    <button>스크랩 하러 가기</button>
+                    <button onClick={handleClickScrap}>스크랩 하러 가기</button>
                 </EmptyBox>
             )}
         </>

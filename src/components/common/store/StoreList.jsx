@@ -310,8 +310,8 @@ const StoreListLayout = styled.div`
     overflow-y: scroll;
     background-color: ${White};
 
-    @media screen and (max-width: 1024px) {
-        min-width: 200px;
+    @media screen and (max-width: 350px) {
+        width: 80%;
     }
 `;
 
@@ -320,6 +320,11 @@ const FilteringContentsContainer = styled.div`
     z-index: 10;
     padding: 10px;
     margin-bottom: 20px;
+
+    @media screen and (max-width: 350px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 `;
 
 const StoreListCardContainer = styled.div``;
