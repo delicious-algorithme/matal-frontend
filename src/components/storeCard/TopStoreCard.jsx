@@ -16,7 +16,6 @@ const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, positiveRatio
     const cardClickHandler = (id) => {
         navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
     };
-
     return (
         <StoreCardContainer>
             <ImageContainer onClick={() => cardClickHandler(id)}>

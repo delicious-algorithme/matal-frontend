@@ -5,11 +5,8 @@ export const getStoreList = async (params) => {
     const jsonBody = JSON.stringify(params);
 
     try {
-        const { data, status } = await defaultInstance.post(`/api/stores/searchAndFilter`, jsonBody);
-        return {
-            data,
-            status,
-        };
+        const response = await defaultInstance.post(`/api/stores/searchAndFilter`, jsonBody);
+        return response;
     } catch (e) {
         console.log(e.response ? e.response.data : e);
         return {
