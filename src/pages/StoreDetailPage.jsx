@@ -15,11 +15,12 @@ const StoreDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const storeId = id;
+    const storeId = Number(id);
     const { setStoreDetail } = useStoreDetail();
     const { savedStores } = useSaveBookmarkId();
 
     const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === storeId);
+
     const bookmarkId = bookmark?.bookmarkId;
 
     const fetchStoreDetail = async (storeId) => {
@@ -85,7 +86,7 @@ const StoreDetailPage = () => {
                         </StyledLeftContainer>
                         <StyledRightContainer>
                             <BookmarkBox>
-                                <Bookmark bookmarkId={bookmarkId} storeId={item.storeId} />
+                                <Bookmark bookmarkId={bookmarkId} storeId={storeId} />
                                 <button>
                                     저장하기<span>(북마크 아이콘을 눌러 저장해주세요.)</span>
                                 </button>
