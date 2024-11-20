@@ -51,7 +51,7 @@ const Signup = () => {
         if (!verifyInputs()) return;
         const response = await signUp(signupForms);
 
-        if (response.status !== 201) {
+        if (response.status !== 200) {
             const errorMessage = response.error.message;
             Swal.fire({
                 icon: 'warning',
@@ -59,7 +59,7 @@ const Signup = () => {
                 text: errorMessage,
             });
         }
-        if (response.status === 201) {
+        if (response.status === 200) {
             Swal.fire({
                 icon: 'success',
                 title: '회원가입 성공',
