@@ -9,16 +9,12 @@ import Button from '../button/Button';
 import { useStoreList, useIsFetch, useFilterParams, useTagList } from '../../../store';
 import Filtering from '../filtering/Filtering';
 import SearchBar from '../searchBar/SearchBar';
+import { useInfiniteQuery } from 'react-query';
+import { useInView } from 'react-intersection-observer';
 
 const StoreList = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
-    const [stores, setStores] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const [isNothing, setIsNothing] = useState(false);
 
     const [input, setInput] = useState(location.state?.searchInput);
     const [orderByRating, setOrderByRating] = useState(null);
@@ -28,6 +24,7 @@ const StoreList = () => {
     const { isFetchAll, setIsFetchAll } = useIsFetch();
     const { filterParams, setFilterParams } = useFilterParams();
     const { tagList, setTagList } = useTagList();
+    const { ref, inView } = useInView();
 
     const Params = {
         ...filterParams,
@@ -35,116 +32,89 @@ const StoreList = () => {
         orderByRating,
         orderByPositiveRatio,
     };
+
     const initialParams = {
         addresses: [],
         category: [],
         positiveKeyword: [],
     };
 
-    const fetchStoreData = async (page) => {
-        setIsLoading(true);
-        setHasMore(true);
-        if (isFetchAll) {
-            return;
-        }
-        if (JSON.stringify(filterParams) === JSON.stringify(initialParams) && !input) {
-            return;
-        }
-        try {
-            const response = await getStoreList({ ...Params, page });
-            if (response.status === 200) {
-                const newData = response.data.content;
-                if (newData) {
-                    setIsLoading(false);
-                    setStores((prevData) => {
-                        const newDataFiltered = newData.filter(
-                            (newItem) => !prevData.some((prevItem) => prevItem.storeId === newItem.storeId)
-                        );
-                        return [...prevData, ...newDataFiltered];
-                    });
-                }
-                if (response.data.empty) {
-                    setHasMore(false);
-                    setIsLoading(false);
-                    setIsNothing(true);
-                }
-            } else if (
-                response.status === 500 ||
-                response.status === 400 ||
-                response.status.message === 'Network Error'
-            ) {
-                setHasMore(false);
-                setIsLoading(false);
-                setIsNothing(true);
-            }
-        } catch (error) {
-            console.log(error);
-            setIsLoading(false);
-        } finally {
-            setIsLoading(false);
-        }
+    const fetchStoreData = async ({ pageParam }) => {
+        const response = await getStoreList({ ...Params, page: pageParam });
+        return response.data;
     };
 
-    const fetchStoreAll = async (page) => {
-        setIsLoading(true);
-        setHasMore(true);
-        if (!isFetchAll) return;
-        if (page > 100) return;
-        try {
-            const response = await getStoreAll({
-                page: page,
-                orderByPositiveRatio: orderByPositiveRatio,
-                orderByRating: orderByRating,
-            });
-            if (response.status === 200) {
-                const newData = response.data.content;
-                if (newData) {
-                    setIsLoading(false);
-                    setStores((prevData) => {
-                        const newDataFiltered = newData.filter(
-                            (newItem) => !prevData.some((prevItem) => prevItem.storeId === newItem.storeId)
-                        );
-                        return [...prevData, ...newDataFiltered];
-                    });
-                }
-            } else if (response.status === 500) {
-                setHasMore(false);
-                setIsLoading(false);
-                setIsNothing(true);
-            }
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);
-        }
+    const fetchStoreAll = async ({ pageParam }) => {
+        const response = await getStoreAll({
+            page: pageParam,
+            orderByPositiveRatio,
+            orderByRating,
+        });
+        return response.data;
     };
+
+    const { data, fetchNextPage, isLoading } = useInfiniteQuery(
+        ['stores', Params, isFetchAll, filterParams, tagList],
+        async ({ pageParam = 0 }) => {
+            if (isFetchAll) {
+                return await fetchStoreAll({ pageParam });
+            }
+            return await fetchStoreData({ pageParam });
+        },
+        {
+            getNextPageParam: (lastPage) => {
+                return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
+            },
+            refetchOnWindowFocus: false,
+            cacheTime: 1000 * 60 * 5,
+        }
+    );
+
+    const stores = data?.pages.flatMap((page) => page.content) || [];
+    const isNothing = !stores.length && !isLoading;
+
+    useEffect(() => {
+        if (inView) {
+            fetchNextPage();
+        }
+    }, [inView, fetchNextPage]);
+
+    useEffect(() => {
+        if (stores.length > 0) {
+            setStoreList(stores);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        if (
+            filterParams.searchKeywords !== input ||
+            filterParams.orderByRating !== orderByRating ||
+            filterParams.orderByPositiveRatio !== orderByPositiveRatio
+        ) {
+            setFilterParams({
+                ...filterParams,
+                searchKeywords: input || null,
+                orderByRating,
+                orderByPositiveRatio,
+            });
+        }
+    }, [input, orderByRating, orderByPositiveRatio]);
+
+    useEffect(() => {
+        if (location.state?.searchInput) {
+            setIsFetchAll(false);
+        }
+        if (tagList.length > 0 || (input && input.length > 0)) {
+            setIsFetchAll(false);
+        } else {
+            if (!tagList || tagList.length === 0) {
+                setIsFetchAll(true);
+            }
+        }
+    }, [isFetchAll, filterParams, orderByPositiveRatio, orderByRating]);
 
     //main에서 받아오는 카테고리
-    const isExistCategory = () => {
-        if (location.state?.category) {
-            return location.state?.category;
-        }
-        return null;
-    };
-
-    const category = isExistCategory();
-
-    const initStores = () => {
-        setStores([]);
-        setPage(0);
-    };
-
-    const fetchAllStores = () => {
-        initStores();
-        fetchStoreAll(0);
-        setIsFetchAll(true);
-    };
-
-    const fetchStores = () => {
-        initStores();
-        fetchStoreData(0);
-        setIsFetchAll(false);
-    };
+    const category = location.state?.category ? location.state?.category : null;
 
     const allFetchButtonHandler = () => {
         setFilterParams(initialParams);
@@ -153,51 +123,12 @@ const StoreList = () => {
         setOrderByRating(null);
         setorderByPositiveRatio(null);
         setInput(null);
-        setTimeout(() => {
-            fetchAllStores();
-        }, 0);
-    };
-
-    useEffect(() => {
-        if (location.state?.searchInput) {
-            fetchStores();
-        }
-        if (tagList.length > 0 || (input && input.length > 0)) {
-            fetchStores();
-        } else {
-            if (!tagList || tagList.length === 0) {
-                fetchAllStores();
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isFetchAll, filterParams, orderByPositiveRatio, orderByRating]);
-
-    useEffect(() => {
-        const updateStores = stores;
-        setStoreList(updateStores);
-    }, [stores, setStoreList]);
-
-    useEffect(() => {
-        if (hasMore) {
-            if (!isFetchAll) {
-                fetchStoreData(page);
-            } else {
-                fetchStoreAll(page);
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page]);
-
-    const handleInputChange = (e) => {
-        setInput(e.target.value);
     };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             Params.searchKeywords = input;
-            initStores();
-            fetchStores();
         }
     };
 
@@ -211,43 +142,17 @@ const StoreList = () => {
         setOrderByRating(null);
     };
 
-    const handleObserver = (entries) => {
-        const target = entries[0];
-        if (target.isIntersecting && hasMore) {
-            setPage((prevPage) => prevPage + 1);
-        }
-    };
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(handleObserver, {
-            threshold: 0,
-        });
-        const observerTarget = document.getElementById('observer');
-        if (observerTarget) {
-            observer.observe(observerTarget);
-        }
-        return () => {
-            if (observerTarget) {
-                observer.unobserve(observerTarget);
-            }
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page]);
-
-    const onClicktoBackButton = () => {
-        navigate('/');
-    };
-
+    if (isLoading) return <div>Loading...</div>;
     return (
         <StoreListLayout>
             <FilteringContentsContainer>
                 <ButtonContainer>
-                    <Button visible="true" color="green" onClickHandler={onClicktoBackButton} text="뒤로 가기" />
+                    <Button visible="true" color="green" onClickHandler={() => navigate('/')} text="뒤로 가기" />
                     <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
                 </ButtonContainer>
                 <SearchBarContainer>
                     <SearchBar
-                        onChangeHandler={handleInputChange}
+                        onChangeHandler={(e) => setInput(e.target.value)}
                         onKeyDownHandler={handleKeyDown}
                         searchInput={input}
                     />
@@ -277,25 +182,22 @@ const StoreList = () => {
             </FilteringContentsContainer>
             <StoreListCardContainer>
                 {stores &&
-                    stores.map((store) => {
-                        return (
-                            <StoreListCard
-                                key={store.storeId}
-                                id={store.storeId}
-                                image={store.imageUrls}
-                                name={store.name}
-                                address={store.address}
-                                rating={store.rating}
-                                positiveKeywords={store.positiveKeywords}
-                                storeLink={store.storeLink}
-                                positiveRatio={store.positiveRatio}
-                            />
-                        );
-                    })}
+                    stores.map((store, index) => (
+                        <StoreListCard
+                            key={`${store.storeId}-${index}`}
+                            id={store.storeId}
+                            image={store.imageUrls}
+                            name={store.name}
+                            address={store.address}
+                            rating={store.rating}
+                            positiveKeywords={store.positiveKeywords}
+                            storeLink={store.storeLink}
+                            positiveRatio={store.positiveRatio}
+                        />
+                    ))}
                 {isNothing && stores.length === 0 && <Alert>조건에 맞는 검색어가 없습니다. </Alert>}
-                {isLoading && <p>Loading...</p>}
-                <div id="observer" style={{ height: '10px' }} />
             </StoreListCardContainer>
+            <Ref ref={ref} />
         </StoreListLayout>
     );
 };
@@ -328,6 +230,11 @@ const FilteringContentsContainer = styled.div`
 `;
 
 const StoreListCardContainer = styled.div``;
+
+const Ref = styled.div`
+    width: 100%;
+    height: 50px;
+`;
 
 const ButtonContainer = styled.div`
     display: flex;
