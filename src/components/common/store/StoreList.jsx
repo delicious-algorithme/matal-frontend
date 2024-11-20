@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import { DarkGrey, Grey, Orange, White } from '../../../color';
-import StoreListCard from './StoreCard';
 import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
-import { useLocation, useNavigate } from 'react-router-dom';
+
+import StoreListCard from './StoreCard';
 import Button from '../button/Button';
-import { useStoreList, useIsFetch, useFilterParams, useTagList } from '../../../store';
 import Filtering from '../filtering/Filtering';
 import SearchBar from '../searchBar/SearchBar';
+
+import { useStoreList, useIsFetch, useFilterParams, useTagList } from '../../../store';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
@@ -26,13 +29,6 @@ const StoreList = () => {
     const { tagList, setTagList } = useTagList();
     const { ref, inView } = useInView();
 
-    const Params = {
-        ...filterParams,
-        searchKeywords: input ? input : null,
-        orderByRating,
-        orderByPositiveRatio,
-    };
-
     const initialParams = {
         addresses: [],
         category: [],
@@ -40,7 +36,7 @@ const StoreList = () => {
     };
 
     const fetchStoreData = async ({ pageParam }) => {
-        const response = await getStoreList({ ...Params, page: pageParam });
+        const response = await getStoreList({ ...filterParams, page: pageParam });
         return response.data;
     };
 
@@ -54,8 +50,8 @@ const StoreList = () => {
     };
 
     const { data, fetchNextPage, isLoading } = useInfiniteQuery(
-        ['stores', Params, isFetchAll, filterParams, tagList],
-        async ({ pageParam = 0 }) => {
+        ['stores', isFetchAll, filterParams, orderByRating, orderByPositiveRatio],
+        async ({ pageParam }) => {
             if (isFetchAll) {
                 return await fetchStoreAll({ pageParam });
             }
@@ -83,37 +79,18 @@ const StoreList = () => {
         if (stores.length > 0) {
             setStoreList(stores);
         }
+        // eslint-disable-next-line
     }, [data]);
 
     useEffect(() => {
-        if (
-            filterParams.searchKeywords !== input ||
-            filterParams.orderByRating !== orderByRating ||
-            filterParams.orderByPositiveRatio !== orderByPositiveRatio
-        ) {
-            setFilterParams({
-                ...filterParams,
-                searchKeywords: input || null,
-                orderByRating,
-                orderByPositiveRatio,
-            });
-        }
-    }, [input, orderByRating, orderByPositiveRatio]);
-
-    useEffect(() => {
-        if (location.state?.searchInput) {
-            setIsFetchAll(false);
-        }
-        if (tagList.length > 0 || (input && input.length > 0)) {
+        if (input || (tagList && tagList.length > 0)) {
             setIsFetchAll(false);
         } else {
-            if (!tagList || tagList.length === 0) {
-                setIsFetchAll(true);
-            }
+            setIsFetchAll(true);
         }
+        // eslint-disable-next-line
     }, [isFetchAll, filterParams, orderByPositiveRatio, orderByRating]);
 
-    //main에서 받아오는 카테고리
     const category = location.state?.category ? location.state?.category : null;
 
     const allFetchButtonHandler = () => {
@@ -128,16 +105,19 @@ const StoreList = () => {
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            Params.searchKeywords = input;
+            setFilterParams({ ...filterParams, searchKeywords: input });
         }
     };
 
     const sortReviewClickHandler = (sortBy) => {
+        setFilterParams({ ...filterParams, orderByRating: sortBy, orderByPositiveRatio: null });
         setOrderByRating(sortBy);
         setorderByPositiveRatio(null);
     };
 
     const sortPositiveClickHandler = (sortBy) => {
+        setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: sortBy });
+
         setorderByPositiveRatio(sortBy);
         setOrderByRating(null);
     };
