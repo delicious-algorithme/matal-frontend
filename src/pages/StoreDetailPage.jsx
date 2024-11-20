@@ -15,11 +15,12 @@ const StoreDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const storeId = id;
+    const storeId = Number(id);
     const { setStoreDetail } = useStoreDetail();
     const { savedStores } = useSaveBookmarkId();
 
     const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === storeId);
+
     const bookmarkId = bookmark?.bookmarkId;
 
     const fetchStoreDetail = async (storeId) => {

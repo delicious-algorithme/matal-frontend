@@ -19,7 +19,6 @@ const StoreList = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const category = location.state?.category ? location.state?.category : null;
     const { setSearchInput, searchInput } = useSearchInput();
 
     let initInput = '';
@@ -81,20 +80,25 @@ const StoreList = () => {
     const isNothing = !stores.length && !isLoading;
 
     useEffect(() => {
-        if (inView) {
-            fetchNextPage();
+        if (location.state?.searchInput) {
+            setFilterParams({ ...filterParams, searchKeywords: location.state?.searchInput });
         }
+        // eslint-disable-next-line
+    }, [location.state?.searchInput, setFilterParams]);
+
+    useEffect(() => {
+        if (inView) fetchNextPage();
     }, [inView, fetchNextPage]);
 
     useEffect(() => {
-        if (stores.length > 0) {
-            setStoreList(stores);
-        }
+        if (stores.length > 0) setStoreList(stores);
         // eslint-disable-next-line
     }, [data]);
 
+    const category = location.state?.category ? location.state?.category : null;
+
     useEffect(() => {
-        if (input || (tagList && tagList.length > 0)) {
+        if ((input && input.length > 0) || (tagList && tagList.length > 0)) {
             setIsFetchAll(false);
         } else {
             setIsFetchAll(true);
@@ -108,15 +112,20 @@ const StoreList = () => {
         setTagList([]);
         setOrderByRating(null);
         setorderByPositiveRatio(null);
-        setSearchInput('');
+        setSearchInput(null);
         setInput(null);
     };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            setFilterParams({ ...filterParams, searchKeywords: input });
-            setSearchInput(input);
+            if (!input) {
+                setFilterParams({ ...filterParams, searchKeywords: null });
+                setSearchInput(null);
+            } else {
+                setFilterParams({ ...filterParams, searchKeywords: input });
+                setSearchInput(input);
+            }
         }
     };
 
