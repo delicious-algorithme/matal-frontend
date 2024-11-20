@@ -11,7 +11,7 @@ import Button from '../button/Button';
 import Filtering from '../filtering/Filtering';
 import SearchBar from '../searchBar/SearchBar';
 
-import { useStoreList, useIsFetch, useFilterParams, useTagList } from '../../../store';
+import { useStoreList, useIsFetch, useFilterParams, useTagList, useSearchInput } from '../../../store';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 
@@ -19,7 +19,18 @@ const StoreList = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [input, setInput] = useState(location.state?.searchInput);
+    const category = location.state?.category ? location.state?.category : null;
+    const { setSearchInput, searchInput } = useSearchInput();
+
+    let initInput = '';
+
+    if (location.state?.searchInput) {
+        initInput = location.state?.searchInput;
+    } else if (searchInput) {
+        initInput = searchInput;
+    }
+
+    const [input, setInput] = useState(initInput);
     const [orderByRating, setOrderByRating] = useState(null);
     const [orderByPositiveRatio, setorderByPositiveRatio] = useState(null);
 
@@ -91,14 +102,13 @@ const StoreList = () => {
         // eslint-disable-next-line
     }, [isFetchAll, filterParams, orderByPositiveRatio, orderByRating]);
 
-    const category = location.state?.category ? location.state?.category : null;
-
     const allFetchButtonHandler = () => {
         setFilterParams(initialParams);
         window.localStorage.removeItem('filter-params');
         setTagList([]);
         setOrderByRating(null);
         setorderByPositiveRatio(null);
+        setSearchInput('');
         setInput(null);
     };
 
@@ -106,6 +116,7 @@ const StoreList = () => {
         if (e.key === 'Enter') {
             e.preventDefault();
             setFilterParams({ ...filterParams, searchKeywords: input });
+            setSearchInput(input);
         }
     };
 
@@ -117,7 +128,6 @@ const StoreList = () => {
 
     const sortPositiveClickHandler = (sortBy) => {
         setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: sortBy });
-
         setorderByPositiveRatio(sortBy);
         setOrderByRating(null);
     };
@@ -175,7 +185,7 @@ const StoreList = () => {
                             positiveRatio={store.positiveRatio}
                         />
                     ))}
-                {isNothing && stores.length === 0 && <Alert>조건에 맞는 검색어가 없습니다. </Alert>}
+                {isNothing && <Alert>조건에 맞는 검색어가 없습니다. </Alert>}
             </StoreListCardContainer>
             <Ref ref={ref} />
         </StoreListLayout>
@@ -213,7 +223,7 @@ const StoreListCardContainer = styled.div``;
 
 const Ref = styled.div`
     width: 100%;
-    height: 50px;
+    height: 100px;
 `;
 
 const ButtonContainer = styled.div`
