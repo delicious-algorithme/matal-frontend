@@ -16,7 +16,6 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('bookmarkId: ', bookmarkId, storeId);
         if (stores.length > 0) {
             console.log('bookmarkstores', stores);
             const saveBookmarkId = stores.map((store) => store.bookmarkId);
