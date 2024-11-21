@@ -10,7 +10,7 @@ import { Terms, PrivacyConsent, Privacy } from './document';
 
 const queryClient = new QueryClient();
 
-function App() {
+const App = () => {
     return (
         <QueryClientProvider client={queryClient}>
             <div className="App">
@@ -35,6 +35,6 @@ function App() {
             <ReactQueryDevtools />
         </QueryClientProvider>
     );
-}
+};
 
 export default App;

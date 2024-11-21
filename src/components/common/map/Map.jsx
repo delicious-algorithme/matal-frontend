@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useStoreList, useStoreDetail } from '../../../store';
+import location from '../../../assets/Icon/location.svg';
 
 const MyMap = () => {
     const navigate = useNavigate();
@@ -62,6 +63,7 @@ const MyMap = () => {
         }
         mapRef.current = new naver.maps.Map(mapElement.current, mapOptions);
         markersRef.current.forEach((marker) => marker.setMap(null));
+
         markersRef.current = [];
         const addMarker = (id, name, lat, lng) => {
             try {
@@ -71,7 +73,7 @@ const MyMap = () => {
                     title: name,
                     clickable: true,
                     icon: {
-                        content: `<img src="/images/location.svg" />`,
+                        content: `<img src= "${location}" alt="marker image"/>`,
                     },
                 });
                 markers[id] = newMarker;
@@ -87,22 +89,16 @@ const MyMap = () => {
             if (!isStoreDetailPage && storeList.length !== 0) {
                 for (let i = 0; i < storeList.length; i++) {
                     let markerObj = storeList[i];
-                    const dom_id = markerObj.storeId;
-                    const title = markerObj.name;
-                    const lat = markerObj.latitude;
-                    const lng = markerObj.longitude;
-                    addMarker(dom_id, title, lat, lng);
+                    addMarker(markerObj.storeId, markerObj.name, markerObj.latitude, markerObj.longitude);
                 }
             } else if (isStoreDetailPage) {
                 let markerObj = storeDetail;
-                const dom_id = markerObj.id;
-                const title = markerObj.name;
-                const lat = markerObj.latitude;
-                const lng = markerObj.longitude;
-                addMarker(dom_id, title, lat, lng);
+                addMarker(markerObj.id, markerObj.name, markerObj.latitude, markerObj.longitude);
             }
         };
+
         addMarkers();
+
         const htmlMarker1 = {
             content:
                 '<div style="cursor:pointer;width:40px;height:40px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
