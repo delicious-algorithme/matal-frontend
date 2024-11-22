@@ -63,6 +63,7 @@ const ContentBox = styled.div`
     @media screen and (max-width: 1024px) {
         border-bottom: 1px solid ${Grey};
         border-radius: none;
+        font-size: 14px;
     }
 `;
 
@@ -70,7 +71,7 @@ const TitleBox = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
-    width: 100px;
+    width: 200px;
 
     & > h3 {
         color: ${Orange};

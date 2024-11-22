@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Orange, White, LightGrey, DarkGrey, Grey } from '../../color';
+import { Orange, White, DarkGrey, LightGrey } from '../../color';
 
 const PopOver = ({ text, label }) => {
-    const [isHovered, setIsHovered] = useState();
+    const [isActived, setIsActived] = useState();
 
     return (
-        <PopOverContainer onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        <PopOverContainer onClick={() => setIsActived(!isActived)}>
             <Button> ? </Button>
-            {isHovered && (
+            {isActived && (
                 <PopoverText>
                     <Label>{label}</Label>
                     <p>{text}</p>
@@ -23,6 +23,8 @@ export default PopOver;
 const PopOverContainer = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
+    flex-direction: column;
     position: relative;
 `;
 
@@ -52,17 +54,22 @@ const PopoverText = styled.div`
     position: absolute;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     gap: 10px;
-    background-color: ${LightGrey};
+    background-color: rgb(250, 250, 250);
     z-index: 10;
-    padding: 30px;
-    margin: 50px;
+    margin-left: 300px;
+    margin-top: 100px;
+    padding: 20px;
     height: 70px;
-    box-shadow: 2px 2px 2px 2px ${Grey};
-    border-radius: 20px;
-    border: 1px solid ${Grey};
+    border-radius: 5px;
+    border: 1px solid ${LightGrey};
+    color: ${DarkGrey};
+    font-size: 12px;
 
-    font-size: 14px;
+    @media screen and (max-width: 500px) {
+        min-width: 300px;
+        margin-left: 100px;
+        margin-top: 100px;
+    }
 `;

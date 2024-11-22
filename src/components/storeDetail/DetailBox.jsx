@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DarkGrey, Orange, White } from '../../color';
 
 const DetailBox = ({ label, content, type }) => {
+    if (!content) {
+        content = '정보 없음';
+    }
     return (
         <DetailBoxContainer type={type}>
             <Label>
                 <span>{label}</span>
             </Label>
-            {type !== 'time' && type !== 'address' && <p>{content}</p>}
-            {type === 'address' && <button>{content}</button>}
+            {type !== 'time' && <p>{content}</p>}
             {type === 'time' && (
                 <Time>{Array.isArray(content) && content.map((item, idx) => <p key={idx}>{item}</p>)}</Time>
             )}
@@ -25,22 +26,8 @@ const DetailBoxContainer = styled.div`
     gap: 20px;
     font-size: 15px;
 
-    & > svg {
-        width: 16px;
-        height: 16px;
-        color: ${DarkGrey};
-    }
-
-    & > button {
-        background-color: ${White};
-        font-size: 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        &:hover {
-            cursor: pointer;
-        }
-        color: ${(props) => (props.type === 'address' ? `${Orange}` : `${DarkGrey}`)};
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
     }
 `;
 
@@ -54,4 +41,5 @@ const Label = styled.div`
     width: 70px;
     font-size: 16px;
     font-weight: 600;
+    color: black;
 `;

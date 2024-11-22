@@ -56,6 +56,12 @@ const TitleBox = styled.div`
     display: flex;
     flex-direction: row;
     gap: 10px;
+
+    @media screen and (max-width: 500px) {
+        & > h2 {
+            font-size: 16px;
+        }
+    }
 `;
 
 const ContentBox = styled.div`
@@ -70,6 +76,10 @@ const ContentBox = styled.div`
 
     & > p {
         font-size: 15px;
+    }
+
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
     }
 `;
 
