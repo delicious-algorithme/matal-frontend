@@ -113,10 +113,6 @@ const DetailPageLayout = styled.div`
     gap: 20px;
     flex-direction: column;
     justify-content: center;
-
-    @media screen and (max-width: 1024px) {
-        width: 100%;
-    }
 `;
 
 const StoreOverviewContainer = styled.div`

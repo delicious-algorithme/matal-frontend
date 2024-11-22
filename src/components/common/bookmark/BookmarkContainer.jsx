@@ -10,17 +10,17 @@ import { useState, useEffect } from 'react';
 const BookmarkContainer = ({ bookmarkId, storeId }) => {
     const [stores, setStores] = useState([]);
     const { savedId, setSaveBookmarkId, setBookmarkStore } = useSaveBookmarkId();
-
     const auth = JSON.parse(localStorage.getItem('auth')) || {};
     const isSaved = savedId.includes(bookmarkId) && auth.state.isLoggedIn;
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('bookmarkId: ', bookmarkId, storeId);
         if (stores.length > 0) {
+            console.log('bookmarkstores', stores);
             const saveBookmarkId = stores.map((store) => store.bookmarkId);
             const bookmarkIds = [...new Set(saveBookmarkId)];
+            console.log('bookmarkIds: ', bookmarkIds);
             setSaveBookmarkId(bookmarkIds);
         }
         // eslint-disable-next-line

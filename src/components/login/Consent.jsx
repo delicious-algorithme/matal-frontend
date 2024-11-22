@@ -82,6 +82,10 @@ const AuthLayout = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const AuthBox = styled.form`
@@ -117,6 +121,16 @@ const CheckBox = styled.div`
             text-decoration: underline;
         }
     }
+
+    @media (max-width: 768px) {
+        & > div > label {
+            font-size: 13px;
+        }
+        & > a {
+            font-size: 11px;
+            font-weight: 700;
+        }
+    }
 `;
 
 const FormBox = styled.div`
@@ -147,6 +161,14 @@ const TermsBox = styled.div`
         &:hover {
             color: ${Orange};
             text-decoration: underline;
+        }
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        & > a {
+            font-size: 11px;
+            font-weight: 700;
         }
     }
 `;
