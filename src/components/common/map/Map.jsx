@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useStoreList, useStoreDetail } from '../../../store';
-import location from '../../../assets/Icon/location.svg';
+import MarkerContents from './MarkerContents';
+import { Grey, White } from '../../../color';
 
 const MyMap = () => {
     const navigate = useNavigate();
@@ -43,29 +44,28 @@ const MyMap = () => {
         [navigate, storeDetail, isStoreDetailPage]
     );
 
-    //clustering
+    const { naver } = window;
+    let mapOptions = {};
+
+    if (currentLocation.lat !== 0 && currentLocation.lng !== 0) {
+        mapOptions = {
+            center: new naver.maps.LatLng(currentLocation.lat, currentLocation.lng),
+            zoomControlOptions: {
+                position: naver.maps.Position.TOP_RIGHT,
+            },
+            mapDataControl: true,
+            scaleControl: true,
+            maxZoom: 20,
+            zoom: 12,
+        };
+    }
+
     useEffect(() => {
-        const markers = [];
-        const { naver } = window;
-        const createMarkerList = [];
-        let mapOptions = {};
-        if (currentLocation.lat !== 0 && currentLocation.lng !== 0) {
-            mapOptions = {
-                center: new naver.maps.LatLng(currentLocation.lat, currentLocation.lng),
-                zoomControlOptions: {
-                    position: naver.maps.Position.TOP_RIGHT,
-                },
-                mapDataControl: true,
-                scaleControl: true,
-                maxZoom: 20,
-                zoom: 13,
-            };
-        }
         mapRef.current = new naver.maps.Map(mapElement.current, mapOptions);
         markersRef.current.forEach((marker) => marker.setMap(null));
-
         markersRef.current = [];
-        const addMarker = (id, name, lat, lng) => {
+
+        const addMarker = (id, name, positiveKeywords, imageUrls, rating, lat, lng) => {
             try {
                 const newMarker = new naver.maps.Marker({
                     position: new naver.maps.LatLng(lat, lng),
@@ -73,13 +73,30 @@ const MyMap = () => {
                     title: name,
                     clickable: true,
                     icon: {
-                        content: `<img src= "${location}" alt="marker image"/>`,
+                        url: '/images/location.svg',
+                        size: new naver.maps.Size(60, 60),
+                        origin: new naver.maps.Point(0, 0),
+                        anchor: new naver.maps.Point(11, 35),
+                        animation: naver.maps.Animation.DROP,
                     },
                 });
-                markers[id] = newMarker;
                 markersRef.current.push(newMarker);
-                createMarkerList.push(newMarker);
                 naver.maps.Event.addListener(newMarker, 'click', () => markerClickHandler(id));
+
+                const infoWindow = new naver.maps.InfoWindow({
+                    content: MarkerContents({ name, positiveKeywords, imageUrls, rating }),
+                    borderColor: `${Grey}`,
+                    backgroundColor: `${White}`,
+                    anchorColor: `${White}`,
+                });
+
+                naver.maps.Event.addListener(newMarker, 'click', () => markerClickHandler(id));
+                naver.maps.Event.addListener(newMarker, 'mouseover', () => {
+                    infoWindow.open(mapRef.current, newMarker);
+                });
+                naver.maps.Event.addListener(newMarker, 'mouseout', () => {
+                    infoWindow.close();
+                });
             } catch (e) {
                 console.log(e);
             }
@@ -89,52 +106,64 @@ const MyMap = () => {
             if (!isStoreDetailPage && storeList.length !== 0) {
                 for (let i = 0; i < storeList.length; i++) {
                     let markerObj = storeList[i];
-                    addMarker(markerObj.storeId, markerObj.name, markerObj.latitude, markerObj.longitude);
+                    addMarker(
+                        markerObj.storeId,
+                        markerObj.name,
+                        markerObj.positiveKeywords,
+                        markerObj.imageUrls,
+                        markerObj.rating,
+                        markerObj.latitude,
+                        markerObj.longitude
+                    );
                 }
             } else if (isStoreDetailPage) {
                 let markerObj = storeDetail;
-                addMarker(markerObj.id, markerObj.name, markerObj.latitude, markerObj.longitude);
+                addMarker(
+                    markerObj.storeId,
+                    markerObj.name,
+                    markerObj.positiveKeywords,
+                    markerObj.imageUrls,
+                    markerObj.rating,
+                    markerObj.latitude,
+                    markerObj.longitude
+                );
             }
         };
 
         addMarkers();
 
-        const htmlMarker1 = {
-            content:
-                '<div style="cursor:pointer;width:40px;height:40px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
-            size: new naver.maps.Size(40, 40),
-            anchor: new naver.maps.Point(20, 20),
-        };
-        const htmlMarker2 = {
-            content:
-                '<div style="cursor:pointer;width:75px;height:75px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
-            size: new naver.maps.Size(75, 75),
-            anchor: new naver.maps.Point(37, 37),
-        };
-        const htmlMarker3 = {
-            content:
-                '<div style="cursor:pointer;width:160px;height:160px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
-            size: new naver.maps.Size(160, 160),
-            anchor: new naver.maps.Point(80, 80),
-        };
-        const htmlMarker4 = {
-            content:
-                '<div style="cursor:pointer;width:200px;height:200px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
-            size: new naver.maps.Size(200, 200),
-            anchor: new naver.maps.Point(100, 100),
-        };
         import('./cluster').then(({ MarkerClustering }) => {
+            const htmlMarker1 = {
+                content:
+                    '<div style="cursor:pointer;width:40px;height:40px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
+                size: new naver.maps.Size(40, 40),
+                anchor: new naver.maps.Point(37, 37),
+            };
+            const htmlMarker2 = {
+                content:
+                    '<div style="cursor:pointer;width:75px;height:75px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
+                size: new naver.maps.Size(75, 75),
+                anchor: new naver.maps.Point(37, 37),
+            };
+            const htmlMarker3 = {
+                content:
+                    '<div style="cursor:pointer;width:150px;height:150px;background:#EA6A12;opacity:30%;border-radius:100px;"></div>',
+                size: new naver.maps.Size(150, 150),
+                anchor: new naver.maps.Point(37, 37),
+            };
+
             new MarkerClustering({
-                minClusterSize: 2,
+                minClusterSize: 3,
                 maxZoom: 20,
                 map: mapRef.current,
-                markers: createMarkerList,
+                markers: markersRef.current,
                 disableClickZoom: false,
                 gridSize: 120,
-                icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4],
-                indexGenerator: [1, 5, 20, 100],
+                icons: [htmlMarker1, htmlMarker2, htmlMarker3],
+                indexGenerator: [1, 5, 20],
             });
         });
+        // eslint-disable-next-line
     }, [currentLocation.lat, currentLocation.lng, markerClickHandler, storeList, isStoreDetailPage, storeDetail]);
 
     return <MapContatiner id="map" ref={mapElement} style={{ width: '100%', height: '100%' }} />;
