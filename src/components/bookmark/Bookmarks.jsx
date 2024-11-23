@@ -20,7 +20,9 @@ const Bookmarks = () => {
 
     useEffect(() => {
         if (stores.length > 0) {
+            console.log('stores', stores);
             const saveBookmarkId = stores.map((store) => store.bookmarkId);
+            console.log(saveBookmarkId);
             const bookmarkIds = [...new Set(saveBookmarkId)];
             setSaveBookmarkId(bookmarkIds);
         }

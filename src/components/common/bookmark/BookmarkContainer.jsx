@@ -16,6 +16,7 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log('bookmarkstores', stores);
         if (stores.length > 0) {
             console.log('bookmarkstores', stores);
             const saveBookmarkId = stores.map((store) => store.bookmarkId);
@@ -60,6 +61,7 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
             const response = await getBookmarksStores(0);
             if (response.status === 200) {
                 const newData = response.data;
+                console.log('newData in bookmarkContainer', newData);
                 setStores([...newData]);
                 setBookmarkStore([...newData]);
                 navigate(0);
