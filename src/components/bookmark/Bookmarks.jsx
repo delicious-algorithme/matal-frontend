@@ -35,7 +35,7 @@ const Bookmarks = () => {
 
         setIsLoading(true);
         try {
-            const response = await getBookmarksStores(1);
+            const response = await getBookmarksStores(0);
             if (response.status === 200) {
                 const newData = response.data;
                 setStores([...newData]);
