@@ -44,6 +44,7 @@ const Bookmarks = () => {
         },
         {
             getNextPageParam: (lastPage) => {
+                console.log(lastPage);
                 return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
             },
             refetchOnWindowFocus: false,
