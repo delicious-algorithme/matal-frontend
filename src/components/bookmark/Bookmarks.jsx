@@ -20,9 +20,7 @@ const Bookmarks = () => {
 
     useEffect(() => {
         if (stores.length > 0) {
-            console.log('stores', stores);
             const saveBookmarkId = stores.map((store) => store.bookmarkId);
-            console.log(saveBookmarkId);
             const bookmarkIds = [...new Set(saveBookmarkId)];
             setSaveBookmarkId(bookmarkIds);
         }
@@ -39,8 +37,7 @@ const Bookmarks = () => {
         try {
             const response = await getBookmarksStores(0);
             if (response.status === 200) {
-                const newData = response.data;
-                console.log('newData', newData);
+                const newData = response.data.content;
                 console.log('newData content', newData.content);
                 setStores([...newData]);
                 setBookmarkStore([...newData]);
