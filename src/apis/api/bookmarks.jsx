@@ -6,7 +6,6 @@ export const getBookmarksStores = async (page) => {
             params: { page: page },
             withCredentials: true,
         });
-        console.log(data);
         return {
             data,
             status,

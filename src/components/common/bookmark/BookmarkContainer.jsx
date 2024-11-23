@@ -36,12 +36,12 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
                 const response = await deleteBookmarkStore(bookmarkId);
                 if (response.status === 204) {
                     console.log('success delete');
-                    fetchBookmarkStores();
+                    getAllBookmarksStores();
                 }
             } else {
                 const response = await postBookmarkStore(storeId);
                 if (response.status === 201) {
-                    fetchBookmarkStores();
+                    getAllBookmarksStores();
                 } else {
                     console.log(response.error);
                 }
@@ -51,21 +51,27 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
         }
     };
 
-    const fetchBookmarkStores = async () => {
+    const getAllBookmarksStores = async () => {
         const auth = JSON.parse(localStorage.getItem('auth')) || {};
         if (!auth.state.isLoggedIn) {
             navigate('/login');
         }
         try {
-            const response = await getBookmarksStores(0);
-            if (response.status === 200) {
-                const newData = response.data.content;
-                setStores([...newData]);
-                setBookmarkStore([...newData]);
-                navigate(0);
-            } else {
-                navigate('/login');
+            let page = 0;
+            let allData = [];
+            let hasMoreData = true;
+            while (hasMoreData) {
+                const response = await getBookmarksStores({ page });
+                if (response.status === 200) {
+                    allData = allData.concat(response.data.content);
+                    hasMoreData = response.data.last !== true;
+                    page++;
+                } else {
+                    navigate('/login');
+                }
             }
+            setStores(allData);
+            setBookmarkStore(allData);
         } catch (error) {
             console.log(error);
         } finally {
