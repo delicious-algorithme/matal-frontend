@@ -25,7 +25,6 @@ const Bookmarks = () => {
     }, [stores]);
 
     const fetchBookmarkStores = async ({ pageParam = 0 }) => {
-        console.log(pageParam);
         const auth = JSON.parse(localStorage.getItem('auth')) || {};
         if (!auth.state.isLoggedIn) {
             navigate('/login');
@@ -45,7 +44,6 @@ const Bookmarks = () => {
         },
         {
             getNextPageParam: (lastPage) => {
-                console.log(lastPage);
                 return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
             },
             refetchOnWindowFocus: false,
@@ -63,8 +61,6 @@ const Bookmarks = () => {
     useEffect(() => {
         if (bookmarkStores.length > 0) {
             setBookmarkStore(bookmarkStores);
-            console.log(bookmarkStores);
-            console.log('data', data);
             setStores(bookmarkStores);
         }
         // eslint-disable-next-line

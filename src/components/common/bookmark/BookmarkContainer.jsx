@@ -17,10 +17,8 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
 
     useEffect(() => {
         if (stores.length > 0) {
-            console.log('bookmarkstores', stores);
             const saveBookmarkId = stores.map((store) => store.bookmarkId);
             const bookmarkIds = [...new Set(saveBookmarkId)];
-            console.log('bookmarkIds: ', bookmarkIds);
             setSaveBookmarkId(bookmarkIds);
         }
         // eslint-disable-next-line
