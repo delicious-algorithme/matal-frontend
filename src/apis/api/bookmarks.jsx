@@ -1,8 +1,9 @@
 import { defaultInstance } from '../utils/instance';
 
-export const getBookmarksStores = async () => {
+export const getBookmarksStores = async (page) => {
     try {
         const { data, status } = await defaultInstance.get(`/api/bookmarks`, {
+            params: { page: page },
             withCredentials: true,
         });
         return {
@@ -17,7 +18,6 @@ export const getBookmarksStores = async () => {
         };
     }
 };
-
 
 export const postBookmarkStore = async (id) => {
     try {
