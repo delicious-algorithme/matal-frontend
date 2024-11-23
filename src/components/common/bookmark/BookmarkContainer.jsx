@@ -61,7 +61,7 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
             let allData = [];
             let hasMoreData = true;
             while (hasMoreData) {
-                const response = await getBookmarksStores({ page });
+                const response = await getBookmarksStores(page);
                 if (response.status === 200) {
                     allData = allData.concat(response.data.content);
                     hasMoreData = response.data.last !== true;
