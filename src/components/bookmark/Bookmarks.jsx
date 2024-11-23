@@ -24,13 +24,14 @@ const Bookmarks = () => {
         // eslint-disable-next-line
     }, [stores]);
 
-    const fetchBookmarkStores = async ({ pageParam }) => {
+    const fetchBookmarkStores = async ({ pageParam = 0 }) => {
+        console.log(pageParam);
         const auth = JSON.parse(localStorage.getItem('auth')) || {};
         if (!auth.state.isLoggedIn) {
             navigate('/login');
         }
         try {
-            const response = await getBookmarksStores({ pageParam });
+            const response = await getBookmarksStores(pageParam);
             return response.data;
         } catch (error) {
             console.log(error);
