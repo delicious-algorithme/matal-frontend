@@ -12,14 +12,16 @@ const StoreMap = ({ store }) => {
     return (
         <StoreMapContainer>
             <div>
-                <LocationOn />
-                <p>{store.address}</p>
+                <p>
+                    <LocationOn />
+                    {store.address}
+                </p>
+                <Staition>{store.nearbyStation}</Staition>
             </div>
             <MapBox>
                 <MyMap />
             </MapBox>
             <StaitionBox>
-                <Staition>{store.nearbyStation}</Staition>
                 <LocationButton pathClickHandler={pathClickHandler} />
             </StaitionBox>
         </StoreMapContainer>
@@ -38,8 +40,12 @@ const StoreMapContainer = styled.div`
     & > div {
         display: flex;
         gap: 5px;
-        & > svg {
+        justify-content: center;
+        flex-direction: column;
+        & > p > svg {
             color: ${DarkGrey};
+            width: 16px;
+            height: 15px;
         }
     }
 `;
@@ -63,4 +69,6 @@ const StaitionBox = styled.div`
 
 const Staition = styled.p`
     width: 100%;
+    font-size: 14px;
+    color: ${DarkGrey};
 `;

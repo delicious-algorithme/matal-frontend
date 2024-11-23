@@ -4,7 +4,7 @@ import { Orange, Grey, DarkGrey } from '../../color';
 import Bookmark from '../common/bookmark/BookmarkContainer';
 import { useSaveBookmarkId } from '../../store';
 
-const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, positiveRatio, keyword }) => {
+const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, keyword }) => {
     const navigate = useNavigate();
     const { savedStores } = useSaveBookmarkId();
 
@@ -25,15 +25,10 @@ const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, positiveRatio
                 <Review>
                     <p>#{keyword}</p>
                 </Review>
-                <NameAndCategoryContainer>
+                <NameAndBookmarkContainer>
                     <p onClick={() => cardClickHandler(id)}>{name}</p>
                     <Bookmark bookmarkId={bookmarkId} storeId={id} />
-                </NameAndCategoryContainer>
-                <PositiveRatio>
-                    <p>
-                        {positiveRatio}%<span> 긍정</span>
-                    </p>
-                </PositiveRatio>
+                </NameAndBookmarkContainer>
                 <Location>
                     <p>
                         <span>위치: </span>
@@ -48,8 +43,8 @@ const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, positiveRatio
 export default TopStoreCard;
 
 const StoreCardContainer = styled.div`
-    width: 300px;
-    height: 400px;
+    width: 200px;
+    height: 300px;
     border-radius: 10px;
     border-radius: 5px;
     position: relative;
@@ -74,7 +69,7 @@ const StoreCardContainer = styled.div`
 
 const ImageContainer = styled.div`
     width: 100%;
-    height: 200px;
+    height: 150px;
     overflow: hidden;
 
     & > img {
@@ -90,19 +85,18 @@ const ImageContainer = styled.div`
     }
 `;
 
-const NameAndCategoryContainer = styled.div`
+const NameAndBookmarkContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     max-width: 100%;
-    height: 40px;
-    border-bottom: 1px solid ${Orange};
+    height: 30px;
+    padding: 10px;
 
     & > p {
-        font-size: 21px;
+        font-size: 18px;
         text-align: center;
-        color: ${Orange};
         font-weight: 600;
         padding-bottom: 10px;
     }
@@ -139,22 +133,14 @@ const Review = styled.div`
     color: ${DarkGrey};
 `;
 
-const PositiveRatio = styled.div`
-    font-size: 14px;
-    & > p {
-        color: ${Orange};
-        font-weight: bold;
-        & > span {
-            color: black;
-        }
-    }
-`;
-
 const Location = styled.div`
     & > p {
-        font-size: 14px;
+        font-size: 13px;
+        color: ${DarkGrey};
     }
     & > p > span {
+        font-size: 13px;
+        color: black;
         font-weight: bold;
     }
 `;

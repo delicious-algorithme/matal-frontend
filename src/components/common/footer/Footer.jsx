@@ -42,6 +42,11 @@ const FooterLayout = styled.footer`
             font-weight: bold;
         }
     }
+
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
+        padding: 10px;
+    }
 `;
 
 const Terms = styled.p`
