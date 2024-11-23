@@ -62,6 +62,7 @@ const Bookmarks = () => {
         if (bookmarkStores.length > 0) {
             setBookmarkStore(bookmarkStores);
             console.log(bookmarkStores);
+            console.log('data', data);
             setStores(bookmarkStores);
         }
         // eslint-disable-next-line
