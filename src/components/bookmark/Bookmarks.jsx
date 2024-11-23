@@ -40,6 +40,8 @@ const Bookmarks = () => {
             const response = await getBookmarksStores(0);
             if (response.status === 200) {
                 const newData = response.data;
+                console.log('newData', newData);
+                console.log('newData content', newData.content);
                 setStores([...newData]);
                 setBookmarkStore([...newData]);
             } else {
