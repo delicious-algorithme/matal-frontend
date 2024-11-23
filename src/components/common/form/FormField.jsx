@@ -2,7 +2,6 @@ import ErrorIcon from '@mui/icons-material/Error';
 import { Orange, Grey } from '../../../color';
 import styled from 'styled-components';
 
-        <InputContainer>
 const FormField = ({ type, value, name, placeholder, error, onChange, mode }) => {
     const loginEmail = mode === 'login' && type === 'email';
     return (
