@@ -5,18 +5,15 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Grey } from '../../color';
 import { useSaveBookmarkId } from '../../store';
+import { useInfiniteQuery } from 'react-query';
+import { useInView } from 'react-intersection-observer';
 
 const Bookmarks = () => {
     const [stores, setStores] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
     const { setSaveBookmarkId, setBookmarkStore } = useSaveBookmarkId();
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        fetchBookmarkStores();
-        // eslint-disable-next-line
-    }, []);
+    const { ref, inView } = useInView();
 
     useEffect(() => {
         if (stores.length > 0) {
@@ -27,28 +24,47 @@ const Bookmarks = () => {
         // eslint-disable-next-line
     }, [stores]);
 
-    const fetchBookmarkStores = async () => {
+    const fetchBookmarkStores = async ({ pageParam = 0 }) => {
         const auth = JSON.parse(localStorage.getItem('auth')) || {};
         if (!auth.state.isLoggedIn) {
             navigate('/login');
         }
-
-        setIsLoading(true);
         try {
-            const response = await getBookmarksStores();
-            if (response.status === 200) {
-                const newData = response.data;
-                setStores([...newData]);
-                setBookmarkStore([...newData]);
-            } else {
-                navigate('/login');
-            }
+            const response = await getBookmarksStores(pageParam);
+            return response.data;
         } catch (error) {
             console.log(error);
-        } finally {
-            setIsLoading(false);
         }
     };
+
+    const { data, fetchNextPage, isLoading } = useInfiniteQuery(
+        ['bookmark'],
+        async ({ pageParam }) => {
+            return await fetchBookmarkStores({ pageParam });
+        },
+        {
+            getNextPageParam: (lastPage) => {
+                return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
+            },
+            refetchOnWindowFocus: false,
+            cacheTime: 1000 * 60 * 5,
+        }
+    );
+
+    const bookmarkStores = data?.pages.flatMap((page) => page.content) || [];
+    const isNothing = !stores.length && !isLoading;
+
+    useEffect(() => {
+        if (inView) fetchNextPage();
+    }, [inView, fetchNextPage]);
+
+    useEffect(() => {
+        if (bookmarkStores.length > 0) {
+            setBookmarkStore(bookmarkStores);
+            setStores(bookmarkStores);
+        }
+        // eslint-disable-next-line
+    }, [data]);
 
     const handleClickScrap = () => {
         navigate('/webmap');
@@ -56,25 +72,24 @@ const Bookmarks = () => {
 
     return (
         <>
-            {stores.length !== 0 && (
-                <BookmarkLayout>
-                    {!isLoading &&
-                        stores.length > 0 &&
-                        stores.map((store) => (
-                            <TopStoreCard
-                                bookmarkId={store.bookmarkId}
-                                address={store.storeResponseDto.address}
-                                key={store.storeResponseDto.storeId}
-                                image={store.storeResponseDto.imageUrls}
-                                id={store.storeResponseDto.storeId}
-                                positiveRatio={store.storeResponseDto.positiveRatio}
-                                keyword={store.storeResponseDto.positiveKeywords}
-                                name={store.storeResponseDto.name}
-                            />
-                        ))}
-                </BookmarkLayout>
-            )}
-            {stores.length === 0 && (
+            <BookmarkLayout>
+                {!isLoading &&
+                    bookmarkStores.length > 0 &&
+                    bookmarkStores.map((store) => (
+                        <TopStoreCard
+                            bookmarkId={store.bookmarkId}
+                            address={store.storeResponseDto.address}
+                            key={store.storeResponseDto.storeId}
+                            image={store.storeResponseDto.imageUrls}
+                            id={store.storeResponseDto.storeId}
+                            positiveRatio={store.storeResponseDto.positiveRatio}
+                            keyword={store.storeResponseDto.positiveKeywords}
+                            name={store.storeResponseDto.name}
+                        />
+                    ))}
+                <Ref ref={ref} />
+            </BookmarkLayout>
+            {isNothing && (
                 <EmptyBox>
                     <h2> 저장된 가게가 없습니다.</h2>
                     <button onClick={handleClickScrap}>스크랩 하러 가기</button>
@@ -88,7 +103,7 @@ export default Bookmarks;
 
 const BookmarkLayout = styled.div`
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
@@ -125,4 +140,9 @@ const EmptyBox = styled.div`
             background-color: ${Grey};
         }
     }
+`;
+
+const Ref = styled.div`
+    width: 100%;
+    height: 100px;
 `;
