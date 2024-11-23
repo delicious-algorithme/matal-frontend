@@ -1,0 +1,3 @@
+const StoreDetailNav = () => {
+    return <></>;
+};

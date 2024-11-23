@@ -22,7 +22,7 @@ const SearchBar = ({ onChangeHandler, onKeyDownHandler, searchInput }) => {
 export default SearchBar;
 
 const StyledSearchBar = styled.div`
-    width: 60%;
+    width: 100%;
     display: flex;
     position: relative;
     text-align: left;
@@ -38,9 +38,6 @@ const StyledSearchBar = styled.div`
     }
     input::placeholder {
         color: ${Orange};
-    }
-    @media screen and (max-width: 1024px) {
-        width: 80%;
     }
 `;
 

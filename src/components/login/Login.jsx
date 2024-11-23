@@ -55,6 +55,7 @@ const Login = () => {
                             value={form[form.type]}
                             placeholder={form.placeholder}
                             onChange={handleChange}
+                            mode="login"
                         />
                     ))}
                     <Button

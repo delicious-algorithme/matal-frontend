@@ -1,7 +1,15 @@
 import styled from 'styled-components';
 import { useStoreDetail } from '../store';
 import { useState, useEffect } from 'react';
-import { StorePreview, StoreMap, StoreInsight, StoreOverview, ReviewDetail, StoreTip } from '../components/storeDetail';
+import {
+    StorePreview,
+    StoreMap,
+    StoreInsight,
+    StoreMenues,
+    StoreOverview,
+    ReviewDetail,
+    StoreTip,
+} from '../components/storeDetail';
 import { Grey, LightGrey, White } from '../color';
 import { Footer } from '../components/common';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -64,12 +72,7 @@ const StoreDetailPage = () => {
     return (
         <>
             <ButtonBox>
-                <Button
-                    onClickHandler={buttonClickHandler}
-                    text="다른 식당 찾아 보러 가기"
-                    color="orange"
-                    visible={true}
-                />
+                <Button onClickHandler={buttonClickHandler} text="식당 둘러보기" color="orange" visible={true} />
                 <h4>{item.name}</h4>
             </ButtonBox>
             {!isLoading && (
@@ -79,6 +82,7 @@ const StoreDetailPage = () => {
                         <StyledLeftContainer>
                             <div>
                                 <StoreInsight store={item} />
+                                <StoreMenues store={item} />
                                 <ReviewDetail store={item} />
                                 <StoreTip store={item} />
                             </div>
@@ -87,9 +91,7 @@ const StoreDetailPage = () => {
                         <StyledRightContainer>
                             <BookmarkBox>
                                 <Bookmark bookmarkId={bookmarkId} storeId={storeId} />
-                                <button>
-                                    저장하기<span>(북마크 아이콘을 눌러 저장해주세요.)</span>
-                                </button>
+                                <p>저장하기</p>
                             </BookmarkBox>
                             <StoreMap store={item} />
                         </StyledRightContainer>
@@ -113,6 +115,11 @@ const DetailPageLayout = styled.div`
     gap: 20px;
     flex-direction: column;
     justify-content: center;
+
+    @media screen and (max-width: 500px) {
+        width: 100%;
+        margin-top: 0px;
+    }
 `;
 
 const StoreOverviewContainer = styled.div`
@@ -122,7 +129,7 @@ const StoreOverviewContainer = styled.div`
 
     @media screen and (max-width: 1024px) {
         flex-direction: column;
-        margin: 10px 10px;
+        margin: 0;
     }
 `;
 
@@ -142,6 +149,7 @@ const StyledRightContainer = styled.div`
 
     @media screen and (max-width: 1024px) {
         flex: 1;
+        padding: 10px;
     }
 `;
 
@@ -150,32 +158,24 @@ const BookmarkBox = styled.div`
     height: 80px;
     margin-top: 60px;
     padding: 20px;
-    border: 1px solid ${Grey};
+    padding-right: 30px;
     border-radius: 10px;
-
+    border: 1px solid ${Grey};
     display: flex;
     gap: 20px;
     align-items: center;
 
-    & > button {
+    & > p {
         background-color: ${White};
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
-
-        & > span {
-            font-size: 14px;
-            padding: 5px;
-            text-align: center;
-            font-weight: 500;
-        }
-        &:hover {
-            cursor: pointer;
-        }
     }
 
     @media screen and (max-width: 1024px) {
         margin-top: 0px;
-        padding: 10px;
+        padding: 0px;
+        padding-right: 0px;
+        margin-left: 0px;
     }
 `;
 

@@ -84,6 +84,7 @@ const Signup = () => {
                             placeholder={form.placeholder}
                             error={errors[form.type]}
                             onChange={handleChange}
+                            mode="signup"
                         />
                     ))}
                     <Button text="가입하기" color="orange" visible="true" type="submit" onClickHandler={handleSubmit} />

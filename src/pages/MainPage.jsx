@@ -37,11 +37,13 @@ const MainPage = () => {
         <>
             <MainPageLayout>
                 <Banner width="80%" height="100%" />
-                <SearchBar
-                    searchInput={searchInput}
-                    onChangeHandler={onChangeHandler}
-                    onKeyDownHandler={onKeyDownHandler}
-                />
+                <SearchBarContainer>
+                    <SearchBar
+                        searchInput={searchInput}
+                        onChangeHandler={onChangeHandler}
+                        onKeyDownHandler={onKeyDownHandler}
+                    />
+                </SearchBarContainer>
                 <SearchKeyword />
                 <Button color="green" text="식당 찾아 보기" visible="true" onClickHandler={buttonClickHandler} />
                 <TopRecommendations />
@@ -65,5 +67,13 @@ const MainPageLayout = styled.div`
         & > svg {
             display: none;
         }
+    }
+`;
+
+const SearchBarContainer = styled.div`
+    width: 60%;
+
+    @media screen and (max-width: 1024px) {
+        width: 80%;
     }
 `;

@@ -22,9 +22,9 @@ const App = () => {
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/signup" element={<SignUpPage />} />
                             <Route path="/bookmark" element={<BookmarkPage />} />
-                            <Route path="/webmap/storeDetail/:id" element={<StoreDetailPage />} />
                         </Route>
                         <Route path="/webmap" element={<WebMap />} />
+                        <Route path="/webmap/storeDetail/:id" element={<StoreDetailPage />} />
                         <Route path="/terms" element={<Terms />} />
                         <Route path="/privacyConsent" element={<PrivacyConsent />} />
                         <Route path="/privacy" element={<Privacy />} />

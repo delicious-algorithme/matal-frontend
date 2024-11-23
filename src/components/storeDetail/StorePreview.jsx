@@ -17,10 +17,10 @@ const StorePreview = ({ store }) => {
                 </ImageBox>
             </ImageContainer>
             <ContentsBox>
-                <NameAndCategoryBox>
+                <NameAndLocationBox>
                     <h1>{store.name} </h1>
                     <LocationButton pathClickHandler={pathClickHandler} />
-                </NameAndCategoryBox>
+                </NameAndLocationBox>
                 <RatingBox>
                     <div>
                         <CategoryText>{store.category} </CategoryText>
@@ -30,13 +30,17 @@ const StorePreview = ({ store }) => {
                         </StarBox>
                         <RiviewCountText>리뷰 {store.reviewsCount}개 </RiviewCountText>
                         <p>
-                            <RatioText>{store.positiveRatio}</RatioText>% 긍정비율
+                            <RatioText>{store.positiveRatio}%</RatioText> 긍정비율
                         </p>
                     </div>
-                    <StationBox>
-                        <LocationOn />
-                        <p>{store.nearbyStation}</p>
-                    </StationBox>
+                    {store.nearbyStation && (
+                        <StationBox>
+                            <p>
+                                <LocationOn />
+                                {store.nearbyStation}
+                            </p>
+                        </StationBox>
+                    )}
                 </RatingBox>
             </ContentsBox>
         </StorePreviewContainer>
@@ -52,6 +56,12 @@ const StorePreviewContainer = styled.div`
     text-align: center;
     padding-bottom: 20px;
     border-bottom: 1px solid ${Grey};
+
+    @media screen and (max-width: 768px) {
+        font-size: 15px;
+        padding-bottom: 5px;
+        border-bottom: 10px solid ${LightGrey};
+    }
 `;
 
 const ImageContainer = styled.div`
@@ -76,11 +86,13 @@ const ImageBox = styled.div`
         border-radius: 0px;
         & > img {
             border-radius: 0px;
+            width: 100%;
+            max-width: 500px;
         }
     }
 `;
 
-const NameAndCategoryBox = styled.div`
+const NameAndLocationBox = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -107,6 +119,10 @@ const ContentsBox = styled.div`
     padding-bottom: 10px;
     gap: 10px;
     font-weight: 500;
+
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
+    }
 `;
 
 const RatingBox = styled.div`
@@ -133,7 +149,7 @@ const RatingBox = styled.div`
         color: ${DarkGrey};
     }
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 500px) {
         flex-direction: column;
         & > div {
             display: flex;
@@ -144,7 +160,7 @@ const RatingBox = styled.div`
             align-items: flex-start;
             text-align: left;
             & > div > p {
-                font-size: 16px;
+                font-size: 14px;
                 display: flex;
             }
         }
@@ -174,8 +190,22 @@ const CategoryText = styled.p`
 `;
 
 const StationBox = styled.div`
-    & > svg {
-        color: ${LightGrey};
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    & > p {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    & > p > svg {
+        width: 16px;
+        height: 16px;
+        color: rgba(60, 60, 67, 0.6);
+    }
+    @media screen and (max-width: 768px) {
+        font-size: 14px;
     }
 `;
 

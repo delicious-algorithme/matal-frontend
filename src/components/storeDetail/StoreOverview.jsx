@@ -8,16 +8,6 @@ const StoreOverview = ({ store }) => {
         return <p>로딩 중...</p>;
     }
 
-    const menues = store.menuAndPrice.split(', ').map((item) => {
-        if (item.includes(':')) {
-            const [name, price] = item.split(': ');
-            return { name, price };
-        } else {
-            const [name, price] = item.split(' ');
-            return { name, price };
-        }
-    });
-
     return (
         <StoreOverviewBox>
             <ContentBox>
@@ -28,17 +18,6 @@ const StoreOverview = ({ store }) => {
                     <DetailBox label="영업 시간" type="time" content={store.businessHours} />
                     <DetailBox label="인근 역" content={store.nearbyStation} />
                 </DetailContainer>
-            </ContentBox>
-            <ContentBox>
-                <h3>메뉴</h3>
-                {menues.map((menu, idx) => {
-                    return (
-                        <MenuBox key={idx}>
-                            <p>{menu.name}</p>
-                            <h4>{menu.price}</h4>
-                        </MenuBox>
-                    );
-                })}
             </ContentBox>
         </StoreOverviewBox>
     );
@@ -61,16 +40,14 @@ const ContentBox = styled.div`
     border: 1px solid ${Grey};
     border-radius: 10px;
     margin-bottom: 20px;
+
+    @media screen and (max-width: 1024px) {
+        margin-bottom: 0px;
+    }
 `;
 
 const DetailContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
-`;
-
-const MenuBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
 `;
