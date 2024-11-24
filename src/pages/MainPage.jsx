@@ -64,8 +64,12 @@ const MainPage = () => {
                     allData = allData.concat(response.data.content);
                     hasMoreData = response.data.last !== true;
                     page++;
-                } else {
+                } else if (response.status === 401) {
+                    navigate('/login');
+                } else if (response.status === 404) {
                     navigate('/*');
+                } else {
+                    navigate('/');
                 }
             }
             setBookmarkStore(allData);

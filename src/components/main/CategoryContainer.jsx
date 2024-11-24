@@ -48,7 +48,7 @@ const CategoryBox = styled.div`
     gap: 10px;
 
     & > div {
-        width: 40%;
+        width: 50%;
         height: 500px;
         overflow: scroll;
         border-radius: 20px;

@@ -458,6 +458,7 @@ const Contents = styled.ul`
 const Content = styled.li`
     position: relative;
     height: 20px;
+    display: flex;
     cursor: pointer;
     &:hover {
         color: ${Orange};
