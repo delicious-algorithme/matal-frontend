@@ -62,6 +62,14 @@ const StoreCardContainer = styled.div`
     @media screen and (max-width: 1024px) {
         width: 100%;
         max-width: 300px;
+        height: 350px;
+        margin: 0 auto;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        max-width: 300px;
+        height: 300px;
         margin: 0 auto;
     }
 `;
