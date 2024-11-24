@@ -10,7 +10,7 @@ import { getBookmarksStores } from '../apis/api/bookmarks';
 const MainPage = () => {
     const [searchInput, setSearchInput] = useState();
     const navigate = useNavigate();
-    const [stores, setStores] = useState();
+    const [stores, setStores] = useState([]);
     const { setIsFetchAll } = useIsFetch();
     const { setBookmarkStore, setSaveBookmarkId } = useSaveBookmarkId();
 
