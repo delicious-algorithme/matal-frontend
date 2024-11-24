@@ -60,6 +60,8 @@ const StoreListCardLayout = styled.div`
     padding: 10px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
     border-top: 1px solid ${LightGrey};
 
     &:hover {
@@ -71,17 +73,27 @@ const StoreListCardLayout = styled.div`
         flex-direction: column;
         align-items: flex-start;
         height: 140px;
+        width: 400px;
+    }
+
+    @media screen and (max-width: 400px) {
+        flex-direction: column;
+        align-items: flex-start;
+        height: 140px;
+        width: 350px;
     }
 
     @media screen and (max-width: 350px) {
         flex-direction: column;
         align-items: flex-start;
         height: 160px;
+        width: 320px;
     }
 `;
 
 const ContentsContainer = styled.div`
     display: flex;
+    width: 100%;
     flex-direction: row;
 `;
 
@@ -107,20 +119,18 @@ const StyledImage = styled.img`
 `;
 
 const ContentsBox = styled.div`
-    width: 280px;
+    width: 100%;
     padding-left: 5px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    @media screen and (max-width: 350px) {
-        width: 200px;
-    }
 `;
 
 const LocationBox = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: 10px;
 
     & > svg {
         color: ${DarkGrey};
@@ -128,12 +138,19 @@ const LocationBox = styled.div`
         height: 16px;
     }
 
+    color: ${DarkGrey};
     font-size: 14px;
+
+    @media screen and (max-width: 500px) {
+        font-size: 12px;
+        margin-top: 0px;
+    }
 `;
 
 const NameAndBookmarkContainer = styled.div`
     height: 30px;
     display: flex;
+    width: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -148,13 +165,13 @@ const NameAndBookmarkContainer = styled.div`
             font-weight: 700;
             font-size: 16px;
         }
+        height: 20px;
     }
 `;
 
 const RatingContainer = styled.div`
     display: flex;
     align-items: center;
-    width: 220px;
     gap: 10px;
     justify-content: flex-start;
 
@@ -176,7 +193,7 @@ const PositiveKeywordsBox = styled.div`
 `;
 
 const PositiveRatioContainer = styled.div`
-    font-weight: 600;
+    font-weight: 500;
     font-size: 14px;
     & > p {
         color: ${DarkGrey};
@@ -186,5 +203,18 @@ const PositiveRatioContainer = styled.div`
         font-size: 16px;
         font-weight: 700;
         color: ${Orange};
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: 12px;
+        & > p {
+            color: ${DarkGrey};
+        }
+
+        & p > span {
+            font-size: 16px;
+            font-weight: 700;
+            color: ${Orange};
+        }
     }
 `;

@@ -13,7 +13,7 @@ const StorePreview = ({ store }) => {
         <StorePreviewContainer>
             <ImageContainer>
                 <ImageBox>
-                    <img src={store.imageUrl} alt="가게 이미지" />
+                    <img src={store.imageUrl} alt="store detail" loading="lazy" />
                 </ImageBox>
             </ImageContainer>
             <ContentsBox>
@@ -74,6 +74,7 @@ const ImageBox = styled.div`
     max-height: 400px;
     border-radius: 10px;
     overflow: hidden;
+    aspect-ratio: 4 / 3;
 
     & > img {
         border-radius: 10px;
@@ -87,7 +88,7 @@ const ImageBox = styled.div`
         & > img {
             border-radius: 0px;
             width: 100%;
-            max-width: 500px;
+            max-width: 300px;
         }
     }
 `;

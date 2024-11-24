@@ -1,31 +1,27 @@
 import styled from 'styled-components';
 import { Category } from '../common';
-import { MyMap } from '../common';
 import { Grey } from '../../color';
 import { ReactComponent as CategoryIcon } from '../../assets/Icon/main/CategoryIcon.svg';
 
-const CategoryAndMap = () => {
+const CategoryContainer = () => {
     return (
-        <CategoryAndMapLayout>
+        <CategoryLayout>
             <label>
                 <CategoryIcon />
                 <h3>카테고리로 검색하기</h3>
             </label>
-            <CategoryAndMapBox>
+            <CategoryBox>
                 <div>
                     <Category />
                 </div>
-                <div>
-                    <MyMap />
-                </div>
-            </CategoryAndMapBox>
-        </CategoryAndMapLayout>
+            </CategoryBox>
+        </CategoryLayout>
     );
 };
 
-export default CategoryAndMap;
+export default CategoryContainer;
 
-const CategoryAndMapLayout = styled.div`
+const CategoryLayout = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,7 +41,7 @@ const CategoryAndMapLayout = styled.div`
     }
 `;
 
-const CategoryAndMapBox = styled.div`
+const CategoryBox = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -58,6 +54,7 @@ const CategoryAndMapBox = styled.div`
         border-radius: 20px;
         box-shadow: 2px 2px 2px ${Grey};
     }
+
     :first-child {
         padding: 20px;
     }

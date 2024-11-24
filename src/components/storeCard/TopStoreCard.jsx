@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Orange, Grey, DarkGrey } from '../../color';
 import Bookmark from '../common/bookmark/BookmarkContainer';
 import { useSaveBookmarkId } from '../../store';
+import { Keyword } from '../common';
 
 const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, keyword }) => {
     const navigate = useNavigate();
@@ -22,9 +23,7 @@ const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, keyword }) =>
                 <img src={image} width="100%" height="auto" alt={alt} />
             </ImageContainer>
             <ContentsContainer>
-                <Review>
-                    <p>#{keyword}</p>
-                </Review>
+                <Keyword keyword={keyword} mode="card" type="positive" />
                 <NameAndBookmarkContainer>
                     <p onClick={() => cardClickHandler(id)}>{name}</p>
                     <Bookmark bookmarkId={bookmarkId} storeId={id} />
@@ -43,8 +42,8 @@ const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, keyword }) =>
 export default TopStoreCard;
 
 const StoreCardContainer = styled.div`
-    width: 200px;
-    height: 300px;
+    width: 300px;
+    height: 320px;
     border-radius: 10px;
     border-radius: 5px;
     position: relative;
@@ -91,14 +90,14 @@ const NameAndBookmarkContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     max-width: 100%;
-    height: 30px;
-    padding: 10px;
+    height: 20px;
 
     & > p {
         font-size: 18px;
         text-align: center;
+        display: flex;
+        align-items: center;
         font-weight: 600;
-        padding-bottom: 10px;
     }
 
     & > div {
@@ -124,13 +123,6 @@ const ContentsContainer = styled.div`
     display: flex;
     gap: 10px;
     flex-direction: column;
-`;
-
-const Review = styled.div`
-    font-weight: 600;
-    font-size: 13px;
-    height: 40px;
-    color: ${DarkGrey};
 `;
 
 const Location = styled.div`

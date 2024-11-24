@@ -390,7 +390,7 @@ const SeemoreButton = styled.button`
     border-radius: 20px;
     font-weight: bold;
 
-    @media screen and (min-width: 350px) {
+    @media screen and (min-width: 370px) {
         display: none;
     }
 `;

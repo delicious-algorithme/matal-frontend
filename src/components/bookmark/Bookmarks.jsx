@@ -7,6 +7,7 @@ import { Grey } from '../../color';
 import { useSaveBookmarkId } from '../../store';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
+import { Loading } from '../common';
 
 const Bookmarks = () => {
     const [stores, setStores] = useState([]);
@@ -95,6 +96,7 @@ const Bookmarks = () => {
                     <button onClick={handleClickScrap}>스크랩 하러 가기</button>
                 </EmptyBox>
             )}
+            {isLoading && <Loading />}
         </>
     );
 };

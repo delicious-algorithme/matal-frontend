@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GlobalStyle } from './styles';
-import { MainPage, WebMap, SignUpPage, StoreDetailPage, LoginPage } from './pages';
+import { MainPage, WebMap, SignUpPage, StoreDetailPage, LoginPage, NotFoundPage } from './pages';
 import { HeaderLayout } from './components/common';
 import BookmarkPage from './pages/BookmarkPage';
 import { Terms, PrivacyConsent, Privacy } from './document';
@@ -29,6 +29,7 @@ const App = () => {
                         <Route path="/privacyConsent" element={<PrivacyConsent />} />
                         <Route path="/privacy" element={<Privacy />} />
                         <Route path="/webmap/storeList/:item" element={<WebMap />} />
+                        <Route path="/*" element={<NotFoundPage />} />
                     </Routes>
                 </BrowserRouter>
             </div>
