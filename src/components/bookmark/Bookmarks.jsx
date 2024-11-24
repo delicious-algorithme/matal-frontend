@@ -72,32 +72,30 @@ const Bookmarks = () => {
     };
 
     return (
-        <>
-            <BookmarkLayout>
-                {!isLoading &&
-                    bookmarkStores.length > 0 &&
-                    bookmarkStores.map((store) => (
-                        <TopStoreCard
-                            bookmarkId={store.bookmarkId}
-                            address={store.storeResponseDto.address}
-                            key={store.storeResponseDto.storeId}
-                            image={store.storeResponseDto.imageUrls}
-                            id={store.storeResponseDto.storeId}
-                            positiveRatio={store.storeResponseDto.positiveRatio}
-                            keyword={store.storeResponseDto.positiveKeywords}
-                            name={store.storeResponseDto.name}
-                        />
-                    ))}
-                <Ref ref={ref} />
-            </BookmarkLayout>
+        <BookmarkLayout>
+            {!isLoading &&
+                bookmarkStores.length > 0 &&
+                bookmarkStores.map((store) => (
+                    <TopStoreCard
+                        bookmarkId={store.bookmarkId}
+                        address={store.storeResponseDto.address}
+                        key={store.storeResponseDto.storeId}
+                        image={store.storeResponseDto.imageUrls}
+                        id={store.storeResponseDto.storeId}
+                        positiveRatio={store.storeResponseDto.positiveRatio}
+                        keyword={store.storeResponseDto.positiveKeywords}
+                        name={store.storeResponseDto.name}
+                    />
+                ))}
             {isNothing && (
                 <EmptyBox>
                     <h2> 저장된 가게가 없습니다.</h2>
                     <button onClick={handleClickScrap}>스크랩 하러 가기</button>
                 </EmptyBox>
             )}
+            <Ref ref={ref} />
             {isLoading && <Loading />}
-        </>
+        </BookmarkLayout>
     );
 };
 

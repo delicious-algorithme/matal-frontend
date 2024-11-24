@@ -26,6 +26,7 @@ const Header = () => {
                 title: '로그아웃 성공',
                 text: '로그아웃 성공',
             });
+            localStorage.clear();
             setLogout();
             navigate('/');
         }
