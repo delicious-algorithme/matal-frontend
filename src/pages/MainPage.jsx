@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Banner } from '../assets/Icon/banner/Banner.svg';
 import { useIsFetch } from '../store';
-import { CategoryAndMap, SearchKeyword, TopRecommendations } from '../components/main';
+import { CategoryContainer, SearchKeyword, TopRecommendations, MapContainer } from '../components/main';
 import { SearchBar, Button, Footer } from '../components/common';
 
 const MainPage = () => {
@@ -47,7 +47,8 @@ const MainPage = () => {
                 <SearchKeyword />
                 <Button color="green" text="식당 찾아 보기" visible="true" onClickHandler={buttonClickHandler} />
                 <TopRecommendations />
-                <CategoryAndMap />
+                <CategoryContainer />
+                <MapContainer />
             </MainPageLayout>
             <Footer />
         </>

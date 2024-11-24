@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 const BookmarkContainer = ({ bookmarkId, storeId }) => {
     const [stores, setStores] = useState([]);
     const { savedId, setSaveBookmarkId, setBookmarkStore } = useSaveBookmarkId();
+    const [isLoading, setIsLoading] = useState(false);
     const auth = JSON.parse(localStorage.getItem('auth')) || {};
     const isSaved = savedId.includes(bookmarkId) && auth.state.isLoggedIn;
 
@@ -55,6 +56,7 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
             navigate('/login');
         }
         try {
+            setIsLoading(true);
             let page = 0;
             let allData = [];
             let hasMoreData = true;
@@ -73,15 +75,18 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
         } catch (error) {
             console.log(error);
         } finally {
+            setIsLoading(false);
             console.log('success getBookmark');
         }
     };
 
     return (
-        <BookmarkBox onClick={handleClickBookmarks}>
-            {!isSaved && <BookmarkIcon />}
-            {isSaved && <SavedBookmarkIcon />}
-        </BookmarkBox>
+        !isLoading && (
+            <BookmarkBox onClick={handleClickBookmarks}>
+                {!isSaved && <BookmarkIcon />}
+                {isSaved && <SavedBookmarkIcon />}
+            </BookmarkBox>
+        )
     );
 };
 

@@ -11,6 +11,7 @@ import HeaderLayout from './header/HeaderLayout';
 import FormField from './form/FormField';
 import LocationButton from './button/LocationButton';
 import Keyword from './keyword/Keyword';
+import Loading from './loading/Loading';
 export {
     Category,
     MyMap,
@@ -25,4 +26,5 @@ export {
     FormField,
     LocationButton,
     Keyword,
+    Loading,
 };

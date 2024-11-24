@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useStoreDetail } from '../store';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
     StorePreview,
     StoreMap,
@@ -11,10 +11,9 @@ import {
     StoreTip,
 } from '../components/storeDetail';
 import { Grey, LightGrey, White } from '../color';
-import { Footer } from '../components/common';
+import { Footer, Loading, Button } from '../components/common';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getStoreDetail } from '../apis/api/getStoreDetail';
-import { Button } from '../components/common';
 import { useSaveBookmarkId } from '../store';
 import Bookmark from '../components/common/bookmark/BookmarkContainer';
 
@@ -54,14 +53,16 @@ const StoreDetailPage = () => {
 
     useEffect(() => {
         if (storeId) {
-            fetchStoreDetail(storeId);
+            if (!item.id || item.id !== storeId) {
+                fetchStoreDetail(storeId);
+            }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [storeId]);
+        // eslint-disable-next-line
+    }, [storeId, item.id]);
 
-    const buttonClickHandler = () => {
+    const buttonClickHandler = useCallback(() => {
         navigate('/webmap');
-    };
+    }, [navigate]);
 
     const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
 
@@ -98,8 +99,8 @@ const StoreDetailPage = () => {
                     </StoreOverviewContainer>
                 </DetailPageLayout>
             )}
-            {isLoading && <p>로딩중,,</p>}
-            <Footer />
+            {isLoading && <Loading />}
+            {!isLoading && <Footer />}
         </>
     );
 };

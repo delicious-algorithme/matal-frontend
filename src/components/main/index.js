@@ -1,4 +1,5 @@
 import TopRecommendations from './TopRecommendations';
-import CategoryAndMap from './CategoryAndMap';
+import CategoryContainer from './CategoryContainer';
 import SearchKeyword from './SearchKeyword';
-export { TopRecommendations, CategoryAndMap, SearchKeyword };
+import MapContainer from './MapContainer';
+export { TopRecommendations, CategoryContainer, SearchKeyword, MapContainer };

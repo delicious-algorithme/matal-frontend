@@ -211,7 +211,7 @@ const StoreListLayout = styled.div`
     overflow-y: scroll;
     background-color: ${White};
 
-    @media screen and (max-width: 350px) {
+    @media screen and (max-width: 370px) {
         width: 80%;
     }
 `;
@@ -222,7 +222,7 @@ const FilteringContentsContainer = styled.div`
     padding: 10px;
     margin-bottom: 20px;
 
-    @media screen and (max-width: 350px) {
+    @media screen and (max-width: 370px) {
         flex-direction: column;
         align-items: flex-start;
     }
@@ -246,6 +246,10 @@ const SearchBarContainer = styled.div`
 
     & > input {
         width: 100%;
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 80%;
     }
 `;
 
