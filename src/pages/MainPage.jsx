@@ -65,7 +65,7 @@ const MainPage = () => {
                     hasMoreData = response.data.last !== true;
                     page++;
                 } else {
-                    navigate('/login');
+                    navigate('/*');
                 }
             }
             setBookmarkStore(allData);

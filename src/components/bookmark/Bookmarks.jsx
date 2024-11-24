@@ -103,7 +103,7 @@ export default Bookmarks;
 
 const BookmarkLayout = styled.div`
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;

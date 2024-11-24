@@ -14,6 +14,7 @@ import SearchBar from '../searchBar/SearchBar';
 import { useStoreList, useIsFetch, useFilterParams, useTagList, useSearchInput } from '../../../store';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
+import Loading from '../loading/Loading';
 
 const StoreList = () => {
     const location = useLocation();
@@ -141,7 +142,7 @@ const StoreList = () => {
         setOrderByRating(null);
     };
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <Loading />;
     return (
         <StoreListLayout>
             <FilteringContentsContainer>
