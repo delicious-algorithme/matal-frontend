@@ -232,7 +232,7 @@ const StoreListCardContainer = styled.div``;
 
 const Ref = styled.div`
     width: 100%;
-    height: 100px;
+    height: 50px;
 `;
 
 const ButtonContainer = styled.div`
