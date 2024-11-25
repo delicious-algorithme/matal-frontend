@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DarkGrey, Grey, Orange, White } from '../../../color';
+import { DarkGrey, Grey, Orange, White, LightGrey } from '../../../color';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -162,11 +162,11 @@ const StoreList = () => {
         );
     return (
         <StoreListLayout>
+            <ButtonContainer>
+                <Button visible="true" color="green" onClickHandler={() => navigate('/')} text="뒤로 가기" />
+                <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
+            </ButtonContainer>
             <FilteringContentsContainer>
-                <ButtonContainer>
-                    <Button visible="true" color="green" onClickHandler={() => navigate('/')} text="뒤로 가기" />
-                    <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
-                </ButtonContainer>
                 <SearchBarContainer>
                     <SearchBar
                         onChangeHandler={(e) => setInput(e.target.value)}
@@ -222,12 +222,23 @@ const StoreList = () => {
 export default StoreList;
 
 const StoreListLayout = styled.div`
-    margin-top: 10px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
     background-color: ${White};
+    position: relative;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+        height: auto;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(217, 217, 217, 1);
+        border-radius: 15px;
+        width: 10px;
+    }
 
     @media screen and (max-width: 370px) {
         width: 80%;
@@ -246,7 +257,9 @@ const FilteringContentsContainer = styled.div`
     }
 `;
 
-const StoreListCardContainer = styled.div``;
+const StoreListCardContainer = styled.div`
+    position: relative;
+`;
 
 const Ref = styled.div`
     width: 100%;
@@ -254,9 +267,18 @@ const Ref = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-    display: flex;
     gap: 10px;
-    margin: 10px;
+    position: sticky;
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    top: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    z-index: 20;
+    background-color: ${White};
+    border-bottom: 1px solid ${LightGrey};
 `;
 
 const SearchBarContainer = styled.div`

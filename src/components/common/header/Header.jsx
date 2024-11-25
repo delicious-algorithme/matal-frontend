@@ -62,6 +62,9 @@ const HeaderLayout = styled.header`
     display: flex;
     justify-content: space-between;
     padding-right: 100px;
+    top: 0;
+    z-index: 10;
+    position: sticky;
     background-color: ${White};
     padding-left: 50px;
     & > svg {
