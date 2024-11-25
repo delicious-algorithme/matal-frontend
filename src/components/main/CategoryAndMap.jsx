@@ -53,9 +53,20 @@ const CategoryAndMapBox = styled.div`
     & > div {
         width: 50%;
         height: 500px;
-        overflow: scroll;
+        overflow-y: auto;
         border-radius: 20px;
         box-shadow: 2px 2px 2px ${Grey};
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 5px;
+            height: auto;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: rgba(217, 217, 217, 1);
+            border-radius: 15px;
+            width: 5px;
+        }
     }
 
     :first-child {

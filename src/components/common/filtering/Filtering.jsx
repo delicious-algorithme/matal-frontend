@@ -209,7 +209,6 @@ const Filtering = ({ category }) => {
     };
 
     const CategoryClickHandler = (categoryId) => {
-        let allSelectState = [...selectState];
         setSelectState((prevState) => {
             let newSelectState = [...prevState];
 
