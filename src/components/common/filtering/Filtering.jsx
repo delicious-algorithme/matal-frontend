@@ -215,6 +215,7 @@ const Filtering = ({ category }) => {
         setSelectState(() => {
             allSelectState = new Array(selectState.length).fill(false);
             allSelectState[categoryId] = true;
+            return allSelectState;
         });
     };
 
