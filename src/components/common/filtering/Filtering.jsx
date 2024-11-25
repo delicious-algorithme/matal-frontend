@@ -150,7 +150,6 @@ const Filtering = ({ category }) => {
         } else {
             addTagValue(content, filterTitle);
         }
-
         //params
         addParams(filter_type, id, value, content);
     };
@@ -211,12 +210,22 @@ const Filtering = ({ category }) => {
 
     const CategoryClickHandler = (categoryId) => {
         let allSelectState = [...selectState];
+        setSelectState((prevState) => {
+            let newSelectState = [...prevState];
 
-        setSelectState(() => {
-            allSelectState = new Array(selectState.length).fill(false);
-            allSelectState[categoryId] = true;
-            return allSelectState;
+            if (newSelectState[categoryId]) {
+                newSelectState[categoryId] = false;
+            } else {
+                newSelectState = new Array(prevState.length).fill(false);
+                newSelectState[categoryId] = true;
+            }
+
+            return newSelectState;
         });
+    };
+
+    const handleCheckboxChange = (id) => {
+        setSelectState((prevState) => prevState.map((state, i) => (i === id ? !state : state)));
     };
 
     useEffect(() => {
@@ -279,12 +288,15 @@ const Filtering = ({ category }) => {
                                                                             checked={isTagSelected(
                                                                                 seoul === '서울 전체' ? '서울 ' : seoul
                                                                             )}
-                                                                            onClick={() =>
+                                                                            onClick={() => {
                                                                                 locationDetailClickHandler(
                                                                                     seoul === '서울 전체'
                                                                                         ? '서울 '
                                                                                         : seoul
-                                                                                )
+                                                                                );
+                                                                            }}
+                                                                            onChange={() =>
+                                                                                handleCheckboxChange(item.id)
                                                                             }
                                                                         />
                                                                         {seoul}
@@ -310,6 +322,9 @@ const Filtering = ({ category }) => {
                                                                                         ? '경기'
                                                                                         : gyeongi
                                                                                 )
+                                                                            }
+                                                                            onChange={() =>
+                                                                                handleCheckboxChange(item.id)
                                                                             }
                                                                         />
                                                                         {gyeongi}
@@ -352,6 +367,7 @@ const Filtering = ({ category }) => {
                                                                             item.value[index]
                                                                         )
                                                                     }
+                                                                    onChange={() => handleCheckboxChange(item.id)}
                                                                 />
                                                                 <label>{content}</label>
                                                             </Content>
@@ -419,6 +435,7 @@ const CategoryBox = styled.div`
     border: 1px solid ${Grey};
     color: ${DarkGrey};
     font-weight: bold;
+
     &:hover {
         color: ${Orange};
     }
@@ -439,17 +456,19 @@ const Contents = styled.ul`
     list-style: none;
     width: 160px;
     max-height: 200px;
-    overflow: scroll;
     font-size: 13px;
     border: 1px solid ${Grey};
     border-radius: 10px;
     padding: 10px;
     font-weight: bold;
     background: ${White};
+    max-height: 200px;
+    overflow-y: auto;
     color: ${DarkGrey};
     & > p {
         width: 100%;
     }
+
     &::-webkit-scrollbar {
         width: 5px;
         height: auto;
@@ -498,9 +517,8 @@ const LoactionSelectBox = styled.div`
     margin-top: 2px;
     z-index: 10;
     list-style: none;
-    width: 240px;
+    width: 230px;
     max-height: 200px;
-    overflow: scroll;
     font-size: 13px;
     border: 1px solid ${Grey};
     border-radius: 10px;
@@ -508,6 +526,9 @@ const LoactionSelectBox = styled.div`
     font-weight: bold;
     background: ${White};
     color: ${DarkGrey};
+    max-height: 200px;
+    overflow-y: auto;
+
     &::-webkit-scrollbar {
         width: 5px;
         height: auto;
