@@ -14,6 +14,7 @@ import SearchBar from '../searchBar/SearchBar';
 import { useStoreList, useIsFetch, useFilterParams, useTagList, useSearchInput } from '../../../store';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
+import Loading from '../loading/Loading';
 
 const StoreList = () => {
     const location = useLocation();
@@ -141,7 +142,12 @@ const StoreList = () => {
         setOrderByRating(null);
     };
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading)
+        return (
+            <LoadingContainer>
+                <Loading />
+            </LoadingContainer>
+        );
     return (
         <StoreListLayout>
             <FilteringContentsContainer>
@@ -232,7 +238,7 @@ const StoreListCardContainer = styled.div``;
 
 const Ref = styled.div`
     width: 100%;
-    height: 100px;
+    height: 50px;
 `;
 
 const ButtonContainer = styled.div`
@@ -293,4 +299,10 @@ const Alert = styled.h3`
     font-weight: 400;
     font-size: 15px;
     color: ${Orange};
+`;
+
+const LoadingContainer = styled.div`
+    @media screen and (max-width: 450px) {
+        margin-right: 90px;
+    }
 `;

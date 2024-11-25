@@ -73,14 +73,21 @@ const StoreListCardLayout = styled.div`
         flex-direction: column;
         align-items: flex-start;
         height: 140px;
-        width: 400px;
+        width: 425px;
     }
 
     @media screen and (max-width: 400px) {
         flex-direction: column;
         align-items: flex-start;
         height: 140px;
-        width: 350px;
+        width: 390px;
+    }
+
+    @media screen and (max-width: 370px) {
+        flex-direction: column;
+        align-items: flex-start;
+        height: 140px;
+        width: 360px;
     }
 
     @media screen and (max-width: 350px) {

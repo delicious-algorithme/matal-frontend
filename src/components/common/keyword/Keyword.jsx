@@ -34,14 +34,14 @@ const KeywordBox = styled.div`
 const KeywordTag = styled.div`
     width: fit-content;
     padding: 10px;
-    height: 30px;
+    height: ${(props) => (props.mode === 'card' ? `20px` : `35px`)};
     display: flex;
     border-radius: 50px;
     align-items: center;
     justify-content: center;
     font-weight: 700;
 
-    font-size: ${(props) => (props.mode === 'card' ? `12px` : `15px`)};
+    font-size: ${(props) => (props.mode === 'card' ? `10px` : `15px`)};
     border: 1px solid ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
     color: ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
 
