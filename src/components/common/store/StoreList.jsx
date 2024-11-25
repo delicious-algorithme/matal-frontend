@@ -142,7 +142,12 @@ const StoreList = () => {
         setOrderByRating(null);
     };
 
-    if (isLoading) return <Loading />;
+    if (isLoading)
+        return (
+            <LoadingContainer>
+                <Loading />
+            </LoadingContainer>
+        );
     return (
         <StoreListLayout>
             <FilteringContentsContainer>
@@ -294,4 +299,10 @@ const Alert = styled.h3`
     font-weight: 400;
     font-size: 15px;
     color: ${Orange};
+`;
+
+const LoadingContainer = styled.div`
+    @media screen and (max-width: 450px) {
+        margin-right: 90px;
+    }
 `;
