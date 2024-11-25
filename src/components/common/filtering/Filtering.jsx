@@ -51,6 +51,8 @@ const Filtering = ({ category }) => {
         return isEqual(filterParams, initialParams);
     }, [filterParams, initialParams]);
 
+    //필터링 하나만 되게 하는 조건
+
     useEffect(() => {
         const isInit = isInitFilterParams();
         if (isInit) {
@@ -208,9 +210,13 @@ const Filtering = ({ category }) => {
     };
 
     const CategoryClickHandler = (categoryId) => {
-        let newSelectState = [...selectState];
-        newSelectState[categoryId] = !selectState[categoryId];
-        setSelectState(newSelectState);
+        let allSelectState = [...selectState];
+
+        setSelectState(() => {
+            allSelectState = new Array(selectState.length).fill(false);
+            allSelectState[categoryId] = true;
+            return allSelectState;
+        });
     };
 
     useEffect(() => {
