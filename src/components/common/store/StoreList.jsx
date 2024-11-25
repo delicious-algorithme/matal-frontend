@@ -131,15 +131,27 @@ const StoreList = () => {
     };
 
     const sortReviewClickHandler = (sortBy) => {
-        setFilterParams({ ...filterParams, orderByRating: sortBy, orderByPositiveRatio: null });
-        setOrderByRating(sortBy);
-        setorderByPositiveRatio(null);
+        if (!orderByRating) {
+            setFilterParams({ ...filterParams, orderByRating: sortBy, orderByPositiveRatio: null });
+            setOrderByRating(sortBy);
+            setorderByPositiveRatio(null);
+        } else {
+            setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: null });
+            setOrderByRating(null);
+            setorderByPositiveRatio(null);
+        }
     };
 
     const sortPositiveClickHandler = (sortBy) => {
-        setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: sortBy });
-        setorderByPositiveRatio(sortBy);
-        setOrderByRating(null);
+        if (!orderByPositiveRatio) {
+            setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: sortBy });
+            setorderByPositiveRatio(sortBy);
+            setOrderByRating(null);
+        } else {
+            setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: null });
+            setorderByPositiveRatio(null);
+            setOrderByRating(null);
+        }
     };
 
     if (isLoading)
