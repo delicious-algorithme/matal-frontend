@@ -162,11 +162,11 @@ const StoreList = () => {
         );
     return (
         <StoreListLayout>
-            <ButtonContainer>
-                <Button visible="true" color="green" onClickHandler={() => navigate('/')} text="뒤로 가기" />
-                <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
-            </ButtonContainer>
-            <FilteringContentsContainer>
+            <StoreListHeader>
+                <ButtonContainer>
+                    <Button visible="true" color="green" onClickHandler={() => navigate('/')} text="뒤로 가기" />
+                    <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
+                </ButtonContainer>
                 <SearchBarContainer>
                     <SearchBar
                         onChangeHandler={(e) => setInput(e.target.value)}
@@ -174,6 +174,8 @@ const StoreList = () => {
                         searchInput={input}
                     />
                 </SearchBarContainer>
+            </StoreListHeader>
+            <FilteringContentsContainer>
                 <Filtering category={category} />
                 <SortBox>
                     <p>정렬</p>
@@ -268,17 +270,18 @@ const Ref = styled.div`
 
 const ButtonContainer = styled.div`
     gap: 10px;
-    position: sticky;
     width: 100%;
-    height: 80px;
+    height: 60px;
     padding: 10px;
-    top: 0;
     display: flex;
     flex-direction: row;
     align-items: center;
     z-index: 20;
     background-color: ${White};
-    border-bottom: 1px solid ${LightGrey};
+
+    @media screen and (max-width: 500px) {
+        height: 50px;
+    }
 `;
 
 const SearchBarContainer = styled.div`
@@ -339,4 +342,15 @@ const LoadingContainer = styled.div`
     @media screen and (max-width: 450px) {
         margin-right: 90px;
     }
+`;
+
+const StoreListHeader = styled.div`
+    position: sticky;
+    width: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+    background-color: ${White};
+    border-bottom: 1px solid ${LightGrey};
 `;
