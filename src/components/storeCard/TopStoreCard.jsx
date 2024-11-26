@@ -2,31 +2,24 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Orange, Grey, DarkGrey } from '../../color';
 import Bookmark from '../common/bookmark/BookmarkContainer';
-import { useSaveBookmarkId } from '../../store';
 import { Keyword } from '../common';
 
-const TopStoreCard = ({ image, alt, bookmarkId, id, address, name, keyword }) => {
+const TopStoreCard = ({ image, alt, storeId, address, name, keyword }) => {
     const navigate = useNavigate();
-    const { savedStores } = useSaveBookmarkId();
 
-    if (!bookmarkId) {
-        const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === id);
-        bookmarkId = bookmark?.bookmarkId;
-    }
-
-    const cardClickHandler = (id) => {
-        navigate(`/webmap/storeDetail/${id}`, { state: { detailVisible: true } });
+    const cardClickHandler = (storeId) => {
+        navigate(`/webmap/storeDetail/${storeId}`, { state: { detailVisible: true } });
     };
     return (
         <StoreCardContainer>
-            <ImageContainer onClick={() => cardClickHandler(id)}>
+            <ImageContainer onClick={() => cardClickHandler(storeId)}>
                 <img src={image} width="100%" height="auto" alt={alt} />
             </ImageContainer>
             <ContentsContainer>
                 <Keyword keyword={keyword} mode="card" type="positive" />
                 <NameAndBookmarkContainer>
-                    <p onClick={() => cardClickHandler(id)}>{name}</p>
-                    <Bookmark bookmarkId={bookmarkId} storeId={id} />
+                    <p onClick={() => cardClickHandler(storeId)}>{name}</p>
+                    <Bookmark storeId={storeId} />
                 </NameAndBookmarkContainer>
                 <Location>
                     <p>
