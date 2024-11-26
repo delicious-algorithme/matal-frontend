@@ -7,8 +7,8 @@ const useSaveBookmarkId = create(
     persist(
         (set) => ({
             savedId: initialBookmarkId,
-            setSaveBookmarkId: (bookmarkId) => {
-                set({ savedId: bookmarkId });
+            setSaveBookmarkId: (data) => {
+                set({ savedId: data });
             },
             savedStores: [],
             setBookmarkStore: (stores) => {

@@ -76,7 +76,7 @@ const TopRecommendations = () => {
                             <TopStoreCard
                                 image={store.imageUrls}
                                 address={store.address}
-                                id={store.storeId}
+                                storeId={store.storeId}
                                 positiveRatio={store.positiveRatio}
                                 keyword={store.positiveKeywords}
                                 name={store.name}

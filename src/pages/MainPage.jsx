@@ -5,14 +5,13 @@ import { ReactComponent as Banner } from '../assets/Icon/banner/Banner.svg';
 import { useIsFetch, useSaveBookmarkId } from '../store';
 import { CategoryAndMap, SearchKeyword, TopRecommendations } from '../components/main';
 import { SearchBar, Button, Footer } from '../components/common';
-import { getBookmarksStores } from '../apis/api/bookmarks';
+import { getAllBookmarksIds } from '../apis/api/bookmarks';
 
 const MainPage = () => {
     const [searchInput, setSearchInput] = useState();
     const navigate = useNavigate();
-    const [stores, setStores] = useState([]);
     const { setIsFetchAll } = useIsFetch();
-    const { setBookmarkStore, setSaveBookmarkId } = useSaveBookmarkId();
+    const { setSaveBookmarkId } = useSaveBookmarkId();
 
     const onChangeHandler = (e) => {
         setSearchInput(e.target.value);
@@ -40,40 +39,23 @@ const MainPage = () => {
         // eslint-disable-next-line
     }, []);
 
-    useEffect(() => {
-        if (stores.length > 0) {
-            const saveBookmarkId = stores.map((store) => store.bookmarkId);
-            const bookmarkIds = [...new Set(saveBookmarkId)];
-            setSaveBookmarkId(bookmarkIds);
-        }
-        // eslint-disable-next-line
-    }, [stores]);
-
     const buttonClickHandler = () => {
         navigate('/webmap');
     };
 
     const getAllBookmarksStores = async () => {
         try {
-            let page = 0;
-            let allData = [];
-            let hasMoreData = true;
-            while (hasMoreData) {
-                const response = await getBookmarksStores(page);
-                if (response.status === 200) {
-                    allData = allData.concat(response.data.content);
-                    hasMoreData = response.data.last !== true;
-                    page++;
-                } else if (response.status === 401) {
-                    navigate('/login');
-                } else if (response.status === 404) {
-                    navigate('/*');
-                } else {
-                    navigate('/');
-                }
+            const response = await getAllBookmarksIds();
+            if (response.status === 200) {
+                const bookmarkIds = response.data;
+                setSaveBookmarkId(bookmarkIds);
+            } else if (response.status === 401) {
+                navigate('/login');
+            } else if (response.status === 404) {
+                navigate('/*');
+            } else {
+                navigate('/');
             }
-            setBookmarkStore(allData);
-            setStores(allData);
         } catch (error) {
             console.log(error);
         } finally {

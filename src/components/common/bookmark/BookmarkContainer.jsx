@@ -3,27 +3,17 @@ import { ReactComponent as SavedBookmarkIcon } from '../../../assets/Icon/detail
 import { deleteBookmarkStore, postBookmarkStore } from '../../../apis/api/bookmarks';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getBookmarksStores } from '../../../apis/api/bookmarks';
+import { getAllBookmarksIds } from '../../../apis/api/bookmarks';
 import { useSaveBookmarkId } from '../../../store';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-const BookmarkContainer = ({ bookmarkId, storeId }) => {
-    const [stores, setStores] = useState([]);
-    const { savedId, setSaveBookmarkId, setBookmarkStore } = useSaveBookmarkId();
+const BookmarkContainer = ({ storeId }) => {
+    const { savedId, setSaveBookmarkId } = useSaveBookmarkId();
     const [isLoading, setIsLoading] = useState(false);
     const auth = JSON.parse(localStorage.getItem('auth')) || {};
-    const isSaved = savedId.includes(bookmarkId) && auth.state.isLoggedIn;
+    const isSaved = savedId.some((item) => item.storeId === storeId && auth.state.isLoggedIn);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (stores.length > 0) {
-            const saveBookmarkId = stores.map((store) => store.bookmarkId);
-            const bookmarkIds = [...new Set(saveBookmarkId)];
-            setSaveBookmarkId(bookmarkIds);
-        }
-        // eslint-disable-next-line
-    }, [stores]);
 
     const handleClickBookmarks = async (e) => {
         e.preventDefault();
@@ -32,7 +22,8 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
         }
         try {
             if (isSaved) {
-                const response = await deleteBookmarkStore(bookmarkId);
+                const bookmarkIdIndex = savedId.find((item) => item.storeId === storeId);
+                const response = await deleteBookmarkStore(bookmarkIdIndex.bookmarkId);
                 if (response.status === 204) {
                     console.log('success delete');
                     getAllBookmarksStores();
@@ -57,21 +48,13 @@ const BookmarkContainer = ({ bookmarkId, storeId }) => {
         }
         try {
             setIsLoading(true);
-            let page = 0;
-            let allData = [];
-            let hasMoreData = true;
-            while (hasMoreData) {
-                const response = await getBookmarksStores(page);
-                if (response.status === 200) {
-                    allData = allData.concat(response.data.content);
-                    hasMoreData = response.data.last !== true;
-                    page++;
-                } else {
-                    navigate('/login');
-                }
+            const response = await getAllBookmarksIds();
+            if (response.status === 200) {
+                const bookmarkStoreIds = response.data;
+                setSaveBookmarkId(bookmarkStoreIds);
+            } else {
+                navigate('/login');
             }
-            setStores(allData);
-            setBookmarkStore(allData);
         } catch (error) {
             console.log(error);
         } finally {
