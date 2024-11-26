@@ -4,14 +4,9 @@ import { ReactComponent as Star } from '../../../assets/Icon/detail/Star.svg';
 import { DarkGreen, DarkGrey, LightGrey, Orange } from '../../../color';
 import { LocationOn } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { useSaveBookmarkId } from '../../../store';
 
 const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, positiveKeywords }) => {
     const navigate = useNavigate();
-    const { savedStores } = useSaveBookmarkId();
-
-    const bookmark = savedStores.find((store) => store.storeResponseDto.storeId === id);
-    const bookmarkId = bookmark?.bookmarkId;
 
     const cardClickHandler = () => {
         navigate(`/webmap/storeDetail/${id}`);
@@ -26,7 +21,7 @@ const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, p
                 <ContentsBox>
                     <NameAndBookmarkContainer>
                         <p onClick={() => cardClickHandler(id)}>{name}</p>
-                        <Bookmark bookmarkId={bookmarkId} storeId={id} />
+                        <Bookmark storeId={id} />
                     </NameAndBookmarkContainer>
                     <RatingContainer>
                         <Star />

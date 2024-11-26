@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { DarkGreen, Orange } from '../../../color';
+import { v4 as uuidv4 } from 'uuid';
 
 const Keyword = ({ keyword, type, mode }) => {
     if (!keyword) {
@@ -11,7 +12,7 @@ const Keyword = ({ keyword, type, mode }) => {
         <KeywordBox>
             {keywordItem.map((item) => {
                 return (
-                    <KeywordTag mode={mode} type={type} key={type}>
+                    <KeywordTag mode={mode} type={type} key={uuidv4()}>
                         <p>#{item}</p>
                     </KeywordTag>
                 );

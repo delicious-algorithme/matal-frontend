@@ -11,19 +11,11 @@ import { Loading } from '../common';
 
 const Bookmarks = () => {
     const [stores, setStores] = useState([]);
-    const { setSaveBookmarkId, setBookmarkStore } = useSaveBookmarkId();
+    const [isTimeout, setIsTimeout] = useState(false);
+    const { setBookmarkStore } = useSaveBookmarkId();
 
     const navigate = useNavigate();
     const { ref, inView } = useInView();
-
-    useEffect(() => {
-        if (stores.length > 0) {
-            const saveBookmarkId = stores.map((store) => store.bookmarkId);
-            const bookmarkIds = [...new Set(saveBookmarkId)];
-            setSaveBookmarkId(bookmarkIds);
-        }
-        // eslint-disable-next-line
-    }, [stores]);
 
     const fetchBookmarkStores = async ({ pageParam = 0 }) => {
         const auth = JSON.parse(localStorage.getItem('auth')) || {};
@@ -67,9 +59,21 @@ const Bookmarks = () => {
         // eslint-disable-next-line
     }, [data]);
 
-    const handleClickScrap = () => {
-        navigate('/webmap');
-    };
+    useEffect(() => {
+        if (isLoading) {
+            const timeout = setTimeout(() => {
+                setIsTimeout(true);
+                navigate('/*');
+            }, 5000);
+            return () => clearTimeout(timeout);
+        }
+    }, [isLoading, navigate]);
+
+    if (isTimeout) {
+        return null;
+    }
+
+    const handleClickScrap = () => navigate('/webmap');
 
     return (
         <BookmarkLayout>
@@ -77,11 +81,10 @@ const Bookmarks = () => {
                 bookmarkStores.length > 0 &&
                 bookmarkStores.map((store) => (
                     <TopStoreCard
-                        bookmarkId={store.bookmarkId}
                         address={store.storeResponseDto.address}
                         key={store.storeResponseDto.storeId}
+                        storeId={store.storeResponseDto.storeId}
                         image={store.storeResponseDto.imageUrls}
-                        id={store.storeResponseDto.storeId}
                         positiveRatio={store.storeResponseDto.positiveRatio}
                         keyword={store.storeResponseDto.positiveKeywords}
                         name={store.storeResponseDto.name}

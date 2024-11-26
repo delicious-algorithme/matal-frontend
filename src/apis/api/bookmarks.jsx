@@ -54,3 +54,21 @@ export const deleteBookmarkStore = async (id) => {
         };
     }
 };
+
+export const getAllBookmarksIds = async () => {
+    try {
+        const { data, status } = await defaultInstance.get('/api/bookmarks/ids', {
+            withCredentials: true,
+        });
+        return {
+            data,
+            status,
+        };
+    } catch (e) {
+        console.log(e);
+        return {
+            error: e.response.data.detail,
+            status: e.response.status,
+        };
+    }
+};
