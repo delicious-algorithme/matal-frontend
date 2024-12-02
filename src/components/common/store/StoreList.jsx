@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { DarkGrey, Grey, Orange, White, LightGrey } from '../../../color';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -138,7 +139,9 @@ const StoreList = () => {
         <StoreListLayout>
             <StoreListHeader>
                 <ButtonContainer>
-                    <Button visible="true" color="green" onClickHandler={() => navigate('/')} text="뒤로 가기" />
+                    <BackButton>
+                        <ArrowBackIosIcon onClick={() => navigate('/')} />
+                    </BackButton>
                     <Button visible="true" color="green" onClickHandler={allFetchButtonHandler} text="전체 식당 보기" />
                 </ButtonContainer>
                 <SearchBarContainer>
@@ -246,6 +249,22 @@ const StoreListCardContainer = styled.div`
 const Ref = styled.div`
     width: 100%;
     height: 50px;
+`;
+
+const BackButton = styled.div`
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > svg {
+        cursor: pointer;
+        &:hover {
+            width: 28px;
+            height: 28px;
+        }
+    }
 `;
 
 const ButtonContainer = styled.div`

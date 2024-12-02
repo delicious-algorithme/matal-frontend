@@ -47,7 +47,7 @@ const KeywordTag = styled.div`
     color: ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
 
     @media screen and (max-width: 768px) {
-        font-size: 12px;
+        font-size: 10px;
         padding: 5px;
     }
 `;
