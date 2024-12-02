@@ -37,7 +37,7 @@ const KeywordTag = styled.div`
     padding: 10px;
     height: ${(props) => (props.mode === 'card' ? `20px` : `35px`)};
     display: flex;
-    border-radius: 50px;
+    border-radius: 5px;
     align-items: center;
     justify-content: center;
     font-weight: 700;
