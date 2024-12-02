@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { DarkGrey, Grey, LightGrey, Orange } from '../../color';
 import { LocationButton } from '../common';
 import { ReactComponent as StarIcon } from '../../assets/Icon/detail/Star.svg';
-import { LocationOn } from '@mui/icons-material';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 
 const StorePreview = ({ store }) => {
     const pathClickHandler = () => {
@@ -36,7 +36,7 @@ const StorePreview = ({ store }) => {
                     {store.nearbyStation && (
                         <StationBox>
                             <p>
-                                <LocationOn />
+                                <PlaceOutlinedIcon />
                                 {store.nearbyStation}
                             </p>
                         </StationBox>

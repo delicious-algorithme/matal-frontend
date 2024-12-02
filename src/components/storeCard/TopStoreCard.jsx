@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Orange, Grey, DarkGrey } from '../../color';
 import Bookmark from '../common/bookmark/BookmarkContainer';
 import { Keyword } from '../common';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 
 const TopStoreCard = ({ image, alt, storeId, address, name, keyword }) => {
     const navigate = useNavigate();
@@ -21,12 +22,10 @@ const TopStoreCard = ({ image, alt, storeId, address, name, keyword }) => {
                     <p onClick={() => cardClickHandler(storeId)}>{name}</p>
                     <Bookmark storeId={storeId} />
                 </NameAndBookmarkContainer>
-                <Location>
-                    <p>
-                        <span>위치: </span>
-                        {address}
-                    </p>
-                </Location>
+                <LocationBox>
+                    <PlaceOutlinedIcon />
+                    <p>{address}</p>
+                </LocationBox>
             </ContentsContainer>
         </StoreCardContainer>
     );
@@ -126,14 +125,22 @@ const ContentsContainer = styled.div`
     flex-direction: column;
 `;
 
-const Location = styled.div`
-    & > p {
-        font-size: 13px;
-        color: ${DarkGrey};
+const LocationBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+
+    & > svg {
+        width: 16px;
+        height: 16px;
     }
-    & > p > span {
-        font-size: 13px;
-        color: black;
-        font-weight: bold;
+
+    color: ${DarkGrey};
+    font-size: 14px;
+
+    @media screen and (max-width: 500px) {
+        font-size: 12px;
+        margin-top: 0px;
     }
 `;
