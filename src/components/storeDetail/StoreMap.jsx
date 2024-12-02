@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { MyMap } from '../common';
 import { DarkGrey } from '../../color';
-import { LocationOn } from '@mui/icons-material';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import { LocationButton } from '../common';
 
 const StoreMap = ({ store }) => {
@@ -13,7 +13,7 @@ const StoreMap = ({ store }) => {
         <StoreMapContainer>
             <div>
                 <p>
-                    <LocationOn />
+                    <PlaceOutlinedIcon />
                     {store.address}
                 </p>
                 <Staition>{store.nearbyStation}</Staition>

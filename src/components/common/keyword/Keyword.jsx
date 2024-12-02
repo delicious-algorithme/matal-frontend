@@ -13,7 +13,7 @@ const Keyword = ({ keyword, type, mode }) => {
             {keywordItem.map((item) => {
                 return (
                     <KeywordTag mode={mode} type={type} key={uuidv4()}>
-                        <p>#{item}</p>
+                        <p>{item}</p>
                     </KeywordTag>
                 );
             })}
@@ -47,7 +47,7 @@ const KeywordTag = styled.div`
     color: ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
 
     @media screen and (max-width: 768px) {
-        font-size: 13px;
+        font-size: 12px;
         padding: 5px;
     }
 `;

@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import Bookmark from '../bookmark/BookmarkContainer';
 import { ReactComponent as Star } from '../../../assets/Icon/detail/Star.svg';
 import { DarkGreen, DarkGrey, LightGrey, Orange } from '../../../color';
-import { LocationOn } from '@mui/icons-material';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import { useNavigate } from 'react-router-dom';
+import Keyword from '../keyword/Keyword';
 
 const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, positiveKeywords }) => {
     const navigate = useNavigate();
@@ -28,16 +29,17 @@ const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, p
                         <p>{rating}</p>
                         <PositiveRatioContainer>
                             <p>
-                                <span>{positiveRatio}%</span> AI 긍정 리뷰 비율
+                                <span>{positiveRatio}%</span>
+                                긍정 비율
                             </p>
                         </PositiveRatioContainer>
                     </RatingContainer>
                     <KeywordAndLocationBox>
                         <PositiveKeywordsBox>
-                            <p># {positiveKeywords}</p>
+                            <Keyword keyword={positiveKeywords} mode="card" type="positive" />
                         </PositiveKeywordsBox>
                         <LocationBox>
-                            <LocationOn />
+                            <PlaceOutlinedIcon />
                             <p>{address}</p>
                         </LocationBox>
                     </KeywordAndLocationBox>
@@ -197,7 +199,13 @@ const PositiveKeywordsBox = styled.div`
 const PositiveRatioContainer = styled.div`
     font-weight: 500;
     font-size: 14px;
+
     & > p {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
         color: ${DarkGrey};
     }
 
