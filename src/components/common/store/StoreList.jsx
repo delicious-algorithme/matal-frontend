@@ -31,8 +31,7 @@ const StoreList = () => {
     }
 
     const [input, setInput] = useState(initInput);
-    const [orderByRating, setOrderByRating] = useState(null);
-    const [orderByPositiveRatio, setorderByPositiveRatio] = useState(null);
+    const [sortTarget, setSortTarget] = useState('rating');
 
     const { setStoreList } = useStoreList();
     const { isFetchAll, setIsFetchAll } = useIsFetch();
@@ -47,22 +46,21 @@ const StoreList = () => {
     };
 
     const fetchStoreData = async ({ pageParam }) => {
-        const response = await getStoreList({ ...filterParams, page: pageParam });
+        const response = await getStoreList({ ...filterParams, page: pageParam, sortTarget });
         return response.data;
     };
 
     const fetchStoreAll = async ({ pageParam }) => {
         const response = await getStoreAll({
             page: pageParam,
-            orderByPositiveRatio,
-            orderByRating,
+            sortTarget,
         });
         return response.data;
     };
 
     const { data, fetchNextPage, isLoading } = useInfiniteQuery(
-        ['stores', isFetchAll, filterParams, orderByRating, orderByPositiveRatio],
-        async ({ pageParam }) => {
+        ['stores', isFetchAll, filterParams, sortTarget],
+        async ({ pageParam = 0 }) => {
             if (isFetchAll) {
                 return await fetchStoreAll({ pageParam });
             }
@@ -105,14 +103,13 @@ const StoreList = () => {
             setIsFetchAll(true);
         }
         // eslint-disable-next-line
-    }, [isFetchAll, filterParams, orderByPositiveRatio, orderByRating]);
+    }, [isFetchAll, filterParams, sortTarget]);
 
     const allFetchButtonHandler = () => {
         setFilterParams(initialParams);
         window.localStorage.removeItem('filter-params');
         setTagList([]);
-        setOrderByRating(null);
-        setorderByPositiveRatio(null);
+        setSortTarget(null);
         setSearchInput(null);
         setInput(null);
     };
@@ -130,36 +127,13 @@ const StoreList = () => {
         }
     };
 
-    const sortReviewClickHandler = (sortBy) => {
-        if (!orderByRating) {
-            setFilterParams({ ...filterParams, orderByRating: sortBy, orderByPositiveRatio: null });
-            setOrderByRating(sortBy);
-            setorderByPositiveRatio(null);
-        } else {
-            setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: null });
-            setOrderByRating(null);
-            setorderByPositiveRatio(null);
-        }
-    };
-
-    const sortPositiveClickHandler = (sortBy) => {
-        if (!orderByPositiveRatio) {
-            setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: sortBy });
-            setorderByPositiveRatio(sortBy);
-            setOrderByRating(null);
-        } else {
-            setFilterParams({ ...filterParams, orderByRating: null, orderByPositiveRatio: null });
-            setorderByPositiveRatio(null);
-            setOrderByRating(null);
-        }
-    };
-
     if (isLoading)
         return (
             <LoadingContainer>
                 <Loading />
             </LoadingContainer>
         );
+
     return (
         <StoreListLayout>
             <StoreListHeader>
@@ -180,19 +154,25 @@ const StoreList = () => {
                 <SortBox>
                     <p>정렬</p>
                     <div>
-                        <SortSelectBox active={orderByRating === 'desc'}>
+                        <SortSelectBox active={sortTarget === 'rating'}>
                             <Button
                                 visible="true"
                                 color="white"
-                                onClickHandler={() => sortReviewClickHandler('desc')}
+                                onClickHandler={() => {
+                                    setFilterParams({ ...filterParams, sortTarget: 'rating' });
+                                    setSortTarget('rating');
+                                }}
                                 text="평점 높은 순"
                             />
                         </SortSelectBox>
-                        <SortSelectBox active={orderByPositiveRatio === 'desc'}>
+                        <SortSelectBox active={sortTarget === 'positiveRatio'}>
                             <Button
                                 visible="true"
                                 color="white"
-                                onClickHandler={() => sortPositiveClickHandler('desc')}
+                                onClickHandler={() => {
+                                    setFilterParams({ ...filterParams, sortTarget: 'positiveRatio' });
+                                    setSortTarget('positiveRatio');
+                                }}
                                 text="긍정 비율 높은 순"
                             />
                         </SortSelectBox>
