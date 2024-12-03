@@ -110,7 +110,7 @@ const StoreList = () => {
         setFilterParams(initialParams);
         window.localStorage.removeItem('filter-params');
         setTagList([]);
-        setSortTarget(null);
+        setSortTarget('rating');
         setSearchInput(null);
         setInput(null);
     };
