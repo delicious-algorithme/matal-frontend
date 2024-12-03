@@ -5,7 +5,7 @@ import Button from '../button/Button';
 import { ReactComponent as Logo } from '../../../assets/Icon/Logo.svg';
 import { logout } from '../../../apis/api/login';
 import Swal from 'sweetalert2';
-import { LightGrey, White } from '../../../color';
+import { LightGrey } from '../../../color';
 
 const Header = () => {
     const { isLoggedIn, setLogout } = useLogin();
