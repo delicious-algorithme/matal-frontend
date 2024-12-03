@@ -46,7 +46,6 @@ const CategoryLayout = styled.div`
     gap: 20px;
     align-items: center;
     justify-content: center;
-    overflow-y: scroll;
     padding-bottom: 100px;
     & > div {
         display: flex;
@@ -59,6 +58,7 @@ const CategoryLayout = styled.div`
         color: ${Orange};
         border: 1px solid ${Orange};
         cursor: pointer;
+
         &:hover {
             background-color: ${Orange};
             color: ${White};

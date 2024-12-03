@@ -62,7 +62,6 @@ const StoreListCardLayout = styled.div`
     border-top: 1px solid ${LightGrey};
 
     &:hover {
-        cursor: pointer;
         background-color: ${LightGrey};
     }
 
@@ -173,6 +172,10 @@ const NameAndBookmarkContainer = styled.div`
     & > p {
         font-weight: 700;
         font-size: 19px;
+        &:hover {
+            cursor: pointer;
+            font-size: 20px;
+        }
     }
 
     @media screen and (max-width: 500px) {

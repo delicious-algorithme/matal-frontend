@@ -40,12 +40,8 @@ const StoreCardContainer = styled.div`
     border-radius: 5px;
     position: relative;
     transition: all 0.3s ease;
-    cursor: pointer;
 
     &:hover {
-        & > p {
-            color: ${Orange};
-        }
         transform: scale(1.05);
     }
 
@@ -76,6 +72,9 @@ const ImageContainer = styled.div`
         height: 100%;
         object-fit: cover;
         border-radius: 10px 10px 0 0;
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     @media screen and (max-width: 500px) {
@@ -98,6 +97,10 @@ const NameAndBookmarkContainer = styled.div`
         display: flex;
         align-items: center;
         font-weight: 600;
+        &:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
     }
 
     & > div {
