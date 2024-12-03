@@ -65,12 +65,16 @@ const HeaderLayout = styled.header`
     top: 0;
     z-index: 10;
     position: sticky;
-    background-color: ${White};
+    background-color: rgba(255, 255, 255, 0.8);
     padding-left: 50px;
+
     & > svg {
         width: 250px;
         height: 100px;
         cursor: pointer;
+        & > rect {
+            fill: none;
+        }
     }
     align-items: center;
     width: 100%;
