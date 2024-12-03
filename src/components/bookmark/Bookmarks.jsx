@@ -76,29 +76,31 @@ const Bookmarks = () => {
     const handleClickScrap = () => navigate('/webmap');
 
     return (
-        <BookmarkLayout>
-            {!isLoading &&
-                bookmarkStores.length > 0 &&
-                bookmarkStores.map((store) => (
-                    <TopStoreCard
-                        address={store.storeResponseDto.address}
-                        key={store.storeResponseDto.storeId}
-                        storeId={store.storeResponseDto.storeId}
-                        image={store.storeResponseDto.imageUrls}
-                        positiveRatio={store.storeResponseDto.positiveRatio}
-                        keyword={store.storeResponseDto.positiveKeywords}
-                        name={store.storeResponseDto.name}
-                    />
-                ))}
+        <>
+            <BookmarkLayout isNothing={isNothing}>
+                {!isLoading &&
+                    bookmarkStores.length > 0 &&
+                    bookmarkStores.map((store) => (
+                        <TopStoreCard
+                            address={store.storeResponseDto.address}
+                            key={store.storeResponseDto.storeId}
+                            storeId={store.storeResponseDto.storeId}
+                            image={store.storeResponseDto.imageUrls}
+                            positiveRatio={store.storeResponseDto.positiveRatio}
+                            keyword={store.storeResponseDto.positiveKeywords}
+                            name={store.storeResponseDto.name}
+                        />
+                    ))}
+                <Ref ref={ref} />
+                {isLoading && <Loading />}
+            </BookmarkLayout>
             {isNothing && (
-                <EmptyBox>
+                <EmptyBox isNothing={isNothing}>
                     <h2> 저장된 가게가 없습니다.</h2>
                     <button onClick={handleClickScrap}>스크랩 하러 가기</button>
                 </EmptyBox>
             )}
-            <Ref ref={ref} />
-            {isLoading && <Loading />}
-        </BookmarkLayout>
+        </>
     );
 };
 
@@ -107,7 +109,7 @@ export default Bookmarks;
 const BookmarkLayout = styled.div`
     width: 100%;
     height: 100%;
-    display: grid;
+    display: ${(props) => (props.isNothing ? 'none' : 'grid')};
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     align-items: center;
@@ -126,7 +128,8 @@ const BookmarkLayout = styled.div`
 const EmptyBox = styled.div`
     width: 100%;
     height: 400px;
-    display: flex;
+    display: ${(props) => (props.isNothing ? 'flex' : 'none')};
+
     flex-direction: column;
     align-items: center;
     justify-content: center;
