@@ -110,6 +110,7 @@ const ImageContainer = styled.div`
     flex-shrink: 0;
     border-radius: 10px;
     display: flex;
+
     @media screen and (max-width: 500px) {
         width: 100px;
         height: 100px;
@@ -128,6 +129,10 @@ const ContentsBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    @media screen and (max-width: 500px) {
+        gap: 5px;
+    }
 `;
 
 const LocationBox = styled.div`
@@ -146,8 +151,14 @@ const LocationBox = styled.div`
     font-size: 14px;
 
     @media screen and (max-width: 500px) {
+        & > svg {
+            color: ${DarkGrey};
+            width: 12px;
+            height: 12px;
+        }
+
         font-size: 12px;
-        margin-top: 0px;
+        margin-top: 10px;
     }
 `;
 

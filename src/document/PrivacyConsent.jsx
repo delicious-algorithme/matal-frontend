@@ -52,7 +52,7 @@ export default PrivacyConsent;
 
 const PrivacyConsentLayout = styled.div`
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: #f0f0f3;
     display: flex;
     flex-direction: column;
