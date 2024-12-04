@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import Bookmark from '../bookmark/BookmarkContainer';
-import { ReactComponent as Star } from '../../../assets/Icon/detail/Star.svg';
 import { DarkGreen, DarkGrey, LightGrey, Orange } from '../../../color';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import { useNavigate } from 'react-router-dom';
 import Keyword from '../keyword/Keyword';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 
 const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, positiveKeywords }) => {
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ const StoreListCard = ({ image, alt, id, name, address, rating, positiveRatio, p
                         <Bookmark storeId={id} />
                     </NameAndBookmarkContainer>
                     <RatingContainer>
-                        <Star />
+                        <StarRoundedIcon />
                         <p>{rating}</p>
                         <PositiveRatioContainer>
                             <p>
@@ -196,6 +196,7 @@ const RatingContainer = styled.div`
     & > svg {
         width: 16px;
         height: 16px;
+        color: ${Orange};
     }
 
     & > p {

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import PopOver from './PopOver';
 import StoreInfoCard from './StoreInfoCard';
 import { Orange, Grey } from '../../color';
-import { ReactComponent as Person } from '../../assets/Icon/detail/SoloDining.svg';
-import { ReactComponent as Parking } from '../../assets/Icon/detail/Parking.svg';
-import { ReactComponent as Dog } from '../../assets/Icon/detail/Dog.svg';
-import { ReactComponent as Clock } from '../../assets/Icon/detail/Clock.svg';
+import PersonIcon from '@mui/icons-material/Person';
+import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import PetsIcon from '@mui/icons-material/Pets';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const StoreInsight = ({ store }) => {
     const { isSoloDining, isParking, isPetFriendly, isWaiting } = store;
@@ -28,10 +28,10 @@ const StoreInsight = ({ store }) => {
             </TitleBox>
             <ContentBox>
                 <StoreInfoCardBox>
-                    <StoreInfoCard icon={<Clock />} iconColor={Orange} text={`웨이팅 ${tip.isWaiting}`} />
-                    <StoreInfoCard icon={<Person />} iconColor={Orange} text={`혼밥 ${tip.isSoloDining}`} />
-                    <StoreInfoCard icon={<Parking />} iconColor={Orange} text={`주차 ${tip.isParking}`} />
-                    <StoreInfoCard icon={<Dog />} iconColor={Orange} text={`애견 동반 ${tip.isPetFriendly}`} />
+                    <StoreInfoCard icon={<AccessTimeIcon />} iconColor={Orange} text={`웨이팅 ${tip.isWaiting}`} />
+                    <StoreInfoCard icon={<PersonIcon />} iconColor={Orange} text={`혼밥 ${tip.isSoloDining}`} />
+                    <StoreInfoCard icon={<LocalParkingIcon />} iconColor={Orange} text={`주차 ${tip.isParking}`} />
+                    <StoreInfoCard icon={<PetsIcon />} iconColor={Orange} text={`애견 동반 ${tip.isPetFriendly}`} />
                 </StoreInfoCardBox>
             </ContentBox>
             <ContentBox>

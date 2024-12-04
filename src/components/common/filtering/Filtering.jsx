@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { FITERING_INFO } from '../../../constants/filteringItems';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { DarkGrey, Grey, Orange, White } from '../../../color';
-import { ReactComponent as ArrowUp } from '../../../assets/Icon/arrow/ArrowUp.svg';
-import { ReactComponent as ArrowDown } from '../../../assets/Icon/arrow/FilterArrowDown.svg';
-import { ReactComponent as Reset } from '../../../assets/Icon/arrow/Reset.svg';
 import { useFilterParams, useIsFetch, useTagList } from '../../../store';
 import { useNavigate } from 'react-router-dom';
 import { isEqual } from 'lodash';
+import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 
 const Filtering = ({ category }) => {
     const navigate = useNavigate();
@@ -248,8 +248,8 @@ const Filtering = ({ category }) => {
                                             }}
                                         >
                                             <p>{item.name}</p>
-                                            {selectState[item.id] && <ArrowUp />}
-                                            {!selectState[item.id] && <ArrowDown />}
+                                            {selectState[item.id] && <KeyboardArrowUpRoundedIcon />}
+                                            {!selectState[item.id] && <KeyboardArrowDownRoundedIcon />}
                                         </CategoryBox>
                                         {selectState[item.id] && (
                                             <LoactionSelectBox>
@@ -344,8 +344,8 @@ const Filtering = ({ category }) => {
                                             }}
                                         >
                                             <p>{item.name}</p>
-                                            {selectState[item.id] && <ArrowUp />}
-                                            {!selectState[item.id] && <ArrowDown />}
+                                            {selectState[item.id] && <KeyboardArrowUpRoundedIcon />}
+                                            {!selectState[item.id] && <KeyboardArrowDownRoundedIcon />}
                                         </CategoryBox>
                                         {selectState[item.id] && item.id !== 2 && (
                                             <Contents zIndex={-item.id + 20}>
@@ -383,7 +383,7 @@ const Filtering = ({ category }) => {
             <TagBox>
                 {tagList.length > 0 && tagList.map((tag, index) => <Tag key={`${tag}-${index}`}>{tag}</Tag>)}
                 <button onClick={resetAllValue}>
-                    초기화 <Reset />
+                    초기화 <RestartAltRoundedIcon />
                 </button>
             </TagBox>
         </SelectLayout>
