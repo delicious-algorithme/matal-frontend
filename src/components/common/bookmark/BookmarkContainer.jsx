@@ -1,5 +1,3 @@
-import { ReactComponent as BookmarkIcon } from '../../../assets/Icon/detail/Bookmark.svg';
-import { ReactComponent as SavedBookmarkIcon } from '../../../assets/Icon/detail/SavedBookmark.svg';
 import { deleteBookmarkStore, postBookmarkStore } from '../../../apis/api/bookmarks';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -66,8 +64,18 @@ const BookmarkContainer = ({ storeId }) => {
     return (
         !isLoading && (
             <BookmarkBox onClick={handleClickBookmarks}>
-                {!isSaved && <BookmarkIcon />}
-                {isSaved && <SavedBookmarkIcon />}
+                {!isSaved && (
+                    <img
+                        src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2F36a09915-8f56-4547-843b-ef56ecef4922%2FVector_(20).svg?table=block&id=2c906fd9-ead9-41c7-bcf5-1a5f05e052de&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                        alt="bookmark"
+                    />
+                )}
+                {isSaved && (
+                    <img
+                        src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2F5a28ad27-0c60-43da-b35c-e4515852dac2%2FVector_(21).svg?table=block&id=44a15545-ec6b-4c1d-9573-9cbe209f0c40&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                        alt="saved-bookmark"
+                    />
+                )}
             </BookmarkBox>
         )
     );

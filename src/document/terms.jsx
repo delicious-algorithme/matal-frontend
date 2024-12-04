@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Grey, Orange, White } from '../color';
-import { ReactComponent as Logo } from '../assets/Icon/Logo.svg';
 
 const Terms = () => {
     return (
         <TermsLayout>
             <Termsheader>
-                <Logo />
+                <img
+                    src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2Fd1c8f3b8-5fcb-4289-a42f-fef7a8141c3d%2FGroup_1000002057.svg?table=block&id=667a6150-184b-4818-8d06-598a9cd04429&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                    alt="logo"
+                />
             </Termsheader>
             <TermsContainer>
                 <h2>이용약관</h2>

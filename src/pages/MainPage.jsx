@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ReactComponent as Banner } from '../assets/Icon/banner/Banner.svg';
 import { useIsFetch, useSaveBookmarkId } from '../store';
 import { CategoryAndMap, SearchKeyword, TopRecommendations } from '../components/main';
 import { SearchBar, Button, Footer } from '../components/common';
@@ -66,7 +65,12 @@ const MainPage = () => {
     return (
         <>
             <MainPageLayout>
-                <Banner width="80%" height="100%" />
+                <img
+                    src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2Fc5ffdb70-a5f8-45cb-95f5-84905578edc1%2FMainImage.svg?table=block&id=1528cdfc-6811-8057-976f-c3838870753e&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                    width="100%"
+                    height="100%"
+                    alt="banner"
+                />
                 <SearchBarContainer>
                     <SearchBar
                         searchInput={searchInput}
@@ -92,10 +96,17 @@ const MainPageLayout = styled.div`
     align-items: center;
     gap: 30px;
 
+    & > img {
+        width: 80%;
+        filter: brightness(0.8);
+        border-radius: 20px;
+    }
+
     @media screen and (max-width: 500px) {
         gap: 10px;
-        & > svg {
-            display: none;
+        & > img {
+            width: 100%;
+            border-radius: 0px;
         }
     }
 `;
