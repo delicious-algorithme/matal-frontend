@@ -407,9 +407,22 @@ const SelectLayout = styled.div`
 const SeemoreButton = styled.button`
     margin-right: 20px;
     margin-bottom: 10px;
-    height: 30px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding: 10px;
+    background-color: ${White};
+    border: 1px solid ${Grey};
+    height: 50px;
     border-radius: 20px;
     font-weight: bold;
+
+    &:hover {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
 
     @media screen and (min-width: 370px) {
         display: none;
@@ -498,6 +511,7 @@ const Content = styled.li`
         border-radius: 2px;
         cursor: pointer;
         margin-right: 5px;
+
         &:checked {
             border-color: transparent;
             background-size: 100% 100%;
@@ -537,6 +551,7 @@ const LoactionSelectBox = styled.div`
         border-radius: 15px;
         width: 5px;
     }
+
     @media screen and (max-width: 1024px) {
         width: 160px;
         gap: 20px;
