@@ -211,6 +211,7 @@ const StoreListLayout = styled.div`
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: ${White};
     position: relative;
 

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useLogin } from '../../../store';
 import Button from '../button/Button';
-import { ReactComponent as Logo } from '../../../assets/Icon/Logo.svg';
 import { logout } from '../../../apis/api/login';
 import Swal from 'sweetalert2';
 import { LightGrey } from '../../../color';
@@ -41,7 +40,11 @@ const Header = () => {
 
     return (
         <HeaderLayout>
-            <Logo onClick={handleClick.logo} />
+            <img
+                src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2Fd1c8f3b8-5fcb-4289-a42f-fef7a8141c3d%2FGroup_1000002057.svg?table=block&id=667a6150-184b-4818-8d06-598a9cd04429&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                onClick={handleClick.logo}
+                alt="logo"
+            />
             <ButtonContainer>
                 {buttons.map((button, index) => (
                     <Button
@@ -68,9 +71,10 @@ const HeaderLayout = styled.header`
     background-color: rgba(255, 255, 255, 0.8);
     padding-left: 50px;
 
-    & > svg {
-        width: 250px;
-        height: 100px;
+    & > img {
+        margin-left: 20px;
+        width: 120px;
+        height: 80px;
         cursor: pointer;
         & > rect {
             fill: none;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { DarkGrey, Grey, LightGrey, Orange } from '../../color';
 import { LocationButton } from '../common';
-import { ReactComponent as StarIcon } from '../../assets/Icon/detail/Star.svg';
+import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 
 const StorePreview = ({ store }) => {
@@ -25,7 +25,7 @@ const StorePreview = ({ store }) => {
                     <div>
                         <CategoryText>{store.category} </CategoryText>
                         <StarBox>
-                            <StarIcon />
+                            <StarRoundedIcon />
                             <p>{store.rating} </p>
                         </StarBox>
                         <RiviewCountText>리뷰 {store.reviewsCount}개 </RiviewCountText>
@@ -178,6 +178,7 @@ const StarBox = styled.div`
     & > svg {
         width: 16px;
         height: 16px;
+        color: ${Orange};
     }
 `;
 

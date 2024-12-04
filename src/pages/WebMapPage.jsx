@@ -3,7 +3,7 @@ import { StoreList, MyMap } from '../components/common';
 import { LightGrey } from '../color';
 import { useStoreDetail } from '../store';
 
-const WebMap = () => {
+const WebMapPage = () => {
     const { toggleStoreDetailPage, isStoreDetailPage } = useStoreDetail();
 
     if (isStoreDetailPage) {
@@ -22,7 +22,7 @@ const WebMap = () => {
     );
 };
 
-export default WebMap;
+export default WebMapPage;
 
 const WebMapLayout = styled.div`
     margin: 0;

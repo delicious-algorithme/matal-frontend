@@ -1,7 +1,4 @@
 import styled, { keyframes, css } from 'styled-components';
-import { ReactComponent as Trophy } from '../../assets/Icon/main/Trophy.svg';
-import { ReactComponent as TopLeftArrow } from '../../assets/Icon/arrow/TopLeftArrow.svg';
-import { ReactComponent as TopRightArrow } from '../../assets/Icon/arrow/TopRightArrow.svg';
 import { TopStoreCard } from '../storeCard';
 import { useEffect, useState } from 'react';
 import { Grey, White } from '../../color';
@@ -64,7 +61,10 @@ const TopRecommendations = () => {
     return (
         <TopRecommendationsLayout>
             <label>
-                <Trophy />
+                <img
+                    src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2F76fa7cf8-0453-43c1-9c95-c4839a8cb344%2Ftwemoji_trophy_(1).svg?table=block&id=07f9a035-d469-451c-8351-3b2d5aba3b73&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                    alt="trophy"
+                />
                 <h3>Top10 #푸짐한 양/ 친절한 서비스/ 신선한 재료</h3>
             </label>
             <p>AI 긍정키워드로 분석한 TOP 10</p>
@@ -88,12 +88,18 @@ const TopRecommendations = () => {
             <ButtonContainer>
                 {next > 3 && (
                     <button onClick={loadPrev}>
-                        <TopLeftArrow />
+                        <img
+                            src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2Fd8a1db92-2da5-47df-9966-9ffe28d3a532%2FVector_(23).svg?table=block&id=a61d8fc9-8fe6-43f2-a5ec-32f88b2c8fc0&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                            alt="arrow"
+                        />
                     </button>
                 )}
                 {next < topStores.length && (
                     <button onClick={loadMore}>
-                        <TopRightArrow />
+                        <img
+                            src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2F684cbb88-9b5b-4a2f-b924-8888f64f801c%2FVector_(22).svg?table=block&id=1a31d9e7-0ba7-4dcc-9a5e-52491f94f140&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                            alt="arrow"
+                        />
                     </button>
                 )}
             </ButtonContainer>
