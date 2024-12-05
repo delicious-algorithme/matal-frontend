@@ -92,7 +92,6 @@ const HeaderLayout = styled.header`
         padding-right: 10px;
     }
     border-bottom: 1px solid ${LightGrey};
-    margin-bottom: 10px;
 `;
 
 const ButtonContainer = styled.div`
