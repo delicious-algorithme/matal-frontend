@@ -70,7 +70,7 @@ const PrivacyConsentheader = styled.header`
     position: sticky;
     left: 0;
     top: 0;
-    & > svg {
+    & > img {
         width: 130px;
         height: 80px;
     }
