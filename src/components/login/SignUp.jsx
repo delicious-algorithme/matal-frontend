@@ -68,8 +68,6 @@ const Signup = ({ isAllConsent }) => {
                     text: errorMessage,
                 });
             }
-
-            console.log(errorMessage);
         }
 
         if (response.status === 201) {
