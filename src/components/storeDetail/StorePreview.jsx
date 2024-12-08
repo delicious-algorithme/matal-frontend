@@ -74,7 +74,6 @@ const ImageBox = styled.div`
     max-height: 400px;
     border-radius: 10px;
     overflow: hidden;
-    aspect-ratio: 4 / 3;
 
     & > img {
         border-radius: 10px;
@@ -131,12 +130,6 @@ const RatingBox = styled.div`
     flex-direction: column;
     gap: 10px;
 
-    & > div > svg {
-        width: 20px;
-        height: 20px;
-        color: ${Orange};
-    }
-
     & > div {
         display: flex;
         flex-direction: row;
@@ -152,6 +145,7 @@ const RatingBox = styled.div`
 
     @media screen and (max-width: 500px) {
         flex-direction: column;
+
         & > div {
             display: flex;
             height: 20px;
@@ -160,6 +154,7 @@ const RatingBox = styled.div`
             justify-content: flex-start;
             align-items: flex-start;
             text-align: left;
+
             & > div > p {
                 font-size: 14px;
                 display: flex;
@@ -176,9 +171,9 @@ const StarBox = styled.div`
     align-items: center;
 
     & > svg {
-        width: 16px;
-        height: 16px;
-        color: ${Orange};
+        width: 18px;
+        height: 18px;
+        color: #fdd835;
     }
 `;
 
@@ -195,10 +190,12 @@ const StationBox = styled.div`
     display: flex;
     flex-direction: row;
     gap: 5px;
+
     & > p {
         display: flex;
         flex-direction: row;
         align-items: center;
+        color: ${DarkGrey};
     }
 
     & > p > svg {

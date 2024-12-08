@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useIsFetch, useSaveBookmarkId } from '../store';
 import { CategoryAndMap, SearchKeyword, TopRecommendations } from '../components/main';
 import { SearchBar, Button, Footer } from '../components/common';
+import banner from '../assets/banner.webp';
 import { getAllBookmarksIds } from '../apis/api/bookmarks';
+import { White } from '../color';
+import { keyframes } from 'styled-components';
 
 const MainPage = () => {
     const [searchInput, setSearchInput] = useState();
@@ -65,14 +68,13 @@ const MainPage = () => {
     return (
         <>
             <MainPageLayout>
-                <BannerBox>
-                    <img
-                        src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2Ffc4bf7f0-53f2-4e38-843f-008cb56d4cf3%2F%25E1%2584%2586%25E1%2585%25A6%25E1%2584%258B%25E1%2585%25B5%25E1%2586%25AB%25E1%2584%2587%25E1%2585%25A2%25E1%2584%2582%25E1%2585%25A5_(3).svg?table=block&id=9c8fac30-087f-4a3e-b56a-0f35e767980a&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
-                        alt="banner"
-                        width="100%"
-                        height="100%"
-                    />
-                </BannerBox>
+                <BannerWrap>
+                    <BannerText>
+                        <p>맛있는 알고리즘이</p>
+                        <p> 분석한 리뷰로</p>
+                        <p> 당신만의 맛집을 찾아보세요</p>
+                    </BannerText>
+                </BannerWrap>
                 <SearchBarContainer>
                     <SearchBar
                         searchInput={searchInput}
@@ -81,7 +83,7 @@ const MainPage = () => {
                     />
                 </SearchBarContainer>
                 <SearchKeyword />
-                <Button color="green" text="식당 찾아 보기" visible="true" onClickHandler={buttonClickHandler} />
+                <Button color="orange" text="식당 찾아 보기" visible="true" onClickHandler={buttonClickHandler} />
                 <TopRecommendations />
                 <CategoryAndMap />
             </MainPageLayout>
@@ -94,6 +96,7 @@ export default MainPage;
 
 const MainPageLayout = styled.div`
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     gap: 30px;
@@ -119,15 +122,75 @@ const SearchBarContainer = styled.div`
     }
 `;
 
-const BannerBox = styled.div`
+const moveInText = keyframes`
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+`;
+
+const BannerWrap = styled.div`
     width: 80%;
-    height: 100%;
-    margin-top: 0;
+    border-radius: 20px;
+    margin-top: 10px;
+    height: auto;
     display: flex;
-    align-items: center;
+    background: url(${banner});
+    background-repeat: no-repeat;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+    align-items: center;
+    background-position: center;
+
+    @media screen and (max-width: 500px) {
+        width: 100%;
+        border-radius: 0px;
+        margin-top: 0px;
+    }
+`;
+
+const BannerText = styled.div`
+    margin-top: 0;
+    width: 100%;
+    height: 374px;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 24px;
+    color: ${White};
+    font-weight: 700;
+
+    & > p {
+        animation: ${moveInText} 1.5s ease-out;
+    }
+
+    & > div {
+        opacity: 0;
+        animation-delay: 2s;
+        animation: ${moveInText} 1.5s forwards;
+    }
+
+    @media screen and (max-width: 1024px) {
+        font-size: 2.5vw;
+        height: 300px;
+    }
 
     @media screen and (max-width: 768px) {
-        display: none;
+        font-size: 2vw;
+        height: 180px;
+    }
+
+    @media screen and (max-width: 500px) {
+        font-size: 5vw;
+        height: 300px;
     }
 `;
