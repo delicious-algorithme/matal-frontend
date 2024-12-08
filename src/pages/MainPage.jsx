@@ -65,12 +65,14 @@ const MainPage = () => {
     return (
         <>
             <MainPageLayout>
-                <img
-                    src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2Fc5ffdb70-a5f8-45cb-95f5-84905578edc1%2FMainImage.svg?table=block&id=1528cdfc-6811-8057-976f-c3838870753e&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
-                    width="100%"
-                    height="100%"
-                    alt="banner"
-                />
+                <BannerBox>
+                    <img
+                        src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2Ffc4bf7f0-53f2-4e38-843f-008cb56d4cf3%2F%25E1%2584%2586%25E1%2585%25A6%25E1%2584%258B%25E1%2585%25B5%25E1%2586%25AB%25E1%2584%2587%25E1%2585%25A2%25E1%2584%2582%25E1%2585%25A5_(3).svg?table=block&id=9c8fac30-087f-4a3e-b56a-0f35e767980a&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                        alt="banner"
+                        width="100%"
+                        height="100%"
+                    />
+                </BannerBox>
                 <SearchBarContainer>
                     <SearchBar
                         searchInput={searchInput}
@@ -96,12 +98,6 @@ const MainPageLayout = styled.div`
     align-items: center;
     gap: 30px;
 
-    & > img {
-        width: 80%;
-        filter: brightness(0.8);
-        border-radius: 20px;
-    }
-
     @media screen and (max-width: 500px) {
         gap: 10px;
         & > img {
@@ -119,6 +115,19 @@ const SearchBarContainer = styled.div`
     }
 
     @media screen and (max-width: 500px) {
+        display: none;
+    }
+`;
+
+const BannerBox = styled.div`
+    width: 80%;
+    height: 100%;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 768px) {
         display: none;
     }
 `;
