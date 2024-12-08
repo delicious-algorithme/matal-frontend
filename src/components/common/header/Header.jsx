@@ -5,6 +5,7 @@ import Button from '../button/Button';
 import { logout } from '../../../apis/api/login';
 import Swal from 'sweetalert2';
 import { LightGrey } from '../../../color';
+import { ReactComponent as Logo } from '../../../assets/Icon/Logo.svg';
 
 const Header = () => {
     const { isLoggedIn, setLogout } = useLogin();
@@ -40,11 +41,7 @@ const Header = () => {
 
     return (
         <HeaderLayout>
-            <img
-                src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2F486bd819-ad54-4f34-bd54-23ef03ca65c5%2FGroup_1000002041_(5).svg?table=block&id=965a81f4-7d80-4af9-9379-4c6ca3fe7174&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
-                onClick={handleClick.logo}
-                alt="logo"
-            />
+            <Logo onClick={handleClick.logo} alt="logo" />
             <ButtonContainer>
                 {buttons.map((button, index) => (
                     <Button
@@ -71,7 +68,7 @@ const HeaderLayout = styled.header`
     background-color: rgba(255, 255, 255, 0.8);
     padding-left: 50px;
 
-    & > img {
+    & > svg {
         margin-left: 20px;
         width: 120px;
         height: 80px;
@@ -80,6 +77,7 @@ const HeaderLayout = styled.header`
             fill: none;
         }
     }
+
     align-items: center;
     width: 100%;
     transition: all 0ms ease;
@@ -88,6 +86,7 @@ const HeaderLayout = styled.header`
             width: 100px;
             height: 75px;
         }
+
         padding: 0px;
         padding-right: 10px;
     }

@@ -1,11 +1,7 @@
 import styled from 'styled-components';
 import PopOver from './PopOver';
-import StoreInfoCard from './StoreInfoCard';
-import { Orange, Grey } from '../../color';
-import PersonIcon from '@mui/icons-material/Person';
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
-import PetsIcon from '@mui/icons-material/Pets';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import StoreInfoTag from './StoreInfoTag';
+import { Grey } from '../../color';
 
 const StoreInsight = ({ store }) => {
     const { isSoloDining, isParking, isPetFriendly, isWaiting } = store;
@@ -27,12 +23,13 @@ const StoreInsight = ({ store }) => {
                 />
             </TitleBox>
             <ContentBox>
-                <StoreInfoCardBox>
-                    <StoreInfoCard icon={<AccessTimeIcon />} iconColor={Orange} text={`웨이팅 ${tip.isWaiting}`} />
-                    <StoreInfoCard icon={<PersonIcon />} iconColor={Orange} text={`혼밥 ${tip.isSoloDining}`} />
-                    <StoreInfoCard icon={<LocalParkingIcon />} iconColor={Orange} text={`주차 ${tip.isParking}`} />
-                    <StoreInfoCard icon={<PetsIcon />} iconColor={Orange} text={`애견 동반 ${tip.isPetFriendly}`} />
-                </StoreInfoCardBox>
+                <h3>서비스</h3>
+                <StoreInfoTagBox>
+                    <StoreInfoTag text={`웨이팅 ${tip.isWaiting}`} />
+                    <StoreInfoTag text={`혼밥 ${tip.isSoloDining}`} />
+                    <StoreInfoTag text={`주차 ${tip.isParking}`} />
+                    <StoreInfoTag text={`애견 동반 ${tip.isPetFriendly}`} />
+                </StoreInfoTagBox>
             </ContentBox>
             <ContentBox>
                 <TitleBox>
@@ -83,9 +80,9 @@ const ContentBox = styled.div`
     }
 `;
 
-const StoreInfoCardBox = styled.div`
-    max-width: 400px;
+const StoreInfoTagBox = styled.div`
+    max-width: 600px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 4fr));
     gap: 10px;
 `;
