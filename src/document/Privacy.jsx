@@ -7,7 +7,7 @@ const Privacy = () => {
         <PrivacyLayout>
             <Privacyheader>
                 <img
-                    src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2Fd1c8f3b8-5fcb-4289-a42f-fef7a8141c3d%2FGroup_1000002057.svg?table=block&id=667a6150-184b-4818-8d06-598a9cd04429&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
+                    src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2F486bd819-ad54-4f34-bd54-23ef03ca65c5%2FGroup_1000002041_(5).svg?table=block&id=965a81f4-7d80-4af9-9379-4c6ca3fe7174&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
                     alt="logo"
                 />
             </Privacyheader>
@@ -177,7 +177,7 @@ const Privacyheader = styled.header`
     position: sticky;
     left: 0;
     top: 0;
-    & > svg {
+    & > img {
         width: 130px;
         height: 80px;
     }

@@ -3,12 +3,12 @@ import { Signup } from '../components/login';
 import { Consent } from '../components/login';
 
 const SignUpPage = () => {
-    const [isConsent, setIsConsent] = useState(false);
+    const [isAllConsent, setIsAllConsent] = useState(false);
 
-    if (isConsent) {
-        return <Signup />;
+    if (isAllConsent) {
+        return <Signup isAllConsent={isAllConsent} />;
     } else {
-        return <Consent setIsConsent={setIsConsent} />;
+        return <Consent setIsAllConsent={setIsAllConsent} />;
     }
 };
 

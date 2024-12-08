@@ -77,6 +77,7 @@ const TopRecommendations = () => {
                                 image={store.imageUrls}
                                 address={store.address}
                                 storeId={store.storeId}
+                                alt="top-store"
                                 positiveRatio={store.positiveRatio}
                                 keyword={store.positiveKeywords}
                                 name={store.name}

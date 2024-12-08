@@ -3,7 +3,7 @@ import { Grey, DarkGreen, DarkGrey, Orange } from '../../color';
 import { Button } from '../common';
 import { useState } from 'react';
 
-const Consent = ({ setIsConsent }) => {
+const Consent = ({ setIsAllConsent }) => {
     const [checkedItems, setCheckedItems] = useState({
         terms: false,
         privacyConsent: false,
@@ -19,7 +19,7 @@ const Consent = ({ setIsConsent }) => {
 
     const handleClickNextStep = (e) => {
         if (isAllChecked) {
-            setIsConsent(true);
+            setIsAllConsent(true);
         }
     };
 

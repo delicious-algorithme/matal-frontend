@@ -8,12 +8,15 @@ import { signUp } from '../../apis/api/postSignupForm';
 import { Button } from '../common';
 import Swal from 'sweetalert2';
 
-const Signup = () => {
+const Signup = ({ isAllConsent }) => {
     const navigate = useNavigate();
     const [signupForms, setSignupForms] = useState({
         email: '',
         password: '',
         nickname: '',
+        serviceAgreement: isAllConsent,
+        privacyAgreement: isAllConsent,
+        ageConfirmation: isAllConsent,
     });
 
     const [errors, setErrors] = useState({
@@ -53,12 +56,20 @@ const Signup = () => {
 
         if (response.status !== 201) {
             const errorMessage = response.error.message;
-            Swal.fire({
-                icon: 'warning',
-                title: '회원 가입 실패',
-                text: errorMessage,
-            });
+            if (response.status === 409) {
+                setErrors((prev) => ({
+                    ...prev,
+                    nickname: '중복된 닉네임 입니다.',
+                }));
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '회원가입 실패',
+                    text: errorMessage,
+                });
+            }
         }
+
         if (response.status === 201) {
             Swal.fire({
                 icon: 'success',

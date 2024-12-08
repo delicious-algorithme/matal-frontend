@@ -73,7 +73,7 @@ const MyMap = () => {
                     title: name,
                     clickable: true,
                     icon: {
-                        url: '/images/location.svg',
+                        url: 'https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2F207bae82-72cc-4a5d-86e0-0ec55d24d9bc%2Flocation_(3).svg?table=block&id=8e914cbf-ecb5-48da-8467-a201dc304f3b&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2',
                         size: new naver.maps.Size(60, 60),
                         origin: new naver.maps.Point(0, 0),
                         anchor: new naver.maps.Point(11, 35),
