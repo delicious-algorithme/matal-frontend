@@ -80,6 +80,13 @@ const StoreDetailPage = () => {
                 <DetailPageLayout>
                     <StorePreview store={item} />
                     <StoreOverviewContainer>
+                        <StyledRightContainer>
+                            <BookmarkBox>
+                                <Bookmark bookmarkId={bookmarkId} storeId={storeId} />
+                                <p>저장하기</p>
+                            </BookmarkBox>
+                            <StoreMap store={item} />
+                        </StyledRightContainer>
                         <StyledLeftContainer>
                             <div>
                                 <StoreInsight store={item} />
@@ -89,13 +96,6 @@ const StoreDetailPage = () => {
                             </div>
                             <StoreOverview store={item} />
                         </StyledLeftContainer>
-                        <StyledRightContainer>
-                            <BookmarkBox>
-                                <Bookmark bookmarkId={bookmarkId} storeId={storeId} />
-                                <p>저장하기</p>
-                            </BookmarkBox>
-                            <StoreMap store={item} />
-                        </StyledRightContainer>
                     </StoreOverviewContainer>
                 </DetailPageLayout>
             )}
@@ -150,6 +150,7 @@ const StyledRightContainer = styled.div`
 
     @media screen and (max-width: 1024px) {
         flex: 1;
+        gap: 10px;
         padding: 10px;
     }
 `;

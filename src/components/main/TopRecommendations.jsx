@@ -1,7 +1,8 @@
 import styled, { keyframes, css } from 'styled-components';
 import { TopStoreCard } from '../storeCard';
 import { useEffect, useState } from 'react';
-import { Grey, White } from '../../color';
+import { Grey, Orange, White } from '../../color';
+import trophyIcon from '../../assets/Icon/trophy.svg';
 import { getTopStores } from '../../apis/api/getTopStores';
 
 const TopRecommendations = () => {
@@ -61,10 +62,7 @@ const TopRecommendations = () => {
     return (
         <TopRecommendationsLayout>
             <label>
-                <img
-                    src="https://wnstn6945.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F499f229c-bff2-4c82-ae94-81c36fa59a9c%2F76fa7cf8-0453-43c1-9c95-c4839a8cb344%2Ftwemoji_trophy_(1).svg?table=block&id=07f9a035-d469-451c-8351-3b2d5aba3b73&spaceId=499f229c-bff2-4c82-ae94-81c36fa59a9c&userId=&cache=v2"
-                    alt="trophy"
-                />
+                <img src={trophyIcon} alt="trophy" />
                 <h3>Top10 #푸짐한 양/ 친절한 서비스/ 신선한 재료</h3>
             </label>
             <p>AI 긍정키워드로 분석한 TOP 10</p>
@@ -72,7 +70,7 @@ const TopRecommendations = () => {
                 <AnimatedContainer isAnimating={isAnimating} animationDirection={animationDirection}>
                     {visibleStores.map((store, idx) => (
                         <div key={idx}>
-                            <p style={{ fontSize: '24px', fontWeight: 'bold' }}>Top {next + idx - 2}</p>
+                            <p style={{ fontSize: '24px', fontWeight: 'bold' }}> {next + idx - 2}</p>
                             <TopStoreCard
                                 image={store.imageUrls}
                                 address={store.address}
@@ -141,6 +139,7 @@ const AnimatedContainer = styled.div`
 
     & > div > p {
         margin-bottom: 20px;
+        color: ${Orange};
     }
     @media screen and (max-width: 768px) {
         width: 100%;
