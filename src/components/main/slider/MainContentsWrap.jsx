@@ -29,6 +29,7 @@ export default MainContentsWrap;
 
 const MainContentsWrapLayout = styled.div`
     width: 100%;
+    height: 500px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -98,8 +99,7 @@ const SlideContainer = styled.div`
 
     @media screen and (max-width: 768px) {
         width: 100%;
-        gap: 20px;
-
+        gap: 5px;
         .slick-dots li button::before {
             display: none;
         }

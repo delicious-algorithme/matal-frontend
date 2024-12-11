@@ -56,8 +56,8 @@ const StoreCardContainer = styled.div`
     @media screen and (max-width: 500px) {
         width: fit-content;
         max-width: 280px;
+        margin: 5px;
         height: 350px;
-        margin: 0;
     }
 `;
 

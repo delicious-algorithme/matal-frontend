@@ -28,6 +28,7 @@ export default CategoryAndMap;
 const CategoryAndMapLayout = styled.div`
     width: 80%;
     max-width: 1120px;
+    min-height: 1140px;
     display: flex;
     flex-direction: column;
     justify-content: center;
