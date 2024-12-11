@@ -28,7 +28,7 @@ export default CategoryAndMap;
 const CategoryAndMapLayout = styled.div`
     width: 80%;
     max-width: 1120px;
-    min-height: 1140px;
+    min-height: 580px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,6 +46,7 @@ const CategoryAndMapLayout = styled.div`
     }
     @media screen and (max-width: 768px) {
         width: 100%;
+        min-height: 1140px;
         align-items: center;
     }
 `;
