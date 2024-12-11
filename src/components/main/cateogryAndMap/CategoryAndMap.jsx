@@ -1,15 +1,16 @@
 import styled from 'styled-components';
-import { Category, MyMap } from '../common';
-import tagIcon from '../../assets/Icon/tag.svg';
-import { Grey } from '../../color';
+import { Category, MyMap } from '../../common';
+import tagIcon from '../../../assets/Icon/tag.svg';
+import { Grey } from '../../../color';
 
 const CategoryAndMap = () => {
     return (
         <CategoryAndMapLayout>
             <label>
-                <img src={tagIcon} alt="feater-icon" />
                 <h3>카테고리로 검색하기</h3>
+                <img src={tagIcon} alt="tag-icon" width="20px" />
             </label>
+            <p>카테고리로 원하는 맛집 탐색!</p>
             <CategoryAndMapBox>
                 <div>
                     <Category />
@@ -25,15 +26,19 @@ const CategoryAndMap = () => {
 export default CategoryAndMap;
 
 const CategoryAndMapLayout = styled.div`
+    width: 80%;
+    max-width: 1120px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 80%;
     gap: 20px;
+    margin-top: 50px;
+
     & > label {
         display: flex;
         flex-direction: row;
-        gap: 20px;
+        gap: 10px;
+
         & > p {
             flex-wrap: nowrap;
         }

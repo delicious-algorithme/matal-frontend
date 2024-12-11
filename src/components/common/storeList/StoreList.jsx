@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getStoreList } from '../../../apis/api/getStoreList';
 import { getStoreAll } from '../../../apis/api/getStoreAll';
 
-import StoreListCard from './StoreCard';
+import StoreListCard from './StoreListCard';
 import Button from '../button/Button';
 import Filtering from '../filtering/Filtering';
 import SearchBar from '../searchBar/SearchBar';

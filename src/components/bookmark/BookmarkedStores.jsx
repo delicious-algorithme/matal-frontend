@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { getBookmarksStores } from '../../apis/api/bookmarks';
-import { TopStoreCard } from '../storeCard';
+import { StoreCard } from '../storeCard';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Grey } from '../../color';
@@ -9,7 +9,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 import { Loading } from '../common';
 
-const Bookmarks = () => {
+const BookmarkedStores = () => {
     const [stores, setStores] = useState([]);
     const [isTimeout, setIsTimeout] = useState(false);
     const { setBookmarkStore } = useSaveBookmarkId();
@@ -81,7 +81,7 @@ const Bookmarks = () => {
                 {!isLoading &&
                     bookmarkStores.length > 0 &&
                     bookmarkStores.map((store) => (
-                        <TopStoreCard
+                        <StoreCard
                             address={store.storeResponseDto.address}
                             key={store.storeResponseDto.storeId}
                             storeId={store.storeResponseDto.storeId}
@@ -104,7 +104,7 @@ const Bookmarks = () => {
     );
 };
 
-export default Bookmarks;
+export default BookmarkedStores;
 
 const BookmarkLayout = styled.div`
     width: 100%;
