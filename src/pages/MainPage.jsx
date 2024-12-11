@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useIsFetch, useSaveBookmarkId } from '../store';
-import { CategoryAndMap, CostPerformanceContent, TopRecommendations, AbundantAmountContents } from '../components/main';
+import { CategoryAndMap, TopRecommendations } from '../components/main';
 import { SearchBar, Button, Footer } from '../components/common';
 import { getAllBookmarksIds } from '../apis/api/bookmarks';
 import { Banner } from '../components/main';
