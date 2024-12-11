@@ -43,7 +43,7 @@ const MainContentsWrapLayout = styled.div`
 
     @media screen and (max-width: 780px) {
         width: 100%;
-        margin-bottom: 100px;
+        margin-bottom: 10px;
         align-items: center;
         justify-content: center;
     }
@@ -99,5 +99,9 @@ const SlideContainer = styled.div`
     @media screen and (max-width: 768px) {
         width: 100%;
         gap: 20px;
+
+        .slick-dots li button::before {
+            display: none;
+        }
     }
 `;

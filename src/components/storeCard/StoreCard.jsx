@@ -48,13 +48,13 @@ const StoreCardContainer = styled.div`
     box-shadow: 2px 2px 2px ${Grey};
 
     @media screen and (max-width: 1024px) {
-        width: 100%;
+        width: fit-content;
         max-width: 300px;
         height: 350px;
     }
 
     @media screen and (max-width: 500px) {
-        width: 100%;
+        width: fit-content;
         max-width: 280px;
         height: 350px;
     }
