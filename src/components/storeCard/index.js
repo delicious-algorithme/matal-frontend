@@ -1,3 +1,3 @@
-import TopStoreCard from './TopStoreCard';
+import StoreCard from './StoreCard';
 
-export { TopStoreCard };
+export { StoreCard };

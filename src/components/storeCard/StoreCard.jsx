@@ -5,7 +5,7 @@ import Bookmark from '../common/bookmark/BookmarkContainer';
 import { Keyword } from '../common';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 
-const TopStoreCard = ({ image, alt, storeId, address, name, keyword }) => {
+const StoreCard = ({ image, alt, storeId, address, name, keyword }) => {
     const navigate = useNavigate();
 
     const cardClickHandler = (storeId) => {
@@ -31,13 +31,13 @@ const TopStoreCard = ({ image, alt, storeId, address, name, keyword }) => {
     );
 };
 
-export default TopStoreCard;
+export default StoreCard;
 
 const StoreCardContainer = styled.div`
     width: 300px;
-    height: 320px;
+    height: 300px;
+    margin: 20px;
     border-radius: 10px;
-    border-radius: 5px;
     position: relative;
     transition: all 0.3s ease;
 
@@ -51,14 +51,12 @@ const StoreCardContainer = styled.div`
         width: 100%;
         max-width: 300px;
         height: 350px;
-        margin: 0 auto;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 500px) {
         width: 100%;
-        max-width: 300px;
-        height: 300px;
-        margin: 0 auto;
+        max-width: 280px;
+        height: 350px;
     }
 `;
 
@@ -110,14 +108,6 @@ const NameAndBookmarkContainer = styled.div`
         text-align: center;
         font-weight: bold;
     }
-
-    @media screen and (max-width: 1024px) {
-        & > img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-    }
 `;
 
 const ContentsContainer = styled.div`
@@ -141,9 +131,4 @@ const LocationBox = styled.div`
 
     color: ${DarkGrey};
     font-size: 14px;
-
-    @media screen and (max-width: 500px) {
-        font-size: 12px;
-        margin-top: 0px;
-    }
 `;

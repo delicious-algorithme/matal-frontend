@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DarkGreen } from '../../color';
+import { DarkGreen } from '../../../color';
 
 const SearchKeyword = () => {
     return (

@@ -1,7 +1,7 @@
 import Category from './category/Category';
 import MyMap from './map/Map';
-import StoreList from './store/StoreList';
-import StoreCard from './store/StoreCard';
+import StoreList from './storeList/StoreList';
+import StoreListCard from './storeList/StoreListCard';
 import Filtering from './filtering/Filtering';
 import Footer from './footer/Footer';
 import SearchBar from './searchBar/SearchBar';
@@ -16,7 +16,7 @@ export {
     Category,
     MyMap,
     StoreList,
-    StoreCard,
+    StoreListCard,
     Filtering,
     Footer,
     Button,
