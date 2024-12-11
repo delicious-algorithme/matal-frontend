@@ -33,7 +33,7 @@ const MainContentsWrapLayout = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 100px;
+    margin-bottom: 10px;
 
     & > label {
         text-align: center;
@@ -43,8 +43,6 @@ const MainContentsWrapLayout = styled.div`
     }
 
     @media screen and (max-width: 780px) {
-        width: 100%;
-        margin-bottom: 10px;
         align-items: center;
         justify-content: center;
     }
