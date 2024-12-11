@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LOGIN_FORM_ITEMS, LOGIN_ERROR_MESSAGE } from '../../constants/formItems';
+import { LOGIN_FORM_ITEMS, LOGIN_ERROR_MESSAGE } from '../../constants/FORM_ITEMS';
 import { login } from '../../apis/api/login';
 import { useLogin } from '../../store';
 import { useNavigate } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Bookmarks } from '../components/bookmark';
+import { BookmarkedStores } from '../components/bookmark';
 import { DarkGreen } from '../color';
 
 const BookmarkPage = () => {
@@ -9,7 +9,7 @@ const BookmarkPage = () => {
                 <p>내가 찜한 가게</p>
             </Title>
             <BookmarkContainer>
-                <Bookmarks />
+                <BookmarkedStores />
             </BookmarkContainer>
         </BookmarkLayout>
     );

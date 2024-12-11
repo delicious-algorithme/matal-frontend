@@ -45,6 +45,7 @@ const KeywordTag = styled.div`
     font-size: ${(props) => (props.mode === 'card' ? `10px` : `15px`)};
     border: 1px solid ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
     color: ${(props) => (props.type === 'positive' ? `${Orange}` : `${DarkGreen}`)};
+    background: ${(props) => (props.type === 'positive' ? `#FFF4E6` : `#E6F7F4`)};
 
     @media screen and (max-width: 768px) {
         font-size: 10px;

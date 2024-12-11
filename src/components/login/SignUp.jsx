@@ -3,7 +3,7 @@ import { Grey, DarkGreen } from '../../color';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormField from '../common/form/FormField';
-import { SIGNUP_FORM_ITEMS } from '../../constants/formItems';
+import { SIGNUP_FORM_ITEMS } from '../../constants/FORM_ITEMS';
 import { signUp } from '../../apis/api/postSignupForm';
 import { Button } from '../common';
 import Swal from 'sweetalert2';

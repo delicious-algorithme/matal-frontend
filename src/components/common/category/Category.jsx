@@ -3,7 +3,7 @@ import { Orange } from '../../../color';
 import { White } from '../../../color';
 import { useNavigate } from 'react-router-dom';
 import { useIsFetch } from '../../../store';
-import { CATEGORY_ITEMS } from '../../../constants/categoryItem';
+import { CATEGORY_ITEMS } from '../../../constants/CATEGORY_ITEMS';
 
 const Category = (position) => {
     const navigate = useNavigate();
@@ -47,6 +47,7 @@ const CategoryLayout = styled.div`
     align-items: center;
     justify-content: center;
     padding-bottom: 100px;
+
     & > div {
         display: flex;
         justify-content: center;
@@ -63,6 +64,7 @@ const CategoryLayout = styled.div`
             background-color: ${Orange};
             color: ${White};
         }
+
         @media screen and (max-width: 768px) {
             & > div {
                 display: flex;

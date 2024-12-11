@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FITERING_INFO } from '../../../constants/filteringItems';
+import { FITERING_INFO } from '../../../constants/FILTERING_ITEMS';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { DarkGrey, Grey, Orange, White } from '../../../color';
 import { useFilterParams, useIsFetch, useTagList } from '../../../store';
@@ -395,6 +395,7 @@ export default Filtering;
 const SelectLayout = styled.div`
     display: flex;
     flex-direction: column;
+
     flex: 0 1 auto;
     & > div {
         display: flex;
@@ -437,6 +438,7 @@ const SelectBox = styled.div`
 const CategoryBox = styled.div`
     cursor: pointer;
     display: flex;
+    transition-duration: 2s;
     justify-content: space-between;
     gap: 10px;
     align-items: center;
@@ -477,6 +479,7 @@ const Contents = styled.ul`
     max-height: 200px;
     overflow-y: auto;
     color: ${DarkGrey};
+
     & > p {
         width: 100%;
     }
@@ -497,6 +500,7 @@ const Content = styled.li`
     height: 20px;
     display: flex;
     cursor: pointer;
+
     &:hover {
         color: ${Orange};
         font-weight: bold;
@@ -577,6 +581,7 @@ const TagBox = styled.div`
     display: flex;
     align-items: center;
     font-weight: 600;
+
     & > p {
         cursor: pointer;
         font-size: 13px;

@@ -1,3 +1,3 @@
-import Bookmarks from './Bookmarks';
+import BookmarkedStores from './BookmarkedStores';
 
-export { Bookmarks };
+export { BookmarkedStores };
