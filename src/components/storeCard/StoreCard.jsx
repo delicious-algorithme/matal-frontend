@@ -57,6 +57,10 @@ const StoreCardContainer = styled.div`
         width: 200px;
         margin: 5px;
         height: 280px;
+
+        &:hover {
+            transform: none;
+        }
     }
 `;
 
