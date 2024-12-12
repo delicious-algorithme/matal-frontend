@@ -54,9 +54,13 @@ const StoreCardContainer = styled.div`
     }
 
     @media screen and (max-width: 500px) {
-        width: fit-content;
-        max-width: 280px;
-        height: 350px;
+        width: 200px;
+        margin: 5px;
+        height: 280px;
+
+        &:hover {
+            transform: none;
+        }
     }
 `;
 
@@ -90,13 +94,14 @@ const NameAndBookmarkContainer = styled.div`
     height: 35px;
 
     & > p {
+        width: 100px;
         font-size: 18px;
-        text-align: center;
         display: flex;
-        align-items: center;
         font-weight: 600;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
         &:hover {
-            transform: scale(1.05);
             cursor: pointer;
         }
     }
@@ -107,6 +112,16 @@ const NameAndBookmarkContainer = styled.div`
         display: flex;
         text-align: center;
         font-weight: bold;
+    }
+
+    @media screen and (max-width: 500px) {
+        & > p {
+            font-size: 16px;
+        }
+
+        & > div {
+            display: none;
+        }
     }
 `;
 
@@ -131,4 +146,8 @@ const LocationBox = styled.div`
 
     color: ${DarkGrey};
     font-size: 14px;
+
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
 `;

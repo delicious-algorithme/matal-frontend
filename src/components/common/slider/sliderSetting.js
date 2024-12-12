@@ -10,7 +10,7 @@ const sliderSettings = {
     arrow: false,
     nextArrow: <CustomNextArrow />,
     prevArrow: <CustomPrevArrow />,
-    initialSlide: 1,
+    initialSlide: 0,
     responsive: [
         {
             breakpoint: 1500,
@@ -25,7 +25,7 @@ const sliderSettings = {
             breakpoint: 768,
             settings: {
                 slidesToShow: 1,
-                slidesToScroll: 1,
+                dots: true,
             },
         },
     ],

@@ -33,6 +33,10 @@ const StyledNextArrowButton = styled.div`
     background-color: ${White};
     border-radius: 50%;
     cursor: pointer;
+
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
 `;
 
 const StyledPrevArrowButton = styled.div`
@@ -50,4 +54,8 @@ const StyledPrevArrowButton = styled.div`
     background-color: ${White};
     border-radius: 50%;
     cursor: pointer;
+
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
 `;
