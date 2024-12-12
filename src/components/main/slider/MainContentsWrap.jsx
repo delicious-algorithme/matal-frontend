@@ -72,7 +72,6 @@ const SlideContainer = styled.div`
 
     .slick-slide {
         display: flex;
-        padding-right: 10px;
     }
 
     & .slick-dots {
@@ -112,9 +111,7 @@ const SlideContainer = styled.div`
         justify-content: center;
         align-items: center;
 
-        /* 라이브러리 기본 스타일을 덮어쓰기 위해 사용 */
         .slick-slide {
-            width: 210px !important;
             display: flex;
             justify-content: center;
             align-items: center;

@@ -23,12 +23,14 @@ const TopRecommendations = () => {
 
     return (
         <div style={{ minHeight: '450px' }}>
-            <MainContentsWrap
-                ranking={true}
-                title="맛 알고리즘이 엄선한 TOP 10"
-                description="맛알고리즘에서 긍정키워드로 분석한 맛집 컬렉션 10"
-                stores={topStores}
-            />
+            {topStores.length > 0 && (
+                <MainContentsWrap
+                    ranking={true}
+                    title="맛 알고리즘이 엄선한 TOP 10"
+                    description="맛알고리즘에서 긍정키워드로 분석한 맛집 컬렉션 10"
+                    stores={topStores}
+                />
+            )}
         </div>
     );
 };
