@@ -97,6 +97,7 @@ const MainPageLayout = styled.div`
 
     @media screen and (max-width: 500px) {
         gap: 10px;
+
         & > img {
             width: 100%;
             border-radius: 0px;
@@ -112,7 +113,7 @@ const SearchBarContainer = styled.div`
     }
 
     @media screen and (max-width: 500px) {
-        display: none;
+        width: 90%;
     }
 `;
 
@@ -125,5 +126,9 @@ const SliderContents = styled.section`
     @media screen and (max-width: 1300px) {
         width: 80%;
         max-width: 980px;
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 100%;
     }
 `;

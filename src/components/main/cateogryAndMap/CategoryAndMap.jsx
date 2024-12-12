@@ -44,8 +44,10 @@ const CategoryAndMapLayout = styled.div`
             flex-wrap: nowrap;
         }
     }
+
     @media screen and (max-width: 768px) {
         width: 100%;
+        margin-top: 0px;
         min-height: 1140px;
         align-items: center;
     }

@@ -95,9 +95,15 @@ const SlideContainer = styled.div`
         margin: 0;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 500px) {
         width: 100%;
         gap: 5px;
+
+        /* 라이브러리 기본 스타일을 덮어쓰기 위해 사용 */
+        .slick-slide {
+            width: 210px !important;
+        }
+
         .slick-dots li button::before {
             display: none;
         }

@@ -54,10 +54,9 @@ const StoreCardContainer = styled.div`
     }
 
     @media screen and (max-width: 500px) {
-        width: fit-content;
-        max-width: 280px;
+        width: 200px;
         margin: 5px;
-        height: 350px;
+        height: 280px;
     }
 `;
 
@@ -109,6 +108,12 @@ const NameAndBookmarkContainer = styled.div`
         text-align: center;
         font-weight: bold;
     }
+
+    @media screen and (max-width: 500px) {
+        & > p {
+            font-size: 16px;
+        }
+    }
 `;
 
 const ContentsContainer = styled.div`
@@ -132,4 +137,8 @@ const LocationBox = styled.div`
 
     color: ${DarkGrey};
     font-size: 14px;
+
+    @media screen and (max-width: 500px) {
+        display: none;
+    }
 `;
