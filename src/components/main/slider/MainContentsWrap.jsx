@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 import sliderSettings from '../../common/slider/sliderSetting';
 import StoreCardWrapper from './StoreCardWrap';
+import trophyIcon from '../../../assets/Icon/trophy.svg';
 
 import { DarkGrey, Orange } from '../../../color';
 import 'slick-carousel/slick/slick.css';
@@ -12,6 +13,7 @@ const MainContentsWrap = ({ ranking, title, description, stores }) => {
         <MainContentsWrapLayout>
             <label>
                 <h3>{title}</h3>
+                <img src={trophyIcon} alt="trophy-icon" width="16px" />
             </label>
             <p>{description}</p>
             <SlideContainer>
@@ -29,7 +31,7 @@ export default MainContentsWrap;
 
 const MainContentsWrapLayout = styled.div`
     width: 100%;
-    height: 500px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -43,8 +45,17 @@ const MainContentsWrapLayout = styled.div`
     }
 
     @media screen and (max-width: 780px) {
-        align-items: center;
         justify-content: center;
+
+        & > label > h3 {
+            align-items: flex-start;
+            margin-left: 10px;
+            font-size: 16px;
+        }
+
+        & > p {
+            display: none;
+        }
     }
 `;
 
@@ -97,14 +108,25 @@ const SlideContainer = styled.div`
     @media screen and (max-width: 500px) {
         width: 100%;
         gap: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         /* 라이브러리 기본 스타일을 덮어쓰기 위해 사용 */
         .slick-slide {
             width: 210px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .slick-dots li button::before {
-            display: none;
+            font-size: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: ${DarkGrey};
+            border: none;
         }
     }
 `;

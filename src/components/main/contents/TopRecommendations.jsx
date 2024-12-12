@@ -22,7 +22,7 @@ const TopRecommendations = () => {
     }, []);
 
     return (
-        <div style={{ minHeight: '500px' }}>
+        <div style={{ minHeight: '450px' }}>
             <MainContentsWrap
                 ranking={true}
                 title="맛 알고리즘이 엄선한 TOP 10"

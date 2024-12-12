@@ -10,7 +10,6 @@ const CategoryAndMap = () => {
                 <h3>카테고리로 검색하기</h3>
                 <img src={tagIcon} alt="tag-icon" width="20px" />
             </label>
-            <p>카테고리로 원하는 맛집 탐색!</p>
             <CategoryAndMapBox>
                 <div>
                     <Category />
@@ -37,6 +36,7 @@ const CategoryAndMapLayout = styled.div`
 
     & > label {
         display: flex;
+        align-items: flex-start;
         flex-direction: row;
         gap: 10px;
 
@@ -46,10 +46,19 @@ const CategoryAndMapLayout = styled.div`
     }
 
     @media screen and (max-width: 768px) {
-        width: 100%;
+        width: 80%;
         margin-top: 0px;
-        min-height: 1140px;
-        align-items: center;
+        min-height: 1100px;
+        align-items: flex-start;
+
+        & > label > h3 {
+            margin-left: 10px;
+            font-size: 16px;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 100%;
     }
 `;
 
@@ -86,6 +95,7 @@ const CategoryAndMapBox = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
+
         & > div {
             width: 95%;
         }

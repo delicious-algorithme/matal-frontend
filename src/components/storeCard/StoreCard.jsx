@@ -94,13 +94,14 @@ const NameAndBookmarkContainer = styled.div`
     height: 35px;
 
     & > p {
+        width: 100px;
         font-size: 18px;
-        text-align: center;
         display: flex;
-        align-items: center;
         font-weight: 600;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
         &:hover {
-            transform: scale(1.05);
             cursor: pointer;
         }
     }
@@ -116,6 +117,10 @@ const NameAndBookmarkContainer = styled.div`
     @media screen and (max-width: 500px) {
         & > p {
             font-size: 16px;
+        }
+
+        & > div {
+            display: none;
         }
     }
 `;
