@@ -83,7 +83,6 @@ const SlideContainer = styled.div`
 
     & .slick-list {
         overflow: hidden;
-        margin-right: -10px;
     }
 
     & > div > p {
