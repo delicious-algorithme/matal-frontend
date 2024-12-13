@@ -4,7 +4,7 @@ import { Orange } from '../../../color';
 
 const StoreCardWrapper = ({ ranking, store, index }) => {
     return (
-        <div>
+        <CardWrapper>
             {ranking && <RankingText>{index + 1}</RankingText>}
             <StoreCard
                 image={store.imageUrls}
@@ -15,7 +15,7 @@ const StoreCardWrapper = ({ ranking, store, index }) => {
                 keyword={store.positiveKeywords}
                 name={store.name}
             />
-        </div>
+        </CardWrapper>
     );
 };
 export default StoreCardWrapper;
@@ -24,4 +24,11 @@ const RankingText = styled.p`
     color: ${Orange};
     font-weight: bold;
     font-size: 24px;
+`;
+
+const CardWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 `;

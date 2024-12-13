@@ -54,7 +54,7 @@ const StoreCardContainer = styled.div`
     }
 
     @media screen and (max-width: 500px) {
-        width: 200px;
+        width: 300px;
         margin: 5px;
         height: 280px;
 

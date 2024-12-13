@@ -33,9 +33,9 @@ const sliderSettings = {
         },
 
         {
-            breakpoint: 420,
+            breakpoint: 500,
             settings: {
-                centerMode: true,
+                centerMode: false,
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 initialSlide: 0,
